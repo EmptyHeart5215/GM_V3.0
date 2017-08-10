@@ -1,0 +1,91 @@
+<title>网格化管理系统V3.0</title>
+
+
+<link href="/gsm/resource/css/base.css" rel="stylesheet"></link>
+<link href="/gsm/resource/css/form.css" rel="stylesheet"></link>
+<link href="/gsm/resource/css/List.css" rel="stylesheet"></link>
+<script src="/gsm/resource/js/jquery-1.8.2.js" type="text/javascript"></script>
+
+<script src="/gsm/resource/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+
+<link href="/gsm/resource/js/jquery-easyui-1.3.6/themes/default/easyui.css" rel="stylesheet" />
+<link href="/gsm/resource/js/jquery-easyui-1.3.6/themes/icon.css" rel="stylesheet" />
+<script src="/gsm/resource/js/jquery-easyui-1.3.6/jquery.easyui.min.js" type="text/javascript"></script>
+<script src="/gsm/resource/js/jquery-easyui-1.3.6/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+
+<link href="/gsm/resource/js/zTree/css/zTreeStyle.css" rel="stylesheet" />
+<script src="/gsm/resource/js/zTree/jquery.ztree.core-3.5.js" type="text/javascript"></script>
+<script src="/gsm/resource/js/zTree/jquery.ztree.excheck-3.5.js" type="text/javascript"></script>
+
+<link href="/gsm/resource/js/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
+<script src="/gsm/resource/js/uploadify/jquery.uploadify.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="/gsm/resource/js/formValidator.2.2/css/validationEngine.jquery.css" type="text/css" />
+<script src="/gsm/resource/js/formValidator.2.2/js/languages/jquery.validationEngine-en.js" type="text/javascript"></script>
+<script src="/gsm/resource/js/formValidator.2.2/js/jquery.validationEngine.js" type="text/javascript"></script>
+
+<script src="/gsm/resource/js/search.js" type="text/javascript"></script>
+<link href="/gsm/resource/js/GridSelt/default.css" rel="stylesheet" type="text/css" />
+<script src="/gsm/resource/js/GridSelt/ztreeGrid2.js" type="text/javascript"> </script>
+
+<!-- <link rel="stylesheet" href="/gsm/resource/js/map/theme/default/style.css" type="text/css"/> -->
+<!-- <link rel="stylesheet" href="/gsm/resource/js/map/css/nmap.css" type="text/css"/> -->
+<!-- <script type="text/javascript" src="/gsm/resource/js/map/OpenLayers.js"></script>  -->
+<!-- <script type="text/javascript" src="/gsm/resource/js/map/ol2/nlib/NLibNavigation.js"></script> -->
+<!-- <script type="text/javascript" src="/gsm/resource/js/map/nmap.js"></script> -->
+
+<link rel="stylesheet" href="/gsm/resource/js/map_bdh/theme/default/style.css" type="text/css"/>
+<link rel="stylesheet" href="/gsm/resource/js/map_bdh/css/nmap.css" type="text/css"/>
+<script type="text/javascript" src="/gsm/resource/js/map_bdh/OpenLayers.js"></script> 
+<script type="text/javascript" src="/gsm/resource/js/map_bdh/ol2/nlib/NLibNavigation.js"></script>
+<script type="text/javascript" src="/gsm/resource/js/map_bdh/nmap.js"></script>
+
+	 <script>
+// 	 添加地图及图形
+     function getPointXY(htmlobj) {
+         $("#mapadd").remove();
+         $("body").append("<div id='mapadd' style='background-color:#ffffff;position:absolute;top:50px;bottom:50px; left:50px; right:50px;z-index:999999'></div>");
+         NMaps({
+             id: "mapadd",
+             points: $("#" + htmlobj.id).val(),
+             getResult: function (graphicJSON) {
+                 $("#" + htmlobj.id).val(graphicJSON);
+                 $("#mapadd").hide();
+             }
+         });
+     }
+
+			function thishide() {
+				$("#positiondivshow").hide();
+				$("#Position").show();
+				$("#Position").click();
+			}
+			$(function() {
+				if ($("#Position").length > 0) {
+					if ($("#Position").val() != '') {
+						$("#Position")
+								.hide()
+								.parent()
+								.append(
+										"  <div id=\"positiondivshow\" style=\" float: left; border: 1px solid #89e6e6;width: 80%;height: 24px;background:#89e6e6;color:#ffffff;cursor:pointer;text-align:center\" onclick=\"thishide(this)\"><lable style=\"float: left; margin-top: 5px;\">已定位,点击可重新定位</lable></div>")
+					}
+				}
+				/* var width;
+				$(window).resize(function() {
+					width = $(window).width();
+
+					$('#dg').datagrid('resize', {
+						width : width
+					});
+
+				}); */
+			});
+			 window.onresize = function(){  
+				 var width = $(window).width();
+				
+					$('#dg').datagrid('resize', {
+						'width' : width
+					});
+			  }  
+		</script>
+	

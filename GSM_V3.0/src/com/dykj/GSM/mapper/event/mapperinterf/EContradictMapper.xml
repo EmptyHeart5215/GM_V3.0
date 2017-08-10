@@ -1,0 +1,816 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.event.mapperinterf.EContradictMapper" >
+  <resultMap id="contradictResult" type="EContradict" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="EVENT_NUM" property="eventNum" jdbcType="VARCHAR" />
+    <result column="FLOW_TYPE" property="flowType" jdbcType="DECIMAL" />
+    <result column="CODE_EVENT_TYPE" property="codeEventType" jdbcType="VARCHAR" />
+    <result column="GRID_CODE" property="gridCode" jdbcType="VARCHAR" />
+    <result column="EVENT_TITLE" property="eventTitle" jdbcType="VARCHAR" />
+    <result column="CODE_EVENT_FROM" property="codeEventFrom" jdbcType="VARCHAR" />
+    <result column="EVENT_ADDRESS" property="eventAddress" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="EVENT_DATE" property="eventDate" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="OPINION" property="opinion" jdbcType="VARCHAR" />
+    <result column="IMG" property="img" jdbcType="VARCHAR" />
+    <result column="IS_CANCEL" property="isCancel" jdbcType="CHAR" />
+    <result column="IS_DU_BAN" property="isDuBan" jdbcType="CHAR" />
+    <result column="CODE_EVENT_GUIMO" property="codeEventGuimo" jdbcType="VARCHAR" />
+    <result column="PERSON_COUNT" property="personCount" jdbcType="DECIMAL" />
+    <result column="DANG_SHI_REN_ID" property="dangShiRenId" jdbcType="VARCHAR" />
+    <result column="DANG_SHI_REN_SEX" property="dangShiRenSex" jdbcType="VARCHAR" />
+    <result column="CODE_XUE_LI" property="codeXueLi" jdbcType="VARCHAR" />
+    <result column="CODE_EVENT_REN_YUAN_TYPE" property="codeEventRenYuanType" jdbcType="VARCHAR" />
+    <result column="CODE_NATION" property="codeNation" jdbcType="VARCHAR" />
+    <result column="DANG_SHI_REN_ADDRESS" property="dangShiRenAddress" jdbcType="VARCHAR" />
+    <result column="DANG_SHI_REN_PHONE" property="dangShiRenPhone" jdbcType="VARCHAR" />
+    <result column="DANG_SHI_REN_NAME" property="dangShiRenName" jdbcType="VARCHAR" />
+    <result column="WF_ENTRY" property="wfEntry" jdbcType="DECIMAL" />
+    
+    <!-- 数据库表中没有的字段 -->
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" jdbcType="VARCHAR"/>
+     <result column="TIME_LIMIT" property="timeLimit" jdbcType="VARCHAR"/>
+    <result column="START_DATE_STR" property="startDate" jdbcType="VARCHAR"/>
+     <result column="FINISH_DATE_STR" property="banLiDate" jdbcType="VARCHAR"/>
+     <result column="CREATE_NAME" property="createName" jdbcType="VARCHAR"/>
+      <result column="CREATE_USER_PHONE" property="createUserPhone" jdbcType="VARCHAR"/>
+       <result column="BAN_LI_TYPE_STR" property="banLiTypeStr" jdbcType="VARCHAR"/>
+       <result column="DU_BAN_DEPARTMENT_STR" property="duBanDepartmentStr" jdbcType="VARCHAR"/>
+      <result column="STEP_NAME" property="stepName" jdbcType="VARCHAR"/>
+     <!--华丽分割线-->
+     
+     
+     
+     
+    <association property="step" javaType="com.dykj.GSM.model.event.OsStep">
+     <result column="ID" property="id" jdbcType="DECIMAL" />
+     <result column="START_DATE" property="startDate" jdbcType="DATE" />
+    <result column="DUE_DATE" property="dueDate" jdbcType="DATE" />
+    <result column="OWNER" property="owner" jdbcType="VARCHAR" />
+    <result column="STEP_ID" property="stepId"  jdbcType="DECIMAL" />
+    <result column="ENTRY_ID" property="entryId" jdbcType="DECIMAL" />
+	</association>
+  </resultMap>
+  <resultMap id="tempResult" type="ReMap" >
+	    <result column="POSITION" jdbcType="VARCHAR" property="position" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, EVENT_NUM, FLOW_TYPE, 
+    CODE_EVENT_TYPE, GRID_CODE, EVENT_TITLE, CODE_EVENT_FROM, EVENT_ADDRESS, POSITION, 
+    EVENT_DATE, DESCRIPTION, OPINION, IMG, IS_CANCEL,  IS_DU_BAN, 
+    CODE_EVENT_GUIMO, PERSON_COUNT, DANG_SHI_REN_ID, DANG_SHI_REN_SEX, 
+    CODE_XUE_LI, CODE_EVENT_REN_YUAN_TYPE, CODE_NATION, DANG_SHI_REN_ADDRESS, DANG_SHI_REN_PHONE, 
+    DANG_SHI_REN_NAME, WF_ENTRY
+  </sql>
+   <sql id="step_column_list">
+   STEP.ID,STEP.START_DATE,STEP.DUE_DATE,STEP.OWNER,STEP.STEP_ID,STEP.ENTRY_ID
+   </sql>
+  <insert id="insert" parameterType="EContradict" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+   insert into E_CONTRADICT (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, EVENT_NUM, FLOW_TYPE, 
+      CODE_EVENT_TYPE, GRID_CODE, EVENT_TITLE, 
+      CODE_EVENT_FROM, EVENT_ADDRESS, POSITION, 
+      EVENT_DATE, DESCRIPTION, OPINION, 
+      IMG, IS_CANCEL,
+      IS_DU_BAN,  
+      CODE_EVENT_GUIMO, PERSON_COUNT, DANG_SHI_REN_ID, 
+      DANG_SHI_REN_SEX, CODE_XUE_LI, CODE_EVENT_REN_YUAN_TYPE, 
+      CODE_NATION, DANG_SHI_REN_ADDRESS, DANG_SHI_REN_PHONE, 
+      DANG_SHI_REN_NAME, WF_ENTRY)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{eventNum,jdbcType=VARCHAR}, #{flowType,jdbcType=DECIMAL}, 
+      #{codeEventType,jdbcType=VARCHAR}, #{gridCode,jdbcType=VARCHAR}, #{eventTitle,jdbcType=VARCHAR}, 
+      #{codeEventFrom,jdbcType=VARCHAR}, #{eventAddress,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{eventDate,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{opinion,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{isCancel,jdbcType=CHAR},  
+      #{isDuBan,jdbcType=CHAR},  
+      #{codeEventGuimo,jdbcType=VARCHAR}, #{personCount,jdbcType=DECIMAL}, #{dangShiRenId,jdbcType=VARCHAR}, 
+      #{dangShiRenSex,jdbcType=VARCHAR}, #{codeXueLi,jdbcType=VARCHAR}, #{codeEventRenYuanType,jdbcType=VARCHAR}, 
+      #{codeNation,jdbcType=VARCHAR}, #{dangShiRenAddress,jdbcType=VARCHAR}, #{dangShiRenPhone,jdbcType=VARCHAR}, 
+      #{dangShiRenName,jdbcType=VARCHAR}, #{wfEntry,jdbcType=DECIMAL})
+  </insert>
+  
+  <update id="update" parameterType="EContradict" >
+   update E_CONTRADICT
+    <set >
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="eventNum != null" >
+        EVENT_NUM = #{eventNum,jdbcType=VARCHAR},
+      </if>
+      <if test="flowType != null" >
+        FLOW_TYPE = #{flowType,jdbcType=DECIMAL},
+      </if>
+      <if test="codeEventType != null" >
+        CODE_EVENT_TYPE = #{codeEventType,jdbcType=VARCHAR},
+      </if>
+      <if test="gridCode != null" >
+        GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+      </if>
+      <if test="eventTitle != null" >
+        EVENT_TITLE = #{eventTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="codeEventFrom != null" >
+        CODE_EVENT_FROM = #{codeEventFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="eventAddress != null" >
+        EVENT_ADDRESS = #{eventAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="eventDate != null" >
+        EVENT_DATE = #{eventDate,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="opinion != null" >
+        OPINION = #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        IMG = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="isCancel != null" >
+        IS_CANCEL = #{isCancel,jdbcType=CHAR},
+      </if>
+     
+      <if test="isDuBan != null" >
+        IS_DU_BAN = #{isDuBan,jdbcType=CHAR},
+      </if>
+     
+      <if test="codeEventGuimo != null" >
+        CODE_EVENT_GUIMO = #{codeEventGuimo,jdbcType=VARCHAR},
+      </if>
+      <if test="personCount != null" >
+        PERSON_COUNT = #{personCount,jdbcType=DECIMAL},
+      </if>
+      <if test="dangShiRenId != null" >
+        DANG_SHI_REN_ID = #{dangShiRenId,jdbcType=VARCHAR},
+      </if>
+      <if test="dangShiRenSex != null" >
+        DANG_SHI_REN_SEX = #{dangShiRenSex,jdbcType=VARCHAR},
+      </if>
+      <if test="codeXueLi != null" >
+        CODE_XUE_LI = #{codeXueLi,jdbcType=VARCHAR},
+      </if>
+      <if test="codeEventRenYuanType != null" >
+        CODE_EVENT_REN_YUAN_TYPE = #{codeEventRenYuanType,jdbcType=VARCHAR},
+      </if>
+      <if test="codeNation != null" >
+        CODE_NATION = #{codeNation,jdbcType=VARCHAR},
+      </if>
+      <if test="dangShiRenAddress != null" >
+        DANG_SHI_REN_ADDRESS = #{dangShiRenAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="dangShiRenPhone != null" >
+        DANG_SHI_REN_PHONE = #{dangShiRenPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="dangShiRenName != null" >
+        DANG_SHI_REN_NAME = #{dangShiRenName,jdbcType=VARCHAR},
+      </if>
+      <if test="wfEntry != null" >
+        WF_ENTRY = #{wfEntry,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE E_CONTRADICT SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE E_CONTRADICT SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+     <update id="updateEventCancel" parameterType="String">
+       UPDATE E_CONTRADICT SET is_cancel=1 WHERE CODE=#{code}
+   </update>
+   <update id="udpateEventDuBan" parameterType="String">
+       UPDATE E_CONTRADICT SET is_du_ban=1 WHERE CODE=#{code}
+   </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="contradictResult">
+        SELECT h.*,g.grid_total_name as GRID_TOTAL_NAME ,R_USERS1.LOGIN_NAME as CREATE_NAME,R_USERS1.PHONE AS CREATE_USER_PHONE
+         FROM E_CONTRADICT h 
+         join sys_seat_grid g on g.code=h.grid_code 
+         JOIN sys_USER R_USERS1 ON R_USERS1.CODE=h.create_by 
+                WHERE h.FLAG_DEL != 1 AND h.CODE=#{code}
+    </select>
+    
+   <!--  <select id="queryEventByCode" parameterType="String" resultMap="contradictResult">
+    SELECT e.*,<include refid="step_column_list"/>
+		FROM E_CONTRADICT E LEFT JOIN OS_CURRENTSTEP STEP ON STEP.ENTRY_ID=E.wf_entry 
+		WHERE E.CODE=#{code}
+    </select> -->
+   
+    
+    <!-- 待办列表 -->
+     <select id="queryDaiBanPage" parameterType="java.util.Map" resultMap="contradictResult">
+    SELECT E_CONTRADICT.*,<include refid="step_column_list"/> ,step.time_limit,step.start_date_str,g.grid_total_name as GRID_TOTAL_NAME 
+    ,decode(step.step_id, 
+    <foreach collection="allSteps" item="value" index="key" separator=",">
+		   #{key,jdbcType=VARCHAR},#{value}
+		</foreach> ,'') as STEP_NAME
+     FROM E_CONTRADICT INNER JOIN 
+		(select <include refid="step_column_list"/>,to_char(step.due_date,'yyyy-mm-dd hh24:mi:ss') time_limit,
+		to_char(step.start_date,'yyyy-mm-dd hh24:mi:ss') start_date_str,
+		case when instr(step.owner,'#1')&gt;0 THEN substr(step.owner, 0, instr(step.owner,'#1')-1)  end as userCode,
+		case when instr(step.owner,'#2')&gt;0 THEN substr(step.owner, 0, instr(step.owner,'#2')-1) end as departCode,
+		case when instr(step.owner,'#3')&gt;0 THEN substr(step.owner, 0, instr(step.owner,'#3')-1) end as roleCode2,
+		case when instr(step.owner,'#3')>0 THEN substr(step.owner, instr(step.owner,'#3')+2,length(step.owner)) end as gridCode2,  
+		case when instr(step.owner,'#4')&gt;0 THEN substr(step.owner, 0, instr(step.owner,'#4')-1) end as roleCode 
+		from OS_CURRENTSTEP step) STEP ON STEP.ENTRY_ID=E_CONTRADICT.wf_entry and nvl(E_CONTRADICT.flag_del,'0') =0 
+		join sys_seat_grid g on g.code=E_CONTRADICT.grid_code
+		 WHERE (step.userCode=#{userCode} or step.departCode=#{departCode} or step.roleCode=#{roleCode} or (step.roleCode2=#{roleCode} and step.gridCode2=#{gridCode}) ) 
+	<if test="gridCode != null and gridCode != ''">
+	  and E_CONTRADICT.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="eventTitle != null and eventTitle != ''">
+	  and E_CONTRADICT.event_title like '%'||#{eventTitle,jdbcType=VARCHAR}||'%'
+	 </if>
+	<if test="stepId != null and stepId.size()>0 ">
+		and (
+		<foreach collection="stepId" item="s" index="index" separator=" or ">
+		  step.step_id =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if> 
+	<if test="startDate != null and startDate != ''">
+		AND to_date(step.start_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{startDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(step.start_DATE,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{startDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if> 
+	<if test="limitTime != null and limitTime != ''">
+		AND to_date(step.due_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{limitTimeEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(step.due_DATE,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{limitTimeStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if> 
+	<if test="codeEventType != null and codeEventType.size()>0 ">
+		and (
+		<foreach collection="codeEventType" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="codeEventFrom != null and codeEventFrom.size()>0 ">
+		and (
+		<foreach collection="codeEventFrom" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_FROM =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if> 
+    </select> 
+    <!-- 事件草稿 -->
+    <select id="queryDraftPage" parameterType="java.util.Map" resultMap="contradictResult">
+    	select E_CONTRADICT.*,g.grid_total_name as GRID_TOTAL_NAME 
+    	 FROM E_CONTRADICT 
+    	 join sys_seat_grid g on g.code=E_CONTRADICT.grid_code 
+    	 where nvl(E_CONTRADICT.flag_del,'0') ='0' and nvl(E_CONTRADICT.wf_entry,-1)=-1 and E_CONTRADICT.create_by=#{userCode}
+    	 
+    <if test="gridCode != null and gridCode != ''">
+	  and E_CONTRADICT.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="eventTitle != null and eventTitle != ''">
+	  and E_CONTRADICT.event_title like '%'||#{eventTitle,jdbcType=VARCHAR}||'%'
+	 </if>
+	
+	<if test="createDate != null and createDate != ''">
+		AND to_date(E_CONTRADICT.create_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{createDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(E_CONTRADICT.create_date,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{createDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if> 
+	
+	<if test="codeEventType != null and codeEventType.size()>0 ">
+		and (
+		<foreach collection="codeEventType" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="codeEventFrom != null and codeEventFrom.size()>0 ">
+		and (
+		<foreach collection="codeEventFrom" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_FROM =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if> 
+    </select>
+    
+    <!-- 已办列表 --> 
+         <select id="queryYiBanPage" parameterType="java.util.Map" resultMap="contradictResult">
+    SELECT E_CONTRADICT.*,<include refid="step_column_list"/>,to_char(step.finish_date,'yyyy-mm-dd hh24:mi:ss') FINISH_DATE_STR,g.grid_total_name as GRID_TOTAL_NAME,
+    step.action_id 
+     FROM E_CONTRADICT  
+    INNER JOIN  OS_HISTORYSTEP STEP ON STEP.ENTRY_ID=E_CONTRADICT.wf_entry and nvl(E_CONTRADICT.flag_del,'0') =0 
+     join sys_seat_grid g on g.code=E_CONTRADICT.grid_code 
+		WHERE step.CALLER=#{userCode} 
+		<if test="gridCode != null and gridCode != ''">
+	  and E_CONTRADICT.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="eventTitle != null and eventTitle != ''">
+	  and E_CONTRADICT.event_title like '%'||#{eventTitle,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="dangShiRenName != null and dangShiRenName != ''">
+	  and E_CONTRADICT.DANG_SHI_REN_NAME like '%'||#{dangShiRenName,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="stepId != null and stepId != ''">
+		AND u.step_id like '%'||#{stepId,jdbcType=VARCHAR}||'%'
+	</if>
+	<if test="finishDate != null and finishDate != ''">
+		AND to_date(step.finish_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{finishDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(step.finish_date,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{finishDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if> 
+	<if test="codeEventType != null and codeEventType.size()>0 ">
+		and (
+		<foreach collection="codeEventType" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="codeEventFrom != null and codeEventFrom.size()>0 ">
+		and (
+		<foreach collection="codeEventFrom" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_FROM =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+    </select>
+    
+    <!-- 为显示流程得到某事件的所有步骤-->
+     <select id="queryAllStepsOfOneEvent" parameterType="String" resultType="java.util.Map">
+        select c.id, c.action_id , c.step_id,'zaiban' as status ,c.owner
+         from os_currentstep c 
+         join e_contradict e on e.WF_ENTRY=c.entry_id where nvl(e.flag_del,'0')='0' and e.WF_ENTRY=#{entryId} 
+         union
+         select c.id, c.action_id , c.step_id,'yiban' as status,c.owner
+          from  os_historystep c 
+          join e_contradict e on e.WF_ENTRY=c.entry_id where nvl(e.flag_del,'0') ='0' and e.WF_ENTRY=#{entryId} 
+         
+    </select>
+    
+     <!-- 已注销列表 --> 
+   <select id="queryCancelPage" parameterType="java.util.Map" resultMap="contradictResult">
+    SELECT E_CONTRADICT.*,<include refid="step_column_list"/>,to_char(step.finish_date,'yyyy-mm-dd hh24:mi:ss') FINISH_DATE_STR,g.grid_total_name as GRID_TOTAL_NAME,
+    step.action_id ,u.real_name as CREATE_NAME
+     FROM E_CONTRADICT  
+    INNER JOIN  OS_HISTORYSTEP STEP ON STEP.ENTRY_ID=E_CONTRADICT.wf_entry and nvl(E_CONTRADICT.flag_del,'0') =0 
+     join sys_seat_grid g on g.code=E_CONTRADICT.grid_code 
+     join sys_user u on u.code=E_CONTRADICT.create_by
+		WHERE  E_CONTRADICT.is_cancel=1
+		<if test="gridCode != null and gridCode != ''">
+	  and E_CONTRADICT.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="eventTitle != null and eventTitle != ''">
+	  and E_CONTRADICT.event_title like '%'||#{eventTitle,jdbcType=VARCHAR}||'%'
+	 </if>
+	<if test="createName != null and createName != ''">
+	  and u.real_name like '%'||#{createName,jdbcType=VARCHAR}||'%'
+	 </if>
+	 	 <if test="dangShiRenName != null and dangShiRenName != ''">
+	  and E_CONTRADICT.DANG_SHI_REN_NAME like '%'||#{dangShiRenName,jdbcType=VARCHAR}||'%'
+	 </if>
+	<if test="finishDate != null and finishDate != ''">
+		AND to_date(step.finish_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{finishDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(step.finish_date,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{finishDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if> 
+	<if test="createDate != null and createDate != ''">
+		AND to_date(E_CONTRADICT.create_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{createDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(E_CONTRADICT.create_date,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{createDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if> 
+	<if test="codeEventType != null and codeEventType.size()>0 ">
+		and (
+		<foreach collection="codeEventType" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+    </select>
+      <!-- 已完结列表 --> 
+   <select id="queryWanJiePage" parameterType="java.util.Map" resultMap="contradictResult">
+    SELECT E_CONTRADICT.*,<include refid="step_column_list"/>,to_char(step.finish_date,'yyyy-mm-dd hh24:mi:ss') FINISH_DATE_STR,g.grid_total_name as GRID_TOTAL_NAME,
+     decode(step.action_id, 
+    <foreach collection="actions" item="value" index="key" separator=",">
+		   #{key,jdbcType=VARCHAR},#{value}
+		</foreach> ,'') as BAN_LI_TYPE_STR, 
+		u.real_name as CREATE_NAME
+     FROM E_CONTRADICT  
+    INNER JOIN  OS_HISTORYSTEP STEP ON STEP.ENTRY_ID=E_CONTRADICT.wf_entry 
+    and (
+		<foreach collection="actions" item="value" index="key" separator=" or ">
+		   step.action_id =#{key,jdbcType=VARCHAR}
+		</foreach>
+		) and step.step_id=4
+     join sys_seat_grid g on g.code=E_CONTRADICT.grid_code 
+     join sys_user u on u.code=E_CONTRADICT.create_by
+     join os_wfentry o on o.id=E_CONTRADICT.wf_entry and o.state=4 
+		WHERE  nvl(E_CONTRADICT.flag_del,'0') =0 
+		<if test="gridCode != null and gridCode != ''">
+	  and E_CONTRADICT.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="eventTitle != null and eventTitle != ''">
+	  and E_CONTRADICT.event_title like '%'||#{eventTitle,jdbcType=VARCHAR}||'%'
+	 </if>
+	<if test="createName != null and createName != ''">
+	  and u.real_name like '%'||#{createName,jdbcType=VARCHAR}||'%'
+	 </if>
+	 	 <if test="dangShiRenName != null and dangShiRenName != ''">
+	  and E_CONTRADICT.DANG_SHI_REN_NAME like '%'||#{dangShiRenName,jdbcType=VARCHAR}||'%'
+	 </if>
+	<if test="finishDate != null and finishDate != ''">
+		AND to_date(step.finish_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{finishDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(step.finish_date,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{finishDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if> 
+	<if test="createDate != null and createDate != ''">
+		AND to_date(E_CONTRADICT.create_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{createDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(E_CONTRADICT.create_date,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{createDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if> 
+	<if test="codeEventType != null and codeEventType.size()>0 ">
+		and (
+		<foreach collection="codeEventType" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+    </select>
+     <select id="mapqueryWanJiePage" resultMap="tempResult">
+select count(*) AS COUNTS, TO_CHAR(sys_seat_grid.position) as position from e_contradict 
+left join sys_seat_grid on e_contradict.grid_code=sys_seat_grid.code
+left join os_wfentry on e_contradict.wf_entry=os_wfentry.id
+where os_wfentry.state=4
+and e_contradict.flag_del=0
+group by TO_CHAR(sys_seat_grid.position)
+    </select>
+     <!-- 督办列表 --> 
+   <select id="queryDuBanPage" parameterType="java.util.Map" resultMap="contradictResult">
+    SELECT  E_CONTRADICT.code,E_CONTRADICT.event_num,E_CONTRADICT.code_event_type,E_CONTRADICT.code_event_guimo,
+    E_CONTRADICT.event_title,E_CONTRADICT.DANG_SHI_REN_NAME,<include refid="step_column_list"/>,
+    to_char(step.finish_date,'yyyy-mm-dd hh24:mi:ss') FINISH_DATE_STR,g.grid_total_name as GRID_TOTAL_NAME,
+    step.action_id ,u.real_name as CREATE_NAME ,department.grid_total_name as DU_BAN_DEPARTMENT_STR ,o.OPINION opinion
+     FROM E_CONTRADICT  
+    INNER JOIN OS_HISTORYSTEP STEP 
+    ON STEP.ENTRY_ID=E_CONTRADICT.wf_entry 
+    and step.action_id=#{actionId} 
+    and nvl(E_CONTRADICT.flag_del,'0') =0
+    
+     join sys_seat_grid g on g.code=E_CONTRADICT.grid_code 
+     join sys_user u on u.code=E_CONTRADICT.create_by 
+     --得到督办意见
+       left join e_opinion o 
+    on o.ACTION_ID=#{actionId} 
+    and o.ENTRY_ID=STEP.ENTRY_ID and o.CREATE_DATE=to_char(step.FINISH_DATE,'yyyy-MM-dd hh24:mi:ss')
+    --督办之前申请办结的部门为督办的部门
+     join (select h.id,h.entry_id,h.finish_date,case when u.code is not null then u.department_code||'#2' else h.owner end as owner 
+     from OS_HISTORYSTEP h 
+    left join sys_user u on u.code||'#1'=h.owner where h.action_id=#{shenQingBanJieAction}
+    ) h
+     on h.ENTRY_ID=STEP.ENTRY_ID and h.FINISH_DATE&lt;step.FINISH_DATE
+     --得到督办部门名称
+ join 
+     (select s.grid_total_name,s.code from sys_seat_second s where s.flag_department=1 and s.flag_del=0
+     UNION  select t.grid_total_name,t.code from SYS_SEAT_THIRD t where t.flag_department=1 and t.flag_del=0)
+     department on department.code||'#2'=h.owner
+     
+		WHERE  E_CONTRADICT.is_du_ban=1
+		<if test="gridCode != null and gridCode != ''">
+	  and E_CONTRADICT.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="eventTitle != null and eventTitle != ''">
+	  and E_CONTRADICT.event_title like '%'||#{eventTitle,jdbcType=VARCHAR}||'%'
+	 </if>
+	<if test="createName != null and createName != ''">
+	  and u.real_name like '%'||#{createName,jdbcType=VARCHAR}||'%'
+	 </if>
+	 	 <if test="dangShiRenName != null and dangShiRenName != ''">
+	  and E_CONTRADICT.DANG_SHI_REN_NAME like '%'||#{dangShiRenName,jdbcType=VARCHAR}||'%'
+	 </if>
+	<if test="finishDate != null and finishDate != ''">
+		AND to_char(step.finish_date,'yyyy-mm-dd') &lt;=#{finishDateEnd,jdbcType=VARCHAR}
+		AND to_char(step.finish_date,'yyyy-mm-dd') &gt;=#{finishDateStart,jdbcType=VARCHAR}
+	</if> 
+	<if test="createDate != null and createDate != ''">
+		AND to_date(E_EVENT.create_date,'yyyy-mm-dd') &lt;=to_date(#{createDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd')
+		AND to_date(E_EVENT.create_date,'yyyy-mm-dd') &gt;=to_date(#{createDateStart,jdbcType=VARCHAR},'yyyy-mm-dd')
+	</if> 
+	<if test="codeEventType != null and codeEventType.size()>0 ">
+		and (
+		<foreach collection="codeEventType" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+    </select>
+    
+        <!-- 综合查询列表 --> 
+   <select id="queryZongHePage" parameterType="java.util.Map" resultMap="contradictResult">
+   select E_CONTRADICT.*,u.real_name as CREATE_NAME,g.grid_total_name as GRID_TOTAL_NAME  from(
+    SELECT  E_CONTRADICT.*,<include refid="step_column_list"/>,to_char(to_date(E_CONTRADICT.event_num,'yyyy-mm-dd hh24:mi:ss' ),'yyyy-mm-dd hh24:mi:ss' ) FINISH_DATE_STR
+    ,decode(step.step_id, 
+    <foreach collection="allSteps" item="value" index="key" separator=",">
+		   #{key,jdbcType=VARCHAR},#{value}
+		</foreach> ,'') as STEP_NAME
+    <!--  ,decode(step.action_id, 
+    <foreach collection="banJieActions" item="value" index="key" separator=",">
+		   #{key,jdbcType=VARCHAR},#{value}
+		</foreach> ,'') as BAN_LI_TYPE_STR -->
+     FROM E_CONTRADICT  
+     <!-- 只处理已经办结的 -->
+    INNER JOIN OS_HISTORYSTEP STEP ON STEP.ENTRY_ID=E_CONTRADICT.wf_entry and step.step_id=#{endStepId}
+     and E_CONTRADICT.flag_del =0 
+     union all
+      SELECT  E_CONTRADICT.*,<include refid="step_column_list"/>,to_char(to_date(E_CONTRADICT.event_num,'yyyy-mm-dd hh24:mi:ss' ),'yyyy-mm-dd hh24:mi:ss' ) FINISH_DATE_STR
+    ,decode(step.step_id, 
+    <foreach collection="allSteps" item="value" index="key" separator=",">
+		   #{key,jdbcType=VARCHAR},#{value}
+		</foreach> ,'') as STEP_NAME
+     <!-- ,decode(step.action_id, 
+    <foreach collection="allActions" item="value" index="key" separator=",">
+		   #{key,jdbcType=VARCHAR},#{value}
+		</foreach> ,'') as BAN_LI_TYPE_STR -->
+     FROM E_CONTRADICT  
+     <!-- 只处理已经办结的 -->
+    INNER JOIN OS_CURRENTSTEP STEP ON STEP.ENTRY_ID=E_CONTRADICT.wf_entry
+     and E_CONTRADICT.flag_del =0 ) E_CONTRADICT
+    <!--  join sys_sett_grid g2 on g2.code=substr(step.owner, 0, instr(step.owner,'#2')-1) -->
+     join sys_seat_grid g on g.code=E_CONTRADICT.grid_code 
+     join sys_user u on u.code=E_CONTRADICT.create_by 
+     
+		WHERE  1=1
+		<if test="gridCode != null and gridCode != ''">
+	  and E_CONTRADICT.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="eventTitle != null and eventTitle != ''">
+	  and E_CONTRADICT.event_title like '%'||#{eventTitle,jdbcType=VARCHAR}||'%'
+	 </if>
+	<!-- <if test="createName != null and createName != ''">
+	  and u.real_name like '%'||#{createName,jdbcType=VARCHAR}||'%'
+	 </if> -->
+	 	 <if test="dangShiRenName != null and dangShiRenName != ''">
+	  and E_CONTRADICT.DANG_SHI_REN_NAME like '%'||#{dangShiRenName,jdbcType=VARCHAR}||'%'
+	 </if>
+	<!-- <if test="finishDate != null and finishDate != ''">
+		AND to_date(step.finish_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{finishDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(step.finish_date,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{finishDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if>  -->
+	<if test="shouLiDate != null and shouLiDate != ''">
+		AND E_CONTRADICT.event_num &lt;=to_char(to_date(#{shouLiDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),'yyyymmddhhmiss')
+		AND E_CONTRADICT.event_num &gt;=to_char(to_date(#{shouLiDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),'yyyymmddhhmiss')
+	</if> 
+	<!-- <if test="createDate != null and createDate != ''">
+		AND to_date(E_CONTRADICT.create_date,'yyyy-mm-dd hh24:mi:ss') &lt;=to_date(#{createDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+		AND to_date(E_CONTRADICT.create_date,'yyyy-mm-dd hh24:mi:ss') &gt;=to_date(#{createDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+	</if>  -->
+	<if test="codeEventType != null and codeEventType.size()>0 ">
+		and (
+		<foreach collection="codeEventType" item="s" index="index" separator=" or ">
+		   E_CONTRADICT.CODE_EVENT_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="stepId != null and stepId.size()>0 ">
+		and (
+		<foreach collection="stepId" item="s" index="index" separator=" or ">
+		  E_CONTRADICT.step_id =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if> 
+    </select>
+    <!-- 矛盾统计 -->
+   <!--  <sql id="sqlForCharts_sql1" >
+    count,groupType from (select sum(countVal) as count,countVal,groupType from(SELECT count(1) as countVal
+  </sql> -->
+  <sql id="sqlForCharts_sql1" >
+     count(1) as counts
+  </sql> 
+  <sql id="sqlForCharts_eventColumn">
+ e.is_du_ban, e.flag_del,E.CODE, E.CODE_EVENT_TYPE, E.CREATE_DATE, E.GRID_CODE, E.event_title, E.CODE_EVENT_GUIMO, E.WF_ENTRY, E.EVENT_DATE
+  </sql>
+    <sql id="sqlForCharts_opinionColumn">
+	 op.CODE_APPRAISE as CODE_APPRAISE 
+   </sql>
+    <sql id="sqlForCharts_joinHistoryStep">
+	  left join os_historystep his on his.entry_id=e.WF_ENTRY and his.step_id=#{banJieId}
+   </sql>
+   <sql id="sqlForCharts_joinSysUser">
+     join sys_user u on u.code=e.create_by
+   </sql>
+   <sql id="sqlForCharts_joinOpinionTable">
+   left join (select entry_id,max(CREATE_DATE), max(code_appraise) as code_appraise from e_opinion op where op.action_id=#{pingJiaActionId} group by op.entry_id) op on op.entry_id =E.WF_ENTRY
+   </sql>
+   <sql id="sqlForCharts_where">
+    where e.flag_del=0 and (e.WF_ENTRY is not null or e.WF_ENTRY !='') and length(e.grid_code)>=#{searchLength} 
+   </sql>
+<sql id="sqlForCharts_searchConditions">
+    <if test="gridCode!=null and gridCode!=''">
+		     	and e.grid_code like #{gridCode}||'%'
+	</if>
+    <if test="codeEventType != null and codeEventType.size()>0 ">
+	and (
+	<foreach collection="codeEventType" item="s" index="index" separator=" or ">
+	   e.CODE_EVENT_TYPE =#{s,jdbcType=VARCHAR}
+	</foreach>
+	)
+	</if>
+	<if test="codeEventGuimo != null and codeEventGuimo.size()>0 ">
+		and (
+		<foreach collection="codeEventGuimo" item="s" index="index" separator=" or ">
+		   e.CODE_EVENT_guimo =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+     <if test="createName!=null and createName!=''">
+    	and (u.real_name like '%'||#{createName}||'%' or u.login_name like '%'||#{createName}||'%')
+    </if>
+    <if test="shouLiDate != null and shouLiDate != ''">
+		AND e.event_num &lt;=to_char(to_date(#{shouLiDateEnd,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),'yyyymmddhhmiss')
+		AND e.event_num &gt;=to_char(to_date(#{shouLiDateStart,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss'),'yyyymmddhhmiss')
+	</if> 
+</sql>
+   <sql id="sqlForCharts_filter">
+    )group by rollup(countval,groupType) ) where groupType is null  and countVal is null or groupType is not null and countVal is not null
+   </sql>
+   <sql id="sqlForCharts_decodeVal">
+   decode(step_id, 
+	    	<foreach collection="allSteps" item="value" index="key" separator=",">
+			   #{key,jdbcType=VARCHAR},#{value}
+			</foreach> ,'wrongStep')
+   </sql>
+   
+<select id="queryCharts" parameterType="java.util.Map" resultType="java.util.Map">
+     <choose>
+	     <!-- 如果是按照辖区统计 -->
+	     <when test="type=='GRID_CODE'">
+	     	select <include refid="sqlForCharts_sql1"/>, <!-- (substr(grid_code,0,#{searchLength})) as grid_code, -->grid_name as name 
+	     	 FROM (select * from (select <include refid="sqlForCharts_eventColumn"/>,<include refid="step_column_list"/>,<include refid="sqlForCharts_opinionColumn"/>
+		     ,g.name as grid_name  from E_contradict E 
+		      left join os_currentstep step  ON STEP.ENTRY_ID =E.WF_ENTRY 
+		     left join os_historystep his on his.entry_id=e.WF_ENTRY and his.step_id=#{banJieId}
+   
+		     <choose>
+			     <when test="searchLength==5">
+				     join sys_seat_second g on substr(e.grid_code,0,5)=g.code 
+			     </when>
+			     <when test="searchLength==8">
+				      join sys_seat_third g on substr(e.grid_code,0,8)=g.code 
+			     </when>
+			      <when test="searchLength==12">
+				      join sys_seat_four g on substr(e.grid_code,0,12)=g.code 
+			     </when>
+			      <when test="searchLength==15">
+				      join sys_seat_grid g on substr(e.grid_code,0,15)=g.code 
+			     </when>
+			     <otherwise>     
+	                      
+	             </otherwise> 
+		     </choose>
+		     <include refid="sqlForCharts_joinSysUser"/>
+		     left join (select entry_id,max(CREATE_DATE), max(code_appraise) as code_appraise from e_opinion op where op.action_id=#{pingJiaActionId} group by op.entry_id) op on op.entry_id =E.WF_ENTRY
+		     where e.flag_del=0 and (e.WF_ENTRY is not null or e.WF_ENTRY !='') and length(e.grid_code)>=#{searchLength}
+		    <include refid="sqlForCharts_searchConditions"/>
+		    <!--   放条件语句 -->
+		      )) group by (substr(grid_code,0,#{searchLength})), grid_name
+		      <!--  <include refid="sqlForCharts_filter"/> -->
+	     </when>
+	     <!--  -->
+	     
+	     
+	     <!-- // 此时的groupByValue是ACTION_ID,统计督办 -->
+	    <when test="type=='ACTION_ID'">
+			select <include refid="sqlForCharts_sql1"/>,decode(is_du_ban,0,'未督办','督办') as name FROM 
+			( select * from(select <include refid="sqlForCharts_eventColumn"/>,<include refid="step_column_list"/>,<include refid="sqlForCharts_opinionColumn"/>
+			 from e_contradict E 
+			  left join os_currentstep step  ON STEP.ENTRY_ID =E.WF_ENTRY 
+			 <include refid="sqlForCharts_joinHistoryStep"/>
+			 <include refid="sqlForCharts_joinOpinionTable"/>
+			 <include refid="sqlForCharts_joinSysUser"/>
+			 <include refid="sqlForCharts_where"/>
+			  <include refid="sqlForCharts_searchConditions"/>
+			 ))
+			group by decode(is_du_ban,0,'未督办','督办')
+		<!-- 	<include refid="sqlForCharts_filter"/> -->
+	    </when>
+	   <!-- // 事件状态，需要union 表 -->
+		<when test="type=='STEP_ID'">
+			select <include refid="sqlForCharts_sql1"/>,name from 
+			(select name from(select 
+			<include refid="sqlForCharts_decodeVal"/>
+			  as name from (select *  from (select <include refid="sqlForCharts_eventColumn"/>,<include refid="step_column_list"/>,<include refid="sqlForCharts_opinionColumn"/>
+			 from e_contradict E 
+			 left JOIN OS_CURRENTSTEP STEP ON STEP.ENTRY_ID=E.WF_ENTRY and e.flag_del=0
+			 <include refid="sqlForCharts_joinHistoryStep"/>
+			 <include refid="sqlForCharts_joinOpinionTable"/>
+			 <include refid="sqlForCharts_joinSysUser"/>
+			 <include refid="sqlForCharts_where"/>
+			  <include refid="sqlForCharts_searchConditions"/>
+			 )
+		     <!-- 放条件语句 -->
+		     ))) group by name
+		     <!--  <include refid="sqlForCharts_filter"/> -->
+		</when>
+		<otherwise>     
+			SELECT S.COUNT AS COUNTs,NVL(V.NAME_C,S.NAME) AS NAME FROM (SELECT count(1)  as count,nvl(${type} ,'未表态') as NAME FROM 
+			(select *  from (select <include refid="sqlForCharts_eventColumn"/>,<include refid="step_column_list"/>,<include refid="sqlForCharts_opinionColumn"/>  from e_contradict E 
+			 left join os_currentstep step  ON STEP.ENTRY_ID =E.WF_ENTRY 
+			 <include refid="sqlForCharts_joinHistoryStep"/>
+			 <include refid="sqlForCharts_joinOpinionTable"/>
+			 <include refid="sqlForCharts_joinSysUser"/>
+			 <include refid="sqlForCharts_where"/>
+			 <include refid="sqlForCharts_searchConditions"/>
+			 <if test="type=='CODE_APPRAISE'">
+				 and code_appraise is not null
+			 </if>
+			 )
+			 ) group by nvl(${type},'未表态')) S LEFT JOIN SYS_DIC_VALUE V ON V.CODE=S.NAME
+	    </otherwise> 
+	</choose>
+</select>
+
+
+
+<sql id="sqlForChartsByOrg_departMentFields">
+seat.name, nvl(seat.code,'null') as dept
+</sql>
+<sql id="sqlForChartsByOrg_joinHistoryStep">
+JOIN
+        (SELECT MAX(finish_date),
+          entry_id,
+           SUBSTR(MAX(owner),0,instr(MAX(owner),'#2')-1) AS owner
+        FROM os_historystep
+        WHERE 
+         owner LIKE'%#2' and entry_id in (select entry_id from os_historystep where action_id=#{banLiBanJieActionId})
+        GROUP BY entry_id
+        ) step ON step.entry_id =e.WF_ENTRY
+</sql>
+<sql id="sqlForChartsByOrg_joinDept">
+left join (SELECT s.code code ,s.name name FROM sys_seat_second s where s.flag_department=1
+        UNION ALL
+        SELECT t.code code,t.name name FROM sys_seat_third t where t.flag_department=1
+        UNION ALL
+        SELECT f.code code,f.name name FROM sys_seat_four f where f.flag_department=1)  
+ seat on seat.code=step.owner 
+</sql>
+<sql id="sqlForChartsByOrg_joinOpinion">
+ left join (select entry_id,max(create_date), max(code_appraise) as code_appraise from e_opinion op where op.action_id=#{pingJiaActionId} group by op.entry_id) op on op.entry_id =e.WF_ENTRY
+</sql>
+<sql id="sqlForChartsByOrg_where">
+ where e.flag_del=0 and step.owner like  #{gridCode}||'%'
+ </sql>
+<sql id="sqlForChartsByOrg_searchConditions">
+ </sql>
+  
+<!-- 按照职能部门统计 -->
+<select id="queryChartsByOrg" parameterType="java.util.Map" resultType="java.util.Map">
+     <choose>
+	     <!-- 如果是按照辖区统计 -->
+	     <when test="type=='DEPT'">
+	     	select <include refid="sqlForCharts_sql1"/>, nvl(dept,'其它') as code ,nvl(name,'其它') as name
+	     	 FROM (select * from (select <include refid="sqlForCharts_eventColumn"/>,<include refid="sqlForChartsByOrg_departMentFields"/>,<include refid="sqlForCharts_opinionColumn"/>
+		     from E_contradict E 
+		     <include refid="sqlForChartsByOrg_joinHistoryStep"/>
+		     <include refid="sqlForChartsByOrg_joinDept"/>
+		      <include refid="sqlForChartsByOrg_joinOpinion"/>
+		      <include refid="sqlForChartsByOrg_where"/>
+		      <include refid="sqlForCharts_searchConditions"/>
+		       <if test="dept!=null and dept!=''">
+		      and seat.name like '%'||#{dept}||'%'
+		      </if>
+		      )) group by nvl(dept,'其它'),nvl(name,'其它')
+		    </when>
+		<otherwise>   
+		SELECT S.COUNT AS COUNTs,NVL(V.NAME_C,S.NAME) AS NAME FROM (
+		SELECT count(1)  as count,nvl(${type},'未表态') as name FROM 
+		 (select *  from (select <include refid="sqlForCharts_eventColumn"/>,<include refid="sqlForChartsByOrg_departMentFields"/>,<include refid="sqlForCharts_opinionColumn"/>
+		     from E_contradict E 
+		     <include refid="sqlForChartsByOrg_joinHistoryStep"/>
+		     <include refid="sqlForChartsByOrg_joinDept"/>
+		      <include refid="sqlForChartsByOrg_joinOpinion"/>
+		      <include refid="sqlForChartsByOrg_where"/>
+		      <include refid="sqlForChartsByOrg_searchConditions"/>
+		      <if test="dept!=null and dept!=''">
+		      and seat.name like '%'||#{dept}||'%'
+		      </if>
+		      <if test="type=='CODE_APPRAISE'">
+				 and code_appraise is not null
+			 </if>))group by nvl(${type},'未表态')
+			) S LEFT JOIN SYS_DIC_VALUE V ON V.CODE=S.NAME
+	    </otherwise> 
+	</choose>
+</select>
+</mapper>

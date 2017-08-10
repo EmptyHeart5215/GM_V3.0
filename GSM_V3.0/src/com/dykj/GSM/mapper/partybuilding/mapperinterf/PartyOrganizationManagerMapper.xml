@@ -1,0 +1,494 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.partybuilding.mapperinterf.PartyOrganizationManagerMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="PartyOrganizationManager" id="partyOrganizationManagerResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="ORGANIZA_NAME" jdbcType="VARCHAR" property="organizaName" />
+        <result column="SECRETARY_NAME" jdbcType="VARCHAR" property="secretaryName" />
+        <result column="SEX" jdbcType="VARCHAR" property="sex" />
+        <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+        <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+        <result column="CID" jdbcType="VARCHAR" property="cid" />
+        <result column="POSITION" jdbcType="VARCHAR" property="position" />
+        <result column="CODE_PARTY_ORGANIZATION_TYPE" jdbcType="VARCHAR" property="codePartyOrganizationType" />
+        <association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>
+        <association property="seatThird" javaType="SysSeatThird" resultMap="joinSysSeatThirdResult"></association>
+        <association property="seatFour"  javaType="SysSeatFour" resultMap="joinSysSeatFourResult"></association>
+    </resultMap>
+    
+    <resultMap type="PartyOrganizationProfile" id="joinPartyOrganizationProfileResult">
+        <id property="code" javaType="String"/>
+    	<result column="ORGANIZA_NAME" property="organizaName" javaType="String" />
+        <result column="SECRETARY_NAME" property="secretaryName" javaType="String" />
+        <result column="CID" property="cid" javaType="String" />
+        <result column="SEX" property="sex" javaType="String" />
+        <result column="PHONE" property="phone" javaType="String" />
+        <result column="CODE_PARTY_ORGANIZATION_TYPE" property="codePartyOrganizationType" javaType="String" />
+        <result column="ADDRESS" property="address" javaType="String" />
+        <result column="GRID_CODE" property="gridCode" javaType="String" />
+        <result column="GRID_TOTAL_NAME" property="gridTotalName" javaType="String" />
+        <result column="AGE35" property="age35" javaType="String" />
+        <result column="AGE36IN45" property="age36In45" javaType="String" />
+        <result column="AGE46IN54" property="age46In54" javaType="String" />
+        <result column="AGE55IN59" property="age55In59" javaType="String" />
+        <result column="AGE60" property="age60" javaType="String" />
+        <result column="PARTYTYPETUIXIU" property="partyTypeTuiXiu" javaType="String" />
+        <result column="PARTYTYPEZHIGUAN" property="partyTypeZhiGuan" javaType="String" />
+        <result column="PARTYTYPEZAIZHI" property="partyTypeZaiZhi" javaType="String" />
+        <result column="PARTYTYPEZYZ" property="partyTypeZYZ" javaType="String" />
+        <result column="PARTYTYPEKUNNAN" property="partyTypeKunNan" javaType="String" />
+        <result column="NUMPARTY" property="numParty" javaType="String" />
+        <result column="SEXMALE" property="sexMale" javaType="String" />
+        <result column="SEXFEMALE" property="sexFeMale" javaType="String" />
+    </resultMap>
+    
+     <!-- 关联表需要的列 -->
+    <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+    
+     <!-- 关联表需要的列 -->
+    <resultMap type="SysSeatThird" id="joinSysSeatThirdResult">
+        <result column="Address" jdbcType="VARCHAR" property="address"/>
+    </resultMap>
+    
+     <!-- 关联表需要的列 -->
+    <resultMap type="SysSeatFour" id="joinSysSeatFourResult">
+        <result column="Address" jdbcType="VARCHAR" property="address"/>
+    </resultMap>
+    
+    <resultMap type="TreeModel" id="treeModelResult">
+    <id property="code" jdbcType="VARCHAR"/>
+    <result property="name" javaType="String"/>
+    <result property="parentCode" javaType="String" />
+    <result property="sort" javaType="String" />
+    <result property="pomcode" javaType="String" />
+  </resultMap>
+  
+  <resultMap id="tempChartsResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="PartyOrganizationManager">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO PARTY_ORGANIZATION_MANAGER
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    GRID_CODE,ORGANIZA_NAME,SECRETARY_NAME,SEX,
+                    PHONE,MOBILE,CID,CODE_PARTY_ORGANIZATION_TYPE，POSITION)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},
+                     #{organizaName,jdbcType=VARCHAR},#{secretaryName,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},
+                     #{phone,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{cid,jdbcType=VARCHAR},#{codePartyOrganizationType,jdbcType=VARCHAR},#{position,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="PartyOrganizationManager">
+        UPDATE PARTY_ORGANIZATION_MANAGER
+        <set>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="organizaName != null and organizaName != ''">
+                ORGANIZA_NAME = #{organizaName,jdbcType=VARCHAR},
+            </if>
+            <if test="secretaryName != null and secretaryName != ''">
+                SECRETARY_NAME = #{secretaryName,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null and sex != ''">
+                SEX = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                MOBILE = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="cid != null and cid != ''">
+                CID = #{cid,jdbcType=VARCHAR},
+            </if>
+            <if test="codePartyOrganizationType != null and codePartyOrganizationType != ''">
+                CODE_PARTY_ORGANIZATION_TYPE = #{codePartyOrganizationType,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE PARTY_ORGANIZATION_MANAGER SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE PARTY_ORGANIZATION_MANAGER SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="partyOrganizationManagerResult">
+        SELECT * FROM PARTY_ORGANIZATION_MANAGER WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="partyOrganizationManagerResult">
+        SELECT * FROM PARTY_ORGANIZATION_MANAGER where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+    
+    <!-- 通过自身辖区权限，筛选党建树形菜单 -->
+    <select id="queryPartyBuildingTree" resultMap="treeModelResult" parameterType="String">
+             SELECT * FROM (
+      			SELECT POM.GRID_CODE AS CODE,POM.ORGANIZA_NAME AS NAME,sss.parent_code as PARENTCODE,POM.SORT AS SORT,POM.CODE as POMCODE FROM PARTY_ORGANIZATION_MANAGER POM LEFT JOIN sys_seat_second sss on sss.code = pom.grid_code  WHERE POM.FLAG_DEL!=1 
+       		 UNION ALL 
+      			SELECT POM.GRID_CODE AS CODE,POM.ORGANIZA_NAME AS NAME,sst.parent_code as PARENTCODE,POM.SORT AS SORT,POM.CODE as POMCODE FROM PARTY_ORGANIZATION_MANAGER POM LEFT JOIN sys_seat_third sst on sst.code = pom.grid_code WHERE POM.FLAG_DEL!=1 
+       		 UNION ALL 
+      			SELECT POM.GRID_CODE AS CODE,POM.ORGANIZA_NAME AS NAME,ssf.parent_code as PARENTCODE,POM.SORT AS SORT,POM.CODE as POMCODE FROM PARTY_ORGANIZATION_MANAGER POM LEFT JOIN sys_seat_four ssf on ssf.code = pom.grid_code WHERE POM.FLAG_DEL!=1 
+       		 UNION ALL 
+       			SELECT POM.GRID_CODE AS CODE,POM.ORGANIZA_NAME AS NAME,ssg.parent_code as PARENTCODE,POM.SORT AS SORT,POM.CODE as POMCODE FROM PARTY_ORGANIZATION_MANAGER POM LEFT JOIN sys_seat_grid ssg on ssg.code = pom.grid_code WHERE POM.FLAG_DEL!=1 
+       		  )
+        <where>
+            PARENTCODE like CONCAT( #{parentCode},'%') ORDER BY SORT
+        </where>
+    </select>
+    
+     <!-- 通过辖区code查询党组织概况 -->
+    <select id="queryPartyOrganizationManagerByGridCode" resultMap="joinPartyOrganizationProfileResult" parameterType="PartyOrganizationManager">
+		       <if test="gridCode.length() == 2">
+                 AND POM.GRID_CODE = #{gridCode}
+                </if>
+                <if test="gridCode.length() == 5">
+                 sss.grid_total_name,pom.grid_code from party_organization_manager pom left join sys_seat_second sss on sss.code = pom.grid_code
+                 where pom.flag_del!=1 
+                 AND POM.GRID_CODE = #{gridCode}
+                </if>
+                <if test="gridCode.length() == 8">
+	                select temp_party_oragnization.*,temp_agetable_35.age35,temp_agetable_36_45.age36in45,temp_agetable_46_54.age46in54,temp_agetable_55_59.age55in59,temp_agetable_60.age60,
+					temp_party_type_TUIXIU.PartyTypeTUIXIU,temp_party_type_zhiguan.PartyTypezhiguan,temp_party_type_ZAIZHI.PartyTypeZAIZHI,temp_party_type_ZYZ.PartyTypeZYZ,
+					temp_party_type_KUNNAN.PartyTypeKUNNAN,temp_party.numparty,temp_party_sexmale.SEXMALE,temp_party_sexfemale.SEXFEMALE from
+					<!-- 党组织相关信息 -->
+					(select pom.organiza_name,pom.secretary_name,pom.cid,pom.sex,pom.phone,pom.code_party_organization_type, 
+					sst.grid_total_name,sst.address,pom.grid_code from party_organization_manager pom left join sys_seat_third sst 
+					on sst.code = pom.grid_code where pom.flag_del!=1 AND POM.GRID_CODE = #{gridCode} AND POM.CODE = #{code})temp_party_oragnization,
+					<!-- /*查询党员总数*/ -->
+					(select count(code) as numparty from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_party,
+				     <!-- /*查询男女个数*/ -->
+					(select count(sex) as SEXMALE from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and sex = '男') temp_party_sexmale,
+					(select count(sex) as SEXFEMALE from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and sex = '女') temp_party_sexfemale,
+					<!-- /*查询党员分类数*/ -->
+					(select count(code_party_type) as PartyTypeTUIXIU from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'tuixiuparty') temp_party_type_TUIXIU,
+					(select count(code_party_type) as PartyTypezhiguan from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zhiguanparty') temp_party_type_zhiguan,
+					(select count(code_party_type) as PartyTypeZAIZHI from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zaizhiparty') temp_party_type_ZAIZHI,
+					(select count(code_party_type) as PartyTypeZYZ from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zyzparty') temp_party_type_ZYZ,
+					(select count(code_party_type) as PartyTypeKUNNAN from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'kunnanparty') temp_party_type_KUNNAN,
+					<!-- 查询党员各个年龄段个数 -->
+					(select count(age) as age35 from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &lt;= 35) temp_agetable_35,
+					
+					(select count(age) as age36in45 from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 36 and age &lt;=45) temp_agetable_36_45,
+					
+					(select count(age) as age46in54  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 46 and age &lt;=54) temp_agetable_46_54,
+					
+					(select count(age) as age55in59  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 55 and age &lt;=59) temp_agetable_55_59,
+					
+					(select count(age) as age60  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &gt;=60) temp_agetable_60
+                </if>
+                <if test="gridCode.length() == 12">
+                    select temp_party_oragnization.*,temp_agetable_35.age35,temp_agetable_36_45.age36in45,temp_agetable_46_54.age46in54,temp_agetable_55_59.age55in59,temp_agetable_60.age60,
+					temp_party_type_TUIXIU.PartyTypeTUIXIU,temp_party_type_zhiguan.PartyTypezhiguan,temp_party_type_ZAIZHI.PartyTypeZAIZHI,temp_party_type_ZYZ.PartyTypeZYZ,
+					temp_party_type_KUNNAN.PartyTypeKUNNAN,temp_party.numparty,temp_party_sexmale.SEXMALE,temp_party_sexfemale.SEXFEMALE from
+					<!-- 党组织相关信息 -->
+					(select pom.organiza_name,pom.secretary_name,pom.cid,pom.sex,pom.phone,pom.code_party_organization_type,
+					 ssf.grid_total_name,ssf.address,pom.grid_code from party_organization_manager pom left join sys_seat_four ssf 
+					 on ssf.code = pom.grid_code where pom.flag_del!=1 AND POM.GRID_CODE = #{gridCode} AND POM.CODE = #{code})temp_party_oragnization,
+					<!-- /*查询党员总数*/ -->
+					(select count(code) as numparty from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_party,
+				     <!-- /*查询男女个数*/ -->
+					(select count(sex) as SEXMALE from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and sex = '男') temp_party_sexmale,
+					(select count(sex) as SEXFEMALE from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and sex = '女') temp_party_sexfemale,
+					<!-- /*查询党员分类数*/ -->
+					(select count(code_party_type) as PartyTypeTUIXIU from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'tuixiuparty') temp_party_type_TUIXIU,
+					(select count(code_party_type) as PartyTypezhiguan from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zhiguanparty') temp_party_type_zhiguan,
+					(select count(code_party_type) as PartyTypeZAIZHI from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zaizhiparty') temp_party_type_ZAIZHI,
+					(select count(code_party_type) as PartyTypeZYZ from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zyzparty') temp_party_type_ZYZ,
+					(select count(code_party_type) as PartyTypeKUNNAN from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'kunnanparty') temp_party_type_KUNNAN,
+					<!-- 查询党员各个年龄段个数 -->
+					(select count(age) as age35 from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &lt;= 35) temp_agetable_35,
+					
+					(select count(age) as age36in45 from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 36 and age &lt;=45) temp_agetable_36_45,
+					
+					(select count(age) as age46in54  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 46 and age &lt;=54) temp_agetable_46_54,
+					
+					(select count(age) as age55in59  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 55 and age &lt;=59) temp_agetable_55_59,
+					
+					(select count(age) as age60  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &gt;=60) temp_agetable_60
+                </if>
+                <if test="gridCode.length() == 20">
+                    select temp_party_oragnization.*,temp_agetable_35.age35,temp_agetable_36_45.age36in45,temp_agetable_46_54.age46in54,temp_agetable_55_59.age55in59,temp_agetable_60.age60,
+					temp_party_type_TUIXIU.PartyTypeTUIXIU,temp_party_type_zhiguan.PartyTypezhiguan,temp_party_type_ZAIZHI.PartyTypeZAIZHI,temp_party_type_ZYZ.PartyTypeZYZ,
+					temp_party_type_KUNNAN.PartyTypeKUNNAN,temp_party.numparty,temp_party_sexmale.SEXMALE,temp_party_sexfemale.SEXFEMALE from
+					<!-- 党组织相关信息 -->
+					(select pom.organiza_name,pom.secretary_name,pom.cid,pom.sex,pom.phone,pom.code_party_organization_type,
+                     ssg.grid_total_name,pom.grid_code from party_organization_manager pom left join sys_seat_grid ssg on ssg.code = pom.grid_code 
+                     where pom.flag_del!=1 AND POM.GRID_CODE = #{gridCode} AND POM.CODE = #{code})temp_party_oragnization,
+					<!-- /*查询党员总数*/ -->
+					(select count(code) as numparty from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_party,
+				     <!-- /*查询男女个数*/ -->
+					(select count(sex) as SEXMALE from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and sex = '男') temp_party_sexmale,
+					(select count(sex) as SEXFEMALE from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and sex = '女') temp_party_sexfemale,
+					<!-- /*查询党员分类数*/ -->
+					(select count(code_party_type) as PartyTypeTUIXIU from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'tuixiuparty') temp_party_type_TUIXIU,
+					(select count(code_party_type) as PartyTypezhiguan from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zhiguanparty') temp_party_type_zhiguan,
+					(select count(code_party_type) as PartyTypeZAIZHI from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zaizhiparty') temp_party_type_ZAIZHI,
+					(select count(code_party_type) as PartyTypeZYZ from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'zyzparty') temp_party_type_ZYZ,
+					(select count(code_party_type) as PartyTypeKUNNAN from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.code_party_type = 'kunnanparty') temp_party_type_KUNNAN,
+					<!-- 查询党员各个年龄段个数 -->
+					(select count(age) as age35 from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &lt;= 35) temp_agetable_35,
+					
+					(select count(age) as age36in45 from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 36 and age &lt;=45) temp_agetable_36_45,
+					
+					(select count(age) as age46in54  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 46 and age &lt;=54) temp_agetable_46_54,
+					
+					(select count(age) as age55in59  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age  &gt;= 55 and age &lt;=59) temp_agetable_55_59,
+					
+					(select count(age) as age60  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+					from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &gt;=60) temp_agetable_60
+                </if>
+    </select>
+    
+    <!-- 通过gridCode查询党员男女分布比例 -->
+    <select id="chartsPartyMemberSexByGridCode" resultMap="tempChartsResult" parameterType="String">
+		    select LSEN1.COUNTS, LSEN1.NAME from 
+			(select sum(COUNTS) as COUNTS, LSEN.NAME, LSEN.COUNTS as countVal from 
+			(select count(pmm.code) as COUNTS,pmm.sex as NAME from party_member_manager pmm where 1=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') and pmm.flag_del!=1 group by pmm.sex)
+			LSEN group by rollup(LSEN.COUNTS,LSEN.NAME))LSEN1 where LSEN1.NAME is null and countVal is null or name is not null and countVal is not null
+     </select>
+     
+      <!-- 通过gridCode查询党员类型分布比例 -->
+    <select id="chartsPartyMemberPartyTypeByGridCode" resultMap="tempChartsResult" parameterType="String">
+		    select LSEN1.COUNTS, LSEN1.NAME from 
+			(select sum(COUNTS) as COUNTS, LSEN.NAME, LSEN.COUNTS as countVal from 
+			(select count(pmm.code) as COUNTS,pmm.code_party_type as NAME from party_member_manager pmm where 1=1 and pmm.grid_code like  CONCAT(#{gridCode},'%') 
+and          pmm.flag_del!=1 group by pmm.code_party_type)
+			LSEN group by rollup(LSEN.COUNTS,LSEN.NAME))LSEN1 where LSEN1.NAME is null and countVal is null or name is not null and countVal is not null
+     </select>
+     
+      <!-- 通过gridCode查询党员年龄分布比例 -->
+    <select id="chartsPartyMemberAgeByGridCode" resultMap="tempChartsResult" parameterType="String">
+		    select count(age) as counts,'35岁及以下' as NAME from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+			from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &lt;= 35
+			union all
+			select count(age) as counts ,'36到45岁'as NAME from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+			from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &gt;= 36 and age&lt;=45
+			union all
+			select count(age) as counts,'46岁到54岁' as NAME  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+			from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &gt;= 46 and age&lt;=54
+			union all
+			select count(age) as counts,'55岁到59岁' as NAME  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+			from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age &gt;= 55 and age&lt;=59
+			union all
+			select count(age) as counts,'60岁及以下'as NAME  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+			from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%')) temp_agetable where age&gt;=60
+			union all
+			select count(age) as counts,'' as NAME  from(select trunc((to_char(sysdate,'yyyyMMdd')-to_char(to_date(substr(cid,7,8),'yyyy-MM-dd'),'yyyyMMdd'))/10000) age 
+			from party_member_manager pmm where pmm.flag_del!=1 and pmm.grid_code like  CONCAT(#{gridCode},'%'))
+     </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="PartyOrganizationManager" resultMap="partyOrganizationManagerResult">
+        SELECT * FROM PARTY_ORGANIZATION_MANAGER 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="organizaName != null and organizaName != ''">
+                AND ORGANIZA_NAME = #{organizaName,jdbcType=VARCHAR}
+            </if>
+            <if test="secretaryName != null and secretaryName != ''">
+                AND SECRETARY_NAME = #{secretaryName,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null and sex != ''">
+                AND SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND PHONE = #{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND MOBILE = #{mobile,jdbcType=VARCHAR}
+            </if>
+            <if test="cid != null and cid != ''">
+                AND CID = #{cid,jdbcType=VARCHAR}
+            </if>
+             <if test="codePartyOrganizationType != null and codePartyOrganizationType != ''">
+                AND CODE_PARTY_ORGANIZATION_TYPE = #{codePartyOrganizationType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="PartyOrganizationManager" resultMap="partyOrganizationManagerResult">
+        SELECT * FROM PARTY_ORGANIZATION_MANAGER
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="organizaName != null and organizaName != ''">
+                AND ORGANIZA_NAME = #{organizaName,jdbcType=VARCHAR}
+            </if>
+            <if test="secretaryName != null and secretaryName != ''">
+                AND SECRETARY_NAME = #{secretaryName,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null and sex != ''">
+                AND SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND PHONE = #{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND MOBILE = #{mobile,jdbcType=VARCHAR}
+            </if>
+            <if test="cid != null and cid != ''">
+                AND CID = #{cid,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND CID = #{cid,jdbcType=VARCHAR}
+            </if>
+            <if test="codePartyOrganizationType != null and codePartyOrganizationType != ''">
+                AND CODE_PARTY_ORGANIZATION_TYPE = #{codePartyOrganizationType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM PARTY_ORGANIZATION_MANAGER WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="PartyOrganizationManager" resultType="Integer">
+        SELECT COUNT(*) C FROM PARTY_ORGANIZATION_MANAGER 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="organizaName != null and organizaName != ''">
+                AND ORGANIZA_NAME = #{organizaName,jdbcType=VARCHAR}
+            </if>
+            <if test="secretaryName != null and secretaryName != ''">
+                AND SECRETARY_NAME = #{secretaryName,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null and sex != ''">
+                AND SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND PHONE = #{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                AND MOBILE = #{mobile,jdbcType=VARCHAR}
+            </if>
+            <if test="cid != null and cid != ''">
+                AND CID = #{cid,jdbcType=VARCHAR}
+            </if>
+            <if test="codePartyOrganizationType != null and codePartyOrganizationType != ''">
+                AND CODE_PARTY_ORGANIZATION_TYPE = #{codePartyOrganizationType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BPerJingWaiMapper" >
+  <resultMap id="perJingWaiResult" type="BPerJingWai" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="HOUSE_CODE" property="houseCode" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="LAST_NAME" property="lastName" jdbcType="VARCHAR" />
+    <result column="FIRST_NAME" property="firstName" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR" />
+    <result column="CODE_NATIONALITY" property="codeNationality" jdbcType="VARCHAR" />
+    <result column="CODE_RELIGIOUS" property="codeReligious" jdbcType="VARCHAR" />
+    <result column="CODE_ID_TYPE" property="codeIdType" jdbcType="VARCHAR" />
+    <result column="CID" property="cid" jdbcType="VARCHAR" />
+    <result column="ID_END_DATE" property="idEndDate" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="CODE_COME_CHINA_REASON" property="codeComeChinaReason" jdbcType="VARCHAR" />
+    <result column="CODE_JOB_TYPE" property="codeJobType" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="SERVER_ADDRESS" property="serverAddress" jdbcType="VARCHAR" />
+    <result column="CODE_NOW_ADDRESS" property="nowAddressCode" jdbcType="VARCHAR" />
+    <result column="NOW_ADDRESS_DETAIL" property="nowAddressDetail" jdbcType="VARCHAR" />
+    <result column="COME_DATE" property="comeDate" jdbcType="VARCHAR" />
+    <result column="GO_DATE" property="goDate" jdbcType="VARCHAR" />
+    <result column="IS_GUAN_ZHU" property="isGuanZhu" jdbcType="CHAR" />
+    <result column="HOUSE_NUM" property="houseNum" jdbcType="VARCHAR" />
+    <result property="gridCode" column="GRID_CODE" jdbcType="VARCHAR"/>
+    <result property="gridTotalName" column="GRID_TOTAL_NAME"/>
+    <result property="unitName"/>
+	<result property="buildName"/>
+	<result property="totalName" column="TOTAL_NAME" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE,  HOUSE_CODE,CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, LAST_NAME, FIRST_NAME, 
+    NAME, SEX, BIRTHDAY, CODE_NATIONALITY, CODE_RELIGIOUS, CODE_ID_TYPE, CID, ID_END_DATE, 
+    PHONE, CODE_COME_CHINA_REASON, CODE_JOB_TYPE, JOB, SERVER_ADDRESS, CODE_NOW_ADDRESS, 
+    NOW_ADDRESS_DETAIL, COME_DATE, GO_DATE, IS_GUAN_ZHU,GRID_CODE
+  </sql>
+  
+  <insert id="insert" parameterType="BPerJingWai" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+    insert into B_PER_JING_WAI (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, LAST_NAME, FIRST_NAME, 
+      NAME, SEX, BIRTHDAY, CODE_NATIONALITY, 
+      CODE_RELIGIOUS, CODE_ID_TYPE, CID, 
+      ID_END_DATE, PHONE, CODE_COME_CHINA_REASON, 
+      CODE_JOB_TYPE, JOB, SERVER_ADDRESS, 
+      CODE_NOW_ADDRESS, NOW_ADDRESS_DETAIL, COME_DATE, 
+      GO_DATE, IS_GUAN_ZHU, HOUSE_CODE,GRID_CODE)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, #{codeNationality,jdbcType=VARCHAR}, 
+      #{codeReligious,jdbcType=VARCHAR}, #{codeIdType,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, 
+      #{idEndDate,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{codeComeChinaReason,jdbcType=VARCHAR}, 
+      #{codeJobType,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR}, #{serverAddress,jdbcType=VARCHAR}, 
+      #{nowAddressCode,jdbcType=VARCHAR}, #{nowAddressDetail,jdbcType=VARCHAR}, #{comeDate,jdbcType=VARCHAR}, 
+      #{goDate,jdbcType=VARCHAR}, #{isGuanZhu,jdbcType=CHAR}, #{houseCode,jdbcType=VARCHAR}, #{gridCode,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="BPerJingWai" >
+    update B_PER_JING_WAI
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        LAST_NAME = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="firstName != null" >
+        FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="codeNationality != null" >
+        CODE_NATIONALITY = #{codeNationality,jdbcType=VARCHAR},
+      </if>
+      <if test="codeReligious != null" >
+        CODE_RELIGIOUS = #{codeReligious,jdbcType=VARCHAR},
+      </if>
+      <if test="codeIdType != null" >
+        CODE_ID_TYPE = #{codeIdType,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        CID = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="idEndDate != null" >
+        ID_END_DATE = #{idEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="codeComeChinaReason != null" >
+        CODE_COME_CHINA_REASON = #{codeComeChinaReason,jdbcType=VARCHAR},
+      </if>
+      <if test="codeJobType != null" >
+        CODE_JOB_TYPE = #{codeJobType,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        JOB = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="serverAddress != null" >
+        SERVER_ADDRESS = #{serverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="nowAddressCode != null" >
+        CODE_NOW_ADDRESS = #{nowAddressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="nowAddressDetail != null" >
+        NOW_ADDRESS_DETAIL = #{nowAddressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="comeDate != null" >
+        COME_DATE = #{comeDate,jdbcType=VARCHAR},
+      </if>
+      <if test="goDate != null" >
+        GO_DATE = #{goDate,jdbcType=VARCHAR},
+      </if>
+      <if test="isGuanZhu != null" >
+        IS_GUAN_ZHU = #{isGuanZhu,jdbcType=CHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_PER_JING_WAI SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="perJingWaiResult">
+        SELECT p.*,grid.grid_total_name as gridTotalName,b.build_name as buildName,u.name as unitName FROM B_PER_JING_WAI p
+        join b_house h on h.code=p.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+        join sys_seat_grid grid on grid.code=b.grid_code and grid.flag_del=0 WHERE p.FLAG_DEL != 1 AND p.CODE=#{code}
+    </select>
+      <select id="queryMapParamPage" parameterType="java.util.Map" resultMap="perJingWaiResult">
+  SELECT P.* ,p.first_name||' '||p.last_name as total_name, b.build_name as buildName,u.name as unitName,h.house_num ,grid.grid_total_name as grid_Total_Name
+  FROM  B_PER_JING_WAI p 
+        join b_house h on h.code=p.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+        join sys_seat_grid grid on grid.code=b.grid_code and grid.flag_del=0 WHERE p.FLAG_DEL != 1 and p.grid_code like CONCAT( #{gridCode,jdbcType=VARCHAR},'%')
+	 <if test="houseCode != null and houseCode != ''">
+	  and h.code=#{houseCode}
+	 </if>
+  	<if test="gridCode != null and gridCode != ''">
+	  and grid.code like '%'||#{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="name != null and name != ''">
+	  and p.name like '%'||#{name,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="unitName != null and unitName != ''">
+		AND u.NAME like '%'||#{unitName,jdbcType=VARCHAR}||'%'
+	</if>
+	<if test="buildName != null and buildName != ''">
+		AND b.BUILD_NAME like '%'||#{buildName,jdbcType=VARCHAR}||'%'
+	</if>
+	<if test="houseNum != null and houseNum != ''">
+		AND h.HOUSE_NUM like '%'||#{houseNum,jdbcType=VARCHAR}||'%'
+	</if>
+	
+	<if test="cid != null and cid != ''">
+		AND p.CID like '%'||#{cid,jdbcType=VARCHAR}||'%'
+	</if>
+		<if test="sex != null and sex != ''">
+		AND p.sex =#{sex,jdbcType=VARCHAR}
+	</if>
+	<if test="totalName != null and totalName != ''">
+		AND total_NAME like '%'||#{totalName,jdbcType=VARCHAR}||'%'
+	</if>
+	<if test="isGuanZhu != null and isGuanZhu != ''">
+		AND p.IS_GUAN_ZHU =#{isGuanZhu,jdbcType=VARCHAR}
+	</if>
+	<if test="codeComeChinaReason != null and codeComeChinaReason.size()>0 ">
+		and (
+		<foreach collection="codeComeChinaReason" item="s" index="index" separator=" or ">
+		   p.CODE_COME_CHINA_REASON =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="codeNationality != null and codeNationality.size()>0 ">
+		and (
+		<foreach collection="codeNationality" item="s" index="index" separator=" or ">
+		   p.CODE_NATIONALITY =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+</select>
+</mapper>

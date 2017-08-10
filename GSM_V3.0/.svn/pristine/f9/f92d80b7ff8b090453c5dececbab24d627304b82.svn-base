@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.user.UserMapper">
+   <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+   <!-- <resultMap id="userResultMap" type="User">
+      <id property="CODE" column="CODE"/>
+      <result property="LOGIN_NAME" column="LOGIN_NAME"/>
+   </resultMap> -->
+   <!-- 保存实体对象  -->
+   <insert id="save" parameterType="User">
+        INSERT INTO R_USERS(LOGIN_NAME) VALUES (#{LOGIN_NAME})
+   </insert>
+    
+    <!-- 更新实体对象   -->
+    <update id="update" parameterType="User">
+        UPDATE R_USERS SET LOGIN_NAME=#{LOGIN_NAME} WHERE CODE=#{CODE}
+    </update>
+    
+    <!-- 删除实体对象  -->
+    <!-- <delete id="delete" parameterType="User">
+        DELETE FROM R_USERS WHERE CODE=#{CODE}
+    </delete> -->
+    
+    <!-- 根据id删除实体对象 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM R_USERS WHERE CODE=#{CODE}
+    </delete>
+    
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByCode" parameterType="int" resultType="User">
+        SELECT * FROM R_USERS WHERE CODE=#{CODE}
+    </select>
+    
+   <!-- 查询所有实体对象集合  -->
+   <select id="queryList" resultType="User">
+   		SELECT * FROM R_USERS ORDER BY CODE ASC   
+   </select>
+    
+   <!-- 查询总记录数据  -->
+   <select id="queryAllCount"  resultType="int">
+   		SELECT COUNT(*) C FROM R_USERS
+   </select>
+    
+</mapper>
+ 

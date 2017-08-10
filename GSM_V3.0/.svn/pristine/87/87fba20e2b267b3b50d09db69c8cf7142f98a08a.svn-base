@@ -1,0 +1,505 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BEnterpriseStoresMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="BEnterpriseStores" id="bEnterpriseStoresResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="ADDFILE" jdbcType="VARCHAR" property="addfile" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+        <result column="AUTHORITY" jdbcType="VARCHAR" property="authority" />
+        <result column="BUILD_NAME" jdbcType="VARCHAR" property="buildName" />
+        <result column="BUSINESS_SECTOR" jdbcType="VARCHAR" property="businessSector" />
+        <result column="CODE_HOUSE_SOURCE" jdbcType="VARCHAR" property="codeHouseSource" />
+        <result column="DEPARTMENT_CODE" jdbcType="VARCHAR" property="departmentCode" />
+        <result column="CESCRIPTION" jdbcType="VARCHAR" property="cescription" />
+        <result column="DOCUMENT_NUM" jdbcType="VARCHAR" property="documentNum" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="GRID_DUTY" jdbcType="VARCHAR" property="gridDuty" />
+        <result column="GRID_PHONE" jdbcType="VARCHAR" property="gridPhone" />
+        <result column="GRID_NAME" jdbcType="VARCHAR" property="gridName" />
+        <result column="HOUSE_CODE" jdbcType="VARCHAR" property="houseCode" />
+        <result column="ID_SECURITY" jdbcType="VARCHAR" property="idSecurity" />
+        <result column="IS_MANAGEMENT" jdbcType="VARCHAR" property="isManagement" />
+        <result column="IS_ORGANAZITION" jdbcType="VARCHAR" property="isOrganazition" />
+        <result column="IS_PARTY" jdbcType="VARCHAR" property="isParty" />
+        <result column="IS_UNION" jdbcType="VARCHAR" property="isUnion" />
+        <result column="LAST_MODIFIED_BY" jdbcType="VARCHAR" property="lastModifiedBy" />
+        <result column="LEGAL_CODE" jdbcType="VARCHAR" property="legalCode" />
+        <result column="LEGAL_PHONE" jdbcType="VARCHAR" property="legalPhone" />
+        <result column="MANAGEMENT_CODE" jdbcType="VARCHAR" property="managementCode" />
+        <result column="MANAGEMENT_DUTY" jdbcType="VARCHAR" property="managementDuty" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="HOUSE_NUM" jdbcType="VARCHAR" property="houseNum" />
+        <result column="ORGANATION_CODE" jdbcType="VARCHAR" property="organationCode" />
+        <result column="ORGANATION_DUTY" jdbcType="VARCHAR" property="organationDuty" />
+        <result column="PEOPLE_WORK_NUM" jdbcType="DECIMAL" property="peopleWorkNum" />
+        <result column="POSITION" jdbcType="VARCHAR" property="position" />
+        <result column="REGISTER_DATE" jdbcType="VARCHAR" property="registerDate" />
+        <result column="TYPE" jdbcType="VARCHAR" property="type" />
+        <result column="UNION_CODE" jdbcType="VARCHAR" property="unionCode" />
+        <result column="UNION_DUTY" jdbcType="VARCHAR" property="unionDuty" />
+        <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName" />
+        <result column="USE_START_DATE" jdbcType="VARCHAR" property="useStartDate" />
+        <result property="gridTotalName" column="GRID_TOTAL_NAME"/>
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="BEnterpriseStores">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO B_ENTERPRISE_STORES 
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    ADDFILE,ADDRESS,AUTHORITY,BUILD_NAME,
+                    BUSINESS_SECTOR,CODE_HOUSE_SOURCE,DEPARTMENT_CODE,CESCRIPTION,
+                    DOCUMENT_NUM,GRID_CODE,GRID_DUTY,GRID_PHONE,
+                    GRID_NAME,HOUSE_CODE,ID_SECURITY,IS_MANAGEMENT,
+                    IS_ORGANAZITION,IS_PARTY,IS_UNION,LAST_MODIFIED_BY,
+                    LEGAL_CODE,LEGAL_PHONE,MANAGEMENT_CODE,MANAGEMENT_DUTY,
+                    NAME,HOUSE_NUM,ORGANATION_CODE,ORGANATION_DUTY,
+                    PEOPLE_WORK_NUM,POSITION,REGISTER_DATE,TYPE,
+                    UNION_CODE,UNION_DUTY,UNIT_NAME,USE_START_DATE
+)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{addfile,jdbcType=VARCHAR},
+                     #{address,jdbcType=VARCHAR},#{authority,jdbcType=VARCHAR},#{buildName,jdbcType=VARCHAR},
+                     #{businessSector,jdbcType=VARCHAR},#{codeHouseSource,jdbcType=VARCHAR},#{departmentCode,jdbcType=VARCHAR},
+                     #{cescription,jdbcType=VARCHAR},#{documentNum,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},
+                     #{gridDuty,jdbcType=VARCHAR},#{gridPhone,jdbcType=VARCHAR},#{gridName,jdbcType=VARCHAR},
+                     #{houseCode,jdbcType=VARCHAR},#{idSecurity,jdbcType=VARCHAR},#{isManagement,jdbcType=VARCHAR},
+                     #{isOrganazition,jdbcType=VARCHAR},#{isParty,jdbcType=VARCHAR},#{isUnion,jdbcType=VARCHAR},
+                     #{lastModifiedBy,jdbcType=VARCHAR},#{legalCode,jdbcType=VARCHAR},#{legalPhone,jdbcType=VARCHAR},
+                     #{managementCode,jdbcType=VARCHAR},#{managementDuty,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
+                     #{houseNum,jdbcType=VARCHAR},#{organationCode,jdbcType=VARCHAR},#{organationDuty,jdbcType=VARCHAR},
+                     #{peopleWorkNum,jdbcType=DECIMAL},#{position,jdbcType=VARCHAR},#{registerDate,jdbcType=VARCHAR},
+                     #{type,jdbcType=VARCHAR},#{unionCode,jdbcType=VARCHAR},#{unionDuty,jdbcType=VARCHAR},
+                     #{unitName,jdbcType=VARCHAR},#{useStartDate,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="BEnterpriseStores">
+        UPDATE B_ENTERPRISE_STORES
+        <set>
+            <if test="addfile != null and addfile != ''">
+                ADDFILE = #{addfile,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null and address != ''">
+                ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="authority != null and authority != ''">
+                AUTHORITY = #{authority,jdbcType=VARCHAR},
+            </if>
+            <if test="buildName != null and buildName != ''">
+                BUILD_NAME = #{buildName,jdbcType=VARCHAR},
+            </if>
+            <if test="businessSector != null and businessSector != ''">
+                BUSINESS_SECTOR = #{businessSector,jdbcType=VARCHAR},
+            </if>
+            <if test="codeHouseSource != null and codeHouseSource != ''">
+                CODE_HOUSE_SOURCE = #{codeHouseSource,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="cescription != null and cescription != ''">
+                CESCRIPTION = #{cescription,jdbcType=VARCHAR},
+            </if>
+            <if test="documentNum != null and documentNum != ''">
+                DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR},
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                GRID_DUTY = #{gridDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                GRID_PHONE = #{gridPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="gridName != null and gridName != ''">
+                GRID_NAME = #{gridName,jdbcType=VARCHAR},
+            </if>
+            <if test="houseCode != null and houseCode != ''">
+                HOUSE_CODE = #{houseCode,jdbcType=VARCHAR},
+            </if>
+            <if test="idSecurity != null and idSecurity != ''">
+                ID_SECURITY = #{idSecurity,jdbcType=VARCHAR},
+            </if>
+            <if test="isManagement != null and isManagement != ''">
+                IS_MANAGEMENT = #{isManagement,jdbcType=VARCHAR},
+            </if>
+            <if test="isOrganazition != null and isOrganazition != ''">
+                IS_ORGANAZITION = #{isOrganazition,jdbcType=VARCHAR},
+            </if>
+            <if test="isParty != null and isParty != ''">
+                IS_PARTY = #{isParty,jdbcType=VARCHAR},
+            </if>
+            <if test="isUnion != null and isUnion != ''">
+                IS_UNION = #{isUnion,jdbcType=VARCHAR},
+            </if>
+            <if test="lastModifiedBy != null and lastModifiedBy != ''">
+                LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=VARCHAR},
+            </if>
+            <if test="legalCode != null and legalCode != ''">
+                LEGAL_CODE = #{legalCode,jdbcType=VARCHAR},
+            </if>
+            <if test="legalPhone != null and legalPhone != ''">
+                LEGAL_PHONE = #{legalPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="managementCode != null and managementCode != ''">
+                MANAGEMENT_CODE = #{managementCode,jdbcType=VARCHAR},
+            </if>
+            <if test="managementDuty != null and managementDuty != ''">
+                MANAGEMENT_DUTY = #{managementDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="houseNum != null and houseNum != ''">
+                HOUSE_NUM = #{houseNum,jdbcType=VARCHAR},
+            </if>
+            <if test="organationCode != null and organationCode != ''">
+                ORGANATION_CODE = #{organationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="organationDuty != null and organationDuty != ''">
+                ORGANATION_DUTY = #{organationDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="peopleWorkNum != null and peopleWorkNum != ''">
+                PEOPLE_WORK_NUM = #{peopleWorkNum,jdbcType=DECIMAL},
+            </if>
+            <if test="position != null and position != ''">
+                POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDate != null and registerDate != ''">
+                REGISTER_DATE = #{registerDate,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null and type != ''">
+                TYPE = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="unionCode != null and unionCode != ''">
+                UNION_CODE = #{unionCode,jdbcType=VARCHAR},
+            </if>
+            <if test="unionDuty != null and unionDuty != ''">
+                UNION_DUTY = #{unionDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="unitName != null and unitName != ''">
+                UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+            </if>
+            <if test="useStartDate != null and useStartDate != ''">
+                USE_START_DATE = #{useStartDate,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE B_ENTERPRISE_STORES SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE B_ENTERPRISE_STORES SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bEnterpriseStoresResult">
+        SELECT * FROM B_ENTERPRISE_STORES WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="bEnterpriseStoresResult">
+        SELECT * FROM B_ENTERPRISE_STORES where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="java.util.Map" resultMap="bEnterpriseStoresResult">
+        SELECT s.*,g.GRID_TOTAL_NAME FROM B_ENTERPRISE_STORES s 
+        join SYS_SEAT_GRID g on g.code=s.grid_code
+        <where>
+            s.FLAG_DEL != 1
+		and g.FLAG_DEL != 1
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE like #{gridCode,jdbcType=VARCHAR}||'%'
+            </if>
+
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="java.util.Map" resultMap="bEnterpriseStoresResult">
+        SELECT B_ENTERPRISE_STORES.*,SYS_SEAT_GRID.GRID_TOTAL_NAME FROM B_ENTERPRISE_STORES 
+        JOIN SYS_SEAT_GRID ON B_ENTERPRISE_STORES.GRID_CODE=SYS_SEAT_GRID.CODE
+        <where>
+            B_ENTERPRISE_STORES.FLAG_DEL != 1
+            and SYS_SEAT_GRID.FLAG_DEL != 1
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="authority != null and authority != ''">
+                AND AUTHORITY = #{authority,jdbcType=VARCHAR}
+            </if>
+            <if test="buildName != null and buildName != ''">
+                AND BUILD_NAME = #{buildName,jdbcType=VARCHAR}
+            </if>
+            <if test="businessSector != null and businessSector != ''">
+                AND BUSINESS_SECTOR = #{businessSector,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseSource != null and codeHouseSource != ''">
+                AND CODE_HOUSE_SOURCE = #{codeHouseSource,jdbcType=VARCHAR}
+                 (
+				<foreach collection="codeHouseSource" item="s" index="index" separator=" or ">
+				  CODE_HOUSE_SOURCE =#{s,jdbcType=VARCHAR}
+				</foreach>
+				)
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                AND DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="cescription != null and cescription != ''">
+                AND CESCRIPTION = #{cescription,jdbcType=VARCHAR}
+            </if>
+            <if test="documentNum != null and documentNum != ''">
+                AND DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE like #{gridCode,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                AND GRID_DUTY = #{gridDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="gridName != null and gridName != ''">
+                AND GRID_NAME like '%'||#{gridName,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="houseCode != null and houseCode != ''">
+                AND HOUSE_CODE = #{houseCode,jdbcType=VARCHAR}
+            </if>
+            <if test="idSecurity != null and idSecurity != ''">
+                AND ID_SECURITY = #{idSecurity,jdbcType=VARCHAR}
+            </if>
+            <if test="isManagement != null and isManagement != ''">
+                AND IS_MANAGEMENT = #{isManagement,jdbcType=VARCHAR}
+            </if>
+            <if test="isOrganazition != null and isOrganazition != ''">
+                AND IS_ORGANAZITION = #{isOrganazition,jdbcType=VARCHAR}
+            </if>
+            <if test="isParty != null and isParty != ''">
+                AND IS_PARTY = #{isParty,jdbcType=VARCHAR}
+            </if>
+            <if test="isUnion != null and isUnion != ''">
+                AND IS_UNION = #{isUnion,jdbcType=VARCHAR}
+            </if>
+            <if test="lastModifiedBy != null and lastModifiedBy != ''">
+                AND LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=VARCHAR}
+            </if>
+            <if test="legalCode != null and legalCode != ''">
+                AND LEGAL_CODE = #{legalCode,jdbcType=VARCHAR}
+            </if>
+            <if test="legalPhone != null and legalPhone != ''">
+                AND LEGAL_PHONE = #{legalPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="managementCode != null and managementCode != ''">
+                AND MANAGEMENT_CODE = #{managementCode,jdbcType=VARCHAR}
+            </if>
+            <if test="managementDuty != null and managementDuty != ''">
+                AND MANAGEMENT_DUTY = #{managementDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND B_ENTERPRISE_STORES.NAME like '%'||#{name,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="houseNum != null and houseNum != ''">
+                AND HOUSE_NUM = #{houseNum,jdbcType=VARCHAR}
+            </if>
+            <if test="organationCode != null and organationCode != ''">
+                AND ORGANATION_CODE = #{organationCode,jdbcType=VARCHAR}
+            </if>
+            <if test="organationDuty != null and organationDuty != ''">
+                AND ORGANATION_DUTY = #{organationDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="peopleWorkNum != null and peopleWorkNum != ''">
+                AND PEOPLE_WORK_NUM = #{peopleWorkNum,jdbcType=DECIMAL}
+            </if>
+            
+            <if test="registerDate != null and registerDate != ''">
+                AND REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null and type != ''">
+                AND B_ENTERPRISE_STORES.TYPE = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="unionCode != null and unionCode != ''">
+                AND UNION_CODE = #{unionCode,jdbcType=VARCHAR}
+            </if>
+            <if test="unionDuty != null and unionDuty != ''">
+                AND UNION_DUTY = #{unionDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+            </if>
+            <if test="useStartDate != null and useStartDate != ''">
+                AND USE_START_DATE = #{useStartDate,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM B_ENTERPRISE_STORES WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="BEnterpriseStores" resultType="Integer">
+        SELECT COUNT(*) C FROM B_ENTERPRISE_STORES 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="addfile != null and addfile != ''">
+                AND ADDFILE = #{addfile,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="authority != null and authority != ''">
+                AND AUTHORITY like '%'||#{authority,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="buildName != null and buildName != ''">
+                AND BUILD_NAME = #{buildName,jdbcType=VARCHAR}
+            </if>
+            <if test="businessSector != null and businessSector != ''">
+                AND BUSINESS_SECTOR = #{businessSector,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseSource != null and codeHouseSource != ''">
+                AND CODE_HOUSE_SOURCE = #{codeHouseSource,jdbcType=VARCHAR}
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                AND DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="cescription != null and cescription != ''">
+                AND CESCRIPTION = #{cescription,jdbcType=VARCHAR}
+            </if>
+            <if test="documentNum != null and documentNum != ''">
+                AND DOCUMENT_NUM = #{documentNum,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                AND GRID_DUTY = #{gridDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="gridName != null and gridName != ''">
+                AND GRID_NAME = #{gridName,jdbcType=VARCHAR}
+            </if>
+            <if test="houseCode != null and houseCode != ''">
+                AND HOUSE_CODE = #{houseCode,jdbcType=VARCHAR}
+            </if>
+            <if test="idSecurity != null and idSecurity != ''">
+                AND ID_SECURITY = #{idSecurity,jdbcType=VARCHAR}
+            </if>
+            <if test="isManagement != null and isManagement != ''">
+                AND IS_MANAGEMENT = #{isManagement,jdbcType=VARCHAR}
+            </if>
+            <if test="isOrganazition != null and isOrganazition != ''">
+                AND IS_ORGANAZITION = #{isOrganazition,jdbcType=VARCHAR}
+            </if>
+            <if test="isParty != null and isParty != ''">
+                AND IS_PARTY = #{isParty,jdbcType=VARCHAR}
+            </if>
+            <if test="isUnion != null and isUnion != ''">
+                AND IS_UNION = #{isUnion,jdbcType=VARCHAR}
+            </if>
+            <if test="lastModifiedBy != null and lastModifiedBy != ''">
+                AND LAST_MODIFIED_BY = #{lastModifiedBy,jdbcType=VARCHAR}
+            </if>
+            <if test="legalCode != null and legalCode != ''">
+                AND LEGAL_CODE = #{legalCode,jdbcType=VARCHAR}
+            </if>
+            <if test="legalPhone != null and legalPhone != ''">
+                AND LEGAL_PHONE = #{legalPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="managementCode != null and managementCode != ''">
+                AND MANAGEMENT_CODE = #{managementCode,jdbcType=VARCHAR}
+            </if>
+            <if test="managementDuty != null and managementDuty != ''">
+                AND MANAGEMENT_DUTY = #{managementDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="houseNum != null and houseNum != ''">
+                AND HOUSE_NUM = #{houseNum,jdbcType=VARCHAR}
+            </if>
+            <if test="organationCode != null and organationCode != ''">
+                AND ORGANATION_CODE = #{organationCode,jdbcType=VARCHAR}
+            </if>
+            <if test="organationDuty != null and organationDuty != ''">
+                AND ORGANATION_DUTY = #{organationDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="peopleWorkNum != null and peopleWorkNum != ''">
+                AND PEOPLE_WORK_NUM = #{peopleWorkNum,jdbcType=DECIMAL}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+            <if test="registerDate != null and registerDate != ''">
+                AND REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null and type != ''">
+                AND TYPE = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="unionCode != null and unionCode != ''">
+                AND UNION_CODE = #{unionCode,jdbcType=VARCHAR}
+            </if>
+            <if test="unionDuty != null and unionDuty != ''">
+                AND UNION_DUTY = #{unionDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+            </if>
+            <if test="useStartDate != null and useStartDate != ''">
+                AND USE_START_DATE = #{useStartDate,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.partybuilding.mapperinterf.PartyMemberManagerMapper">
+   <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+   <resultMap type="PartyMemberManager" id="partymembermanagerResult">
+            <id column="CODE" property="code"/>
+        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+	    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+	    <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+	    <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+	    <result column="SORT" jdbcType="DECIMAL" property="sort" />
+	    <result column="REMARK" jdbcType="VARCHAR" property="remark" />	    
+		<result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+		<result column="PERSON_CODE" jdbcType="VARCHAR" property="personCode" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="SEX" jdbcType="VARCHAR" property="sex" />
+		<result column="CID" jdbcType="VARCHAR" property="cid" />
+		<result column="RESIDENCE_ADDRESS" jdbcType="VARCHAR" property="residenceAddress" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone" />
+		<result column="TEL" jdbcType="VARCHAR" property="tel" />
+		<result column="IN_PARTY_DATE" jdbcType="VARCHAR" property="inPartyDate" />
+		<result column="CODE_PARTY_TYPE" jdbcType="VARCHAR" property="codePartyType" />
+		<result column="CODE_IS_DIFFCUT_PART" jdbcType="VARCHAR" property="codeIsDiffcutPart" />
+		<result column="CODE_NATION" jdbcType="VARCHAR" property="codeNation" />
+		<result column="CODE_POLITICAL" jdbcType="VARCHAR" property="codePolitical" />
+		<result column="CODE_EDUCATION" jdbcType="VARCHAR" property="codeEducation" />
+		<result column="CODE_MARRIAGE" jdbcType="VARCHAR" property="codeMarriage" />
+		<result column="POSITION" jdbcType="VARCHAR" property="position" />
+		<association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>
+   </resultMap>
+   <!-- 关联表需要的列 -->
+    <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+   <!-- <parameterMap type="map" id="paramMap">
+      <parameter property="param" javaType="com.dykj.GSM.model.User" jdbcType="OTHER"/>
+   </parameterMap> -->
+   <!-- 保存实体对象  -->
+   <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+   <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+   <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+   如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+   <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement 和CallableStatement 类型。 -->
+   <insert id="insert" parameterType="PartyMemberManager">
+      <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+        INSERT INTO PARTY_MEMBER_MANAGER
+               (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,GRID_CODE,PERSON_CODE,NAME,
+				SEX,CID,RESIDENCE_ADDRESS,ADDRESS,PHONE,TEL,IN_PARTY_DATE,
+				CODE_PARTY_TYPE,CODE_IS_DIFFCUT_PART,CODE_NATION,CODE_POLITICAL,
+				CODE_EDUCATION,CODE_MARRIAGE,POSITION)
+        VALUES (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR},
+				#{remark,jdbcType=VARCHAR}, #{gridCode,jdbcType=VARCHAR}, #{personCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+				#{sex,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{residenceAddress,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+				#{phone,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{inPartyDate,jdbcType=VARCHAR}, #{codePartyType,jdbcType=VARCHAR},
+				#{codeIsDiffcutPart,jdbcType=VARCHAR}, #{codeNation,jdbcType=VARCHAR}, #{codePolitical,jdbcType=VARCHAR}, #{codeEducation,jdbcType=VARCHAR},
+				#{codeMarriage,jdbcType=VARCHAR},#{position,jdbcType=VARCHAR})
+   </insert>
+    
+    <!-- 更新实体对象   -->
+    <update id="update" parameterType="PartyMemberManager">
+        UPDATE PARTY_MEMBER_MANAGER 
+        <set>
+              <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        SORT = #{sort,jdbcType=DECIMAL},
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        REMARK = #{remark,jdbcType=VARCHAR},
+		      </if>
+				<if test="gridCode != null and gridCode != ''">
+				  GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+				</if>
+				<if test="personCode != null and personCode != ''">
+				  PERSON_CODE = #{personCode,jdbcType=VARCHAR},
+				</if>
+				<if test="name != null and name != ''">
+				  NAME = #{name,jdbcType=VARCHAR},
+				</if>
+				<if test="sex != null and sex != ''">
+				  SEX = #{sex,jdbcType=VARCHAR},
+				</if>
+				<if test="cid != null and cid != ''">
+				  CID = #{cid,jdbcType=VARCHAR},
+				</if>
+				<if test="residenceAddress != null and residenceAddress != ''">
+				  RESIDENCE_ADDRESS = #{residenceAddress,jdbcType=VARCHAR},
+				</if>
+				<if test="address != null and address != ''">
+				  ADDRESS = #{address,jdbcType=VARCHAR},
+				</if>
+				<if test="phone != null and phone != ''">
+				  PHONE = #{phone,jdbcType=VARCHAR},
+				</if>
+				<if test="position != null and position != ''">
+                   POSITION = #{position,jdbcType=VARCHAR},
+                </if>
+				<if test="tel != null and tel != ''">
+				  TEL = #{tel,jdbcType=VARCHAR},
+				</if>
+				<if test="inPartyDate != null and inPartyDate != ''">
+				  IN_PARTY_DATE = #{inPartyDate,jdbcType=VARCHAR},
+				</if>
+				<if test="codePartyType != null and codePartyType != ''">
+				  CODE_PARTY_TYPE = #{codePartyType,jdbcType=VARCHAR},
+				</if>
+				<if test="codeIsDiffcutPart != null and codeIsDiffcutPart != ''">
+				  CODE_IS_DIFFCUT_PART = #{codeIsDiffcutPart,jdbcType=VARCHAR},
+				</if>
+				<if test="codeNation != null and codeNation != ''">
+				  CODE_NATION = #{codeNation,jdbcType=VARCHAR},
+				</if>
+				<if test="codePolitical != null and codePolitical != ''">
+				  CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR},
+				</if>
+				<if test="codeEducation != null and codeEducation != ''">
+				  CODE_EDUCATION = #{codeEducation,jdbcType=VARCHAR},
+				</if>
+				<if test="codeMarriage != null and codeMarriage != ''">
+				  CODE_MARRIAGE = #{codeMarriage,jdbcType=VARCHAR},
+				</if>
+        </set> 
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+     <!-- 更新实体对象 (参数)  -->
+    <update id="updateParam" parameterType="java.util.Map">
+       UPDATE PARTY_MEMBER_MANAGER 
+         <set>
+              <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+		      </if>
+		      <if test="flagDel != null and flagDel != ''">
+                FLAG_DEL = #{flagDel,jdbcType=VARCHAR},
+              </if>
+		      <if test="flagDisplay != null and flagDisplay != ''">
+		        FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        SORT = #{sort,jdbcType=DECIMAL},
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        REMARK = #{remark,jdbcType=VARCHAR},
+		      </if>
+				<if test="gridCode != null and gridCode != ''">
+				  GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+				</if>
+				<if test="personCode != null and personCode != ''">
+				  PERSON_CODE = #{personCode,jdbcType=VARCHAR},
+				</if>
+				<if test="name != null and name != ''">
+				  NAME = #{name,jdbcType=VARCHAR},
+				</if>
+				<if test="sex != null and sex != ''">
+				  SEX = #{sex,jdbcType=VARCHAR},
+				</if>
+				<if test="cid != null and cid != ''">
+				  CID = #{cid,jdbcType=VARCHAR},
+				</if>
+				<if test="residenceAddress != null and residenceAddress != ''">
+				  RESIDENCE_ADDRESS = #{residenceAddress,jdbcType=VARCHAR},
+				</if>
+				<if test="address != null and address != ''">
+				  ADDRESS = #{address,jdbcType=VARCHAR},
+				</if>
+				<if test="phone != null and phone != ''">
+				  PHONE = #{phone,jdbcType=VARCHAR},
+				</if>
+				<if test="tel != null and tel != ''">
+				  TEL = #{tel,jdbcType=VARCHAR},
+				</if>
+				<if test="inPartyDate != null and inPartyDate != ''">
+				  IN_PARTY_DATE = #{inPartyDate,jdbcType=VARCHAR},
+				</if>
+				<if test="codePartyType != null and codePartyType != ''">
+				  CODE_PARTY_TYPE = #{codePartyType,jdbcType=VARCHAR},
+				</if>
+				<if test="codeIsDiffcutPart != null and codeIsDiffcutPart != ''">
+				  CODE_IS_DIFFCUT_PART = #{codeIsDiffcutPart,jdbcType=VARCHAR},
+				</if>
+				<if test="codeNation != null and codeNation != ''">
+				  CODE_NATION = #{codeNation,jdbcType=VARCHAR},
+				</if>
+				<if test="codePolitical != null and codePolitical != ''">
+				  CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR},
+				</if>
+				<if test="codeEducation != null and codeEducation != ''">
+				  CODE_EDUCATION = #{codeEducation,jdbcType=VARCHAR},
+				</if>
+				<if test="codeMarriage != null and codeMarriage != ''">
+				  CODE_MARRIAGE = #{codeMarriage,jdbcType=VARCHAR},
+				</if>
+		   
+        </set>
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+     <!-- 批量更新 (注：由于业务上暂时没有要求，
+     所以预留批量更新的接口，但没有具体实现功能)-->  
+   <update id="updateBatch" parameterType="PartyMemberManager"></update>
+    
+    <!-- 根据主键删除实体对象 -->
+    <!-- <delete id="deletePk" parameterType="int">
+        DELETE FROM R_USERS WHERE CODE=#{code}
+    </delete> -->
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+    <update id="deletePk" parameterType="String">
+       UPDATE PARTY_MEMBER_MANAGER SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+    
+    <!-- 根据参数删除实体对象(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteParam" parameterType="int">
+    </update>
+    
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE PARTY_MEMBER_MANAGER SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+    
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="partymembermanagerResult">
+        SELECT PARTY_MEMBER_MANAGER.*,SSG.GRID_TOTAL_NAME FROM PARTY_MEMBER_MANAGER LEFT JOIN 
+        SYS_SEAT_GRID SSG ON SSG.CODE = PARTY_MEMBER_MANAGER.GRID_CODE WHERE PARTY_MEMBER_MANAGER.FLAG_DEL != 1 AND PARTY_MEMBER_MANAGER.CODE=#{code}
+    </select>
+    
+    <!-- 比较是否添加相同用户如果相同这不允许添加  -->
+    <select id="compareSameUser" parameterType="String" resultMap="partymembermanagerResult">
+        SELECT * FROM PARTY_MEMBER_MANAGER WHERE PARTY_MEMBER_MANAGER.FLAG_DEL!=1 AND PARTY_MEMBER_MANAGER.PERSON_CODE = #{personCode}
+    </select>
+    
+     <!-- 查询所有实体对象集合  -->
+   <select id="queryList" resultMap="partymembermanagerResult">
+   		SELECT * FROM PARTY_MEMBER_MANAGER where FLAG_DEL !=1 ORDER BY CODE ASC 
+   </select>
+    
+   <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryListParam" parameterType="PartyMemberManager" resultMap="partymembermanagerResult">
+   		   SELECT * FROM PARTY_MEMBER_MANAGER 
+   		   <where>
+   		      FLAG_DEL != 1
+		     <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+              </if>
+		      <if test="flagDisplay != null and flagDisplay != ''">
+		        AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        AND SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        AND REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+				<if test="gridCode != null and gridCode != ''">
+				  AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+				</if>
+				<if test="personCode != null and personCode != ''">
+				  AND PERSON_CODE = #{personCode,jdbcType=VARCHAR}
+				</if>
+				<if test="name != null and name != ''">
+				  AND NAME = #{name,jdbcType=VARCHAR}
+				</if>
+				<if test="sex != null and sex != ''">
+				  AND SEX = #{sex,jdbcType=VARCHAR}
+				</if>
+				<if test="cid != null and cid != ''">
+				  AND CID = #{cid,jdbcType=VARCHAR}
+				</if>
+				<if test="residenceAddress != null and residenceAddress != ''">
+				  AND RESIDENCE_ADDRESS = #{residenceAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="address != null and address != ''">
+				  AND ADDRESS = #{address,jdbcType=VARCHAR}
+				</if>
+				<if test="phone != null and phone != ''">
+				  AND PHONE = #{phone,jdbcType=VARCHAR}
+				</if>
+				<if test="tel != null and tel != ''">
+				  AND TEL = #{tel,jdbcType=VARCHAR}
+				</if>
+				<if test="inPartyDate != null and inPartyDate != ''">
+				  AND IN_PARTY_DATE = #{inPartyDate,jdbcType=VARCHAR}
+				</if>
+				<if test="codePartyType != null and codePartyType != ''">
+				  AND CODE_PARTY_TYPE = #{codePartyType,jdbcType=VARCHAR}
+				</if>
+				<if test="codeIsDiffcutPart != null and codeIsDiffcutPart != ''">
+				  AND CODE_IS_DIFFCUT_PART = #{codeIsDiffcutPart,jdbcType=VARCHAR}
+				</if>
+				<if test="codeNation != null and codeNation != ''">
+				  AND CODE_NATION = #{codeNation,jdbcType=VARCHAR}
+				</if>
+				<if test="codePolitical != null and codePolitical != ''">
+				  AND CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR}
+				</if>
+				<if test="codeEducation != null and codeEducation != ''">
+				  AND CODE_EDUCATION = #{codeEducation,jdbcType=VARCHAR}
+				</if>
+				<if test="codeMarriage != null and codeMarriage != ''">
+				  AND CODE_MARRIAGE = #{codeMarriage,jdbcType=VARCHAR}
+				</if>
+		
+   		   </where>
+   </select>
+   
+    <!-- 分页查询,所有实体对象集合  -->
+   <select id="queryParamPage" parameterType="PartyMemberManager" resultMap="partymembermanagerResult">
+   		   SELECT PARTY_MEMBER_MANAGER.*,SSG.GRID_TOTAL_NAME FROM PARTY_MEMBER_MANAGER LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = PARTY_MEMBER_MANAGER.GRID_CODE
+   		   <where>
+   		      PARTY_MEMBER_MANAGER.FLAG_DEL != 1
+		      <if test="createDate != null and createDate != ''">
+		        AND PARTY_MEMBER_MANAGER.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        AND PARTY_MEMBER_MANAGER.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        AND PARTY_MEMBER_MANAGER.SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        AND PARTY_MEMBER_MANAGER.REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>	      
+				<if test="gridCode != null and gridCode != ''">
+				  AND PARTY_MEMBER_MANAGER.GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+				</if>
+				<if test="personCode != null and personCode != ''">
+				  AND PARTY_MEMBER_MANAGER.PERSON_CODE = #{personCode,jdbcType=VARCHAR}
+				</if>
+				<if test="name != null and name != ''">
+				  AND PARTY_MEMBER_MANAGER.NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+				</if>
+				<if test="sex != null and sex != ''">
+				  AND PARTY_MEMBER_MANAGER.SEX LIKE CONCAT(CONCAT('%', #{sex,jdbcType=VARCHAR}),'%')
+				</if>
+				<if test="cid != null and cid != ''">
+				  AND PARTY_MEMBER_MANAGER.CID LIKE CONCAT(CONCAT('%', #{cid,jdbcType=VARCHAR}),'%')	
+				</if>
+				<if test="residenceAddress != null and residenceAddress != ''">
+				  AND PARTY_MEMBER_MANAGER.RESIDENCE_ADDRESS = #{residenceAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="address != null and address != ''">
+				  AND PARTY_MEMBER_MANAGER.ADDRESS = #{address,jdbcType=VARCHAR}
+				</if>
+				<if test="phone != null and phone != ''">
+				  AND PARTY_MEMBER_MANAGER.PHONE = #{phone,jdbcType=VARCHAR}
+				</if>
+				<if test="tel != null and tel != ''">
+				  AND PARTY_MEMBER_MANAGER.TEL = #{tel,jdbcType=VARCHAR}
+				</if>
+				<if test="inPartyDate != null and inPartyDate != ''">
+				  AND PARTY_MEMBER_MANAGER.IN_PARTY_DATE = #{inPartyDate,jdbcType=VARCHAR}
+				</if>
+				<if test="codePartyType != null and codePartyType != ''">
+				  AND PARTY_MEMBER_MANAGER.CODE_PARTY_TYPE LIKE CONCAT(CONCAT('%', #{codePartyType,jdbcType=VARCHAR}),'%')				
+				</if>
+				<if test="codeIsDiffcutPart != null and codeIsDiffcutPart != ''">
+				  AND PARTY_MEMBER_MANAGER.CODE_IS_DIFFCUT_PART = #{codeIsDiffcutPart,jdbcType=VARCHAR}
+				</if>
+				<if test="codeNation != null and codeNation != ''">
+				  AND PARTY_MEMBER_MANAGER.CODE_NATION = #{codeNation,jdbcType=VARCHAR}
+				</if>
+				<if test="codePolitical != null and codePolitical != ''">
+				  AND PARTY_MEMBER_MANAGER.CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR}
+				</if>
+				<if test="codeEducation != null and codeEducation != ''">
+				  AND PARTY_MEMBER_MANAGER.CODE_EDUCATION LIKE CONCAT(CONCAT('%', #{codeEducation,jdbcType=VARCHAR}),'%')
+				</if>
+				<if test="codeMarriage != null and codeMarriage != ''">
+				  AND PARTY_MEMBER_MANAGER.CODE_MARRIAGE = #{codeMarriage,jdbcType=VARCHAR}
+				</if>
+   		   </where>
+   </select>
+   
+    <!-- 分页带参,查询所有实体对象集合  -->
+   <select id="queryPage" parameterType="java.util.Map" resultMap="partymembermanagerResult">
+   		SELECT * FROM PARTY_MEMBER_MANAGER where FLAG_DEL !=1 
+   </select>
+    
+   <!--  查询总记录数据  -->
+   <select id="queryAllCount"  resultType="Integer">
+   		SELECT COUNT(*) C FROM PARTY_MEMBER_MANAGER WHERE FLAG_DEL != 1
+   </select>
+   
+    <!--  查询总记录数据  -->
+   <select id="queryAllCountParam" parameterType="PartyMemberManager" resultType="Integer">
+   		<!-- <bind name="loginName" value="'%'+_parameter.loginName+'%'"/> -->
+   		   SELECT COUNT(*) C FROM PARTY_MEMBER_MANAGER  
+   		   <where>
+   		      FLAG_DEL != 1
+		      <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        AND SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        AND REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+			    <if test="gridCode != null and gridCode != ''">
+				  AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+				</if>
+				<if test="personCode != null and personCode != ''">
+				  AND PERSON_CODE = #{personCode,jdbcType=VARCHAR}
+				</if>
+				<if test="name != null and name != ''">
+				  AND NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+				</if>
+				<if test="sex != null and sex != ''">
+				  AND SEX LIKE CONCAT(CONCAT('%', #{sex,jdbcType=VARCHAR}),'%')
+				</if>
+				<if test="cid != null and cid != ''">
+				  AND CID LIKE CONCAT(CONCAT('%', #{cid,jdbcType=VARCHAR}),'%')
+				</if>
+				<if test="residenceAddress != null and residenceAddress != ''">
+				  AND RESIDENCE_ADDRESS = #{residenceAddress,jdbcType=VARCHAR}
+				</if>
+				<if test="address != null and address != ''">
+				  AND ADDRESS = #{address,jdbcType=VARCHAR}
+				</if>
+				<if test="phone != null and phone != ''">
+				  AND PHONE = #{phone,jdbcType=VARCHAR}
+				</if>
+				<if test="tel != null and tel != ''">
+				  AND TEL = #{tel,jdbcType=VARCHAR}
+				</if>
+				<if test="inPartyDate != null and inPartyDate != ''">
+				  AND IN_PARTY_DATE = #{inPartyDate,jdbcType=VARCHAR}
+				</if>
+				<if test="codePartyType != null and codePartyType != ''">
+				  AND CODE_PARTY_TYPE LIKE CONCAT(CONCAT('%', #{codePartyType,jdbcType=VARCHAR}),'%')				
+				</if>
+				<if test="codeIsDiffcutPart != null and codeIsDiffcutPart != ''">
+				  AND CODE_IS_DIFFCUT_PART = #{codeIsDiffcutPart,jdbcType=VARCHAR}
+				</if>
+				<if test="codeNation != null and codeNation != ''">
+				  AND CODE_NATION = #{codeNation,jdbcType=VARCHAR}
+				</if>
+				<if test="codePolitical != null and codePolitical != ''">
+				  AND CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR}
+				</if>
+				<if test="codeEducation != null and codeEducation != ''">
+				  AND CODE_EDUCATION LIKE CONCAT(CONCAT('%', #{codeEducation,jdbcType=VARCHAR}),'%')
+				</if>
+				<if test="codeMarriage != null and codeMarriage != ''">
+				  AND CODE_MARRIAGE = #{codeMarriage,jdbcType=VARCHAR}
+				</if>
+   		   </where>
+   </select>
+</mapper>
+ 

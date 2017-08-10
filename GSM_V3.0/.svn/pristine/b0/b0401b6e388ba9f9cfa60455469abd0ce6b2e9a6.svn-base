@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BPerBfDiBaoMapper" >
+  <resultMap id="perBfDiBaoResult" type="BPerBfDiBao" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+   <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PERSON_CODE" property="personCode" jdbcType="VARCHAR" />
+    <result column="LOW_PROTECT_NUM" property="lowProtectNum" jdbcType="VARCHAR" />
+    <result column="SEND_DATE" property="sendDate" jdbcType="VARCHAR" />
+    <result column="IS_FIVE_PROTECT" property="isFiveProtect" jdbcType="CHAR" />
+    <result column="GUARANTEE" property="guarantee" jdbcType="DECIMAL" />
+    <result column="MONTH_GUARANTEE" property="monthGuarantee" jdbcType="DECIMAL" />
+    <result column="BANG_FU_REMARK" property="bangFuRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, PERSON_CODE, 
+    LOW_PROTECT_NUM, SEND_DATE, IS_FIVE_PROTECT, GUARANTEE, MONTH_GUARANTEE, BANG_FU_REMARK
+  </sql>
+  <insert id="insert" parameterType="BPerBfDiBao" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+   insert into B_PER_BF_DI_BAO (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, PERSON_CODE, LOW_PROTECT_NUM, 
+      SEND_DATE, IS_FIVE_PROTECT, GUARANTEE, 
+      MONTH_GUARANTEE, BANG_FU_REMARK)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{personCode,jdbcType=VARCHAR}, #{lowProtectNum,jdbcType=VARCHAR}, 
+      #{sendDate,jdbcType=VARCHAR}, #{isFiveProtect,jdbcType=CHAR}, #{guarantee,jdbcType=DECIMAL}, 
+      #{monthGuarantee,jdbcType=DECIMAL}, #{bangFuRemark,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="BPerBfDiBao" >
+   update B_PER_BF_DI_BAO
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="personCode != null" >
+        PERSON_CODE = #{personCode,jdbcType=VARCHAR},
+      </if>
+      <if test="lowProtectNum != null" >
+        LOW_PROTECT_NUM = #{lowProtectNum,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        SEND_DATE = #{sendDate,jdbcType=VARCHAR},
+      </if>
+      <if test="isFiveProtect != null" >
+        IS_FIVE_PROTECT = #{isFiveProtect,jdbcType=CHAR},
+      </if>
+      <if test="guarantee != null" >
+        GUARANTEE = #{guarantee,jdbcType=DECIMAL},
+      </if>
+      <if test="monthGuarantee != null" >
+        MONTH_GUARANTEE = #{monthGuarantee,jdbcType=DECIMAL},
+      </if>
+      <if test="bangFuRemark != null" >
+        BANG_FU_REMARK = #{bangFuRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_PER_BF_DI_BAO SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+   <update id="deleteByPersonCode" parameterType="String">
+       UPDATE B_PER_BF_DI_BAO SET FLAG_DEL=1 WHERE person_code=#{personCode}
+   </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="perBfDiBaoResult">
+        SELECT h.* FROM B_PER_BF_DI_BAO h
+                WHERE h.FLAG_DEL != 1 AND h.CODE=#{code}
+    </select>
+      <!-- 根据基本信息code查询流动人员的信息  -->
+    <select id="queryByPersonCode" parameterType="String" resultMap="perBfDiBaoResult">
+        SELECT h.* FROM B_PER_BF_DI_BAO h
+        WHERE h.FLAG_DEL != 1 AND h.person_code=#{personCode}
+    </select>
+</mapper>

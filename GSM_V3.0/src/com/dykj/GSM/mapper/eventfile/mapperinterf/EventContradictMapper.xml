@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.eventfile.mapperinterf.EventContradictMapper">
+   <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+   <resultMap type="EventContradict" id="eventContradict">
+           <id column="CODE" property="code" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />    
+    <result column="GRID_CODE" property="gridCode" jdbcType="VARCHAR" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GRID_NUM" property="gridNum" jdbcType="VARCHAR" />
+    <result column="CODEEVENT_TYPE" property="codeEventType" jdbcType="VARCHAR" />
+    <result column="CONTRADICTIONS_DATE" property="contradictionsDate" jdbcType="VARCHAR" />
+    <result column="RESOLVE_DATE" property="resolveDate" jdbcType="VARCHAR" />
+    <result column="CONTRADICTIONS" property="contradictions" jdbcType="CHAR" />
+    <result column="CONTRADICTIONS_PARTY" property="contradictionsParty" jdbcType="VARCHAR" />
+    <result column="CONTRADICTIONS_PERSONS" property="contradictionsPersons" jdbcType="VARCHAR" />
+    <result column="CONTRADICTIONS_SITUATION" property="contradictionsSituation" jdbcType="VARCHAR" />
+    <result column="TAKE_NAME" property="takeName" jdbcType="VARCHAR" />
+    <result column="STABILITY_NAME" property="stabilityName" jdbcType="VARCHAR" />
+    <result column="STABILITY_MEASURE" property="stabilityMeasure" jdbcType="VARCHAR" />
+    <result column="PROBLEM_UNIT" property="problemUnit" jdbcType="VARCHAR" />
+    <result column="PROBLEM_NAME" property="problemName" jdbcType="VARCHAR" />
+    <result column="PROBLEM_RESOLUTION" property="problemResolution" jdbcType="VARCHAR" />
+    <result column="FEED_BAKE" property="feedBake" jdbcType="VARCHAR" />
+    <result column="SUPERVISION_DUTY" property="supervisionDuty" jdbcType="VARCHAR" />
+    <result column="SUPERVISION_PERSON" property="supervisionPerson" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="REGISTER_DATE" property="registerDate" jdbcType="VARCHAR" />
+    <result column="MRMARK" property="mrmark" jdbcType="VARCHAR" />
+    <result column="CONTRADICT_PHOTO" property="contradictPhoto" jdbcType="VARCHAR" />
+   <association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>	       
+   </resultMap>
+   <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+   <resultMap id="tempResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+   <!-- <parameterMap type="map" id="paramMap">
+      <parameter property="param" javaType="com.dykj.GSM.model.User" jdbcType="OTHER"/>
+   </parameterMap> -->
+   <!-- 保存实体对象  -->
+   <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+   <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+   <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+   如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+   <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement 和CallableStatement 类型。 -->
+   <insert id="insert" parameterType="EventContradict">
+      <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+        INSERT INTO EVENT_CONTRADICT
+               (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,GRID_CODE,ID,GRID_NUM,CODEEVENT_TYPE,CONTRADICTIONS_DATE,
+               RESOLVE_DATE,CONTRADICTIONS,CONTRADICTIONS_PARTY,CONTRADICTIONS_PERSONS,CONTRADICTIONS_SITUATION,TAKE_NAME,
+               STABILITY_NAME,STABILITY_MEASURE,PROBLEM_UNIT,PROBLEM_NAME,PROBLEM_RESOLUTION,FEED_BAKE,SUPERVISION_DUTY,
+               SUPERVISION_PERSON,POSITION,REGISTER_DATE,MRMARK,CONTRADICT_PHOTO) 
+        VALUES (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR}, #{gridCode,jdbcType=VARCHAR}, 
+                #{id,jdbcType=VARCHAR}, #{gridNum,jdbcType=VARCHAR}, #{codeEventType,jdbcType=VARCHAR}, #{contradictionsDate,jdbcType=VARCHAR},
+                #{resolveDate,jdbcType=VARCHAR}, #{contradictions,jdbcType=CHAR}, #{contradictionsParty,jdbcType=VARCHAR}, 
+                #{contradictionsPersons,jdbcType=VARCHAR},#{contradictionsSituation,jdbcType=VARCHAR},#{takeName,jdbcType=VARCHAR},             
+                #{stabilityName,jdbcType=VARCHAR}, #{stabilityMeasure,jdbcType=VARCHAR}, #{problemUnit,jdbcType=VARCHAR}, #{problemName,jdbcType=VARCHAR},
+                #{problemResolution,jdbcType=VARCHAR}, #{feedBake,jdbcType=VARCHAR}, 
+                #{supervisionDuty,jdbcType=VARCHAR}, #{supervisionPerson,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{registerDate,jdbcType=VARCHAR},
+                #{mrmark,jdbcType=VARCHAR}, #{contradictPhoto,jdbcType=VARCHAR})
+   </insert>
+    
+    
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="EventContradict">
+        UPDATE EVENT_CONTRADICT
+        <set>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="id != null and id != ''">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="gridNum != null and gridNum != ''">
+                GRID_NUM = #{gridNum,jdbcType=VARCHAR},
+            </if>
+            <if test="codeEventType != null and codeEventType != ''">
+                CODEEVENT_TYPE = #{codeEventType,jdbcType=VARCHAR},
+            </if>
+            <if test="contradictionsDate != null and contradictionsDate != ''">
+                CONTRADICTIONS_DATE = #{contradictionsDate,jdbcType=VARCHAR},
+            </if>
+            <if test="resolveDate != null and resolveDate != ''">
+                RESOLVE_DATE = #{resolveDate,jdbcType=VARCHAR},
+            </if>
+            <if test="contradictions != null and contradictions != ''">
+                CONTRADICTIONS = #{contradictions,jdbcType=VARCHAR},
+            </if>
+            <if test="contradictionsParty != null and contradictionsParty != ''">
+                CONTRADICTIONS_PARTY = #{contradictionsParty,jdbcType=VARCHAR},
+            </if>
+            <if test="contradictionsPersons != null and contradictionsPersons != ''">
+                CONTRADICTIONS_PERSONS = #{contradictionsPersons,jdbcType=VARCHAR},
+            </if>
+            <if test="contradictionsSituation != null and contradictionsSituation != ''">
+                CONTRADICTIONS_SITUATION = #{contradictionsSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="takeName != null and takeName != ''">
+                TAKE_NAME = #{takeName,jdbcType=VARCHAR},
+            </if>
+            <if test="stabilityName != null and stabilityName != ''">
+                STABILITY_NAME = #{stabilityName,jdbcType=VARCHAR},
+            </if>
+            <if test="stabilityMeasure != null and stabilityMeasure != ''">
+                STABILITY_MEASURE = #{stabilityMeasure,jdbcType=VARCHAR},
+            </if>
+            <if test="problemUnit != null and problemUnit != ''">
+                PROBLEM_UNIT = #{problemUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="problemName != null and problemName != ''">
+                PROBLEM_NAME = #{problemName,jdbcType=VARCHAR},
+            </if>
+            <if test="problemResolution != null and problemResolution != ''">
+                PROBLEM_RESOLUTION = #{problemResolution,jdbcType=VARCHAR},
+            </if>
+            <if test="feedBake != null and feedBake != ''">
+                FEED_BAKE = #{feedBake,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisionDuty != null and supervisionDuty != ''">
+                SUPERVISION_DUTY = #{supervisionDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="supervisionPerson != null and supervisionPerson != ''">
+                SUPERVISION_PERSON = #{supervisionPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDate != null and registerDate != ''">
+                REGISTER_DATE = #{registerDate,jdbcType=VARCHAR},
+            </if>
+            <if test="mrmark != null and mrmark != ''">
+                MRMARK = #{mrmark,jdbcType=VARCHAR},
+            </if>
+            <if test="contradictPhoto != null and contradictPhoto != ''">
+                CONTRADICT_PHOTO = #{contradictPhoto,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+     <!-- 更新实体对象 (参数)  -->
+    <update id="updateParam" parameterType="java.util.Map">
+       UPDATE EVENT_CONTRADICT 
+         <set>
+             <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        SORT = #{sort,jdbcType=DECIMAL},
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        REMARK = #{remark,jdbcType=VARCHAR},
+		      </if>
+		      <if test="gridCode != null and gridCode != ''">
+		        GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+		      </if>
+		      <if test="id != null and id != ''">
+		        ID = #{id,jdbcType=VARCHAR},
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		        GRID_NUM = #{gridNum,jdbcType=VARCHAR},
+		      </if>
+		      <if test="codeEventType != null and codeEventType != ''">
+		        CODEEVENT_TYPE = #{codeEventType,jdbcType=VARCHAR},
+		      </if>
+		      <if test="contradictionsDate != null and contradictionsDate != ''">
+		        CONTRADICTIONS_DATE = #{contradictionsDate,jdbcType=VARCHAR},
+		      </if>
+		      <if test="resolveDate != null and resolveDate != ''">
+		        RESOLVE_DATE = #{resolveDate,jdbcType=VARCHAR},
+		      </if>
+		      <if test="contradictions != null and contradictions != ''">
+		        CONTRADICTIONS = #{contradictions,jdbcType=CHAR},
+		      </if>
+		      <if test="contradictionsParty != null and contradictionsParty != ''">
+		        CONTRADICTIONS_PARTY = #{contradictionsParty,jdbcType=VARCHAR},
+		      </if>
+		      <if test="contradictionsPersons != null and contradictionsPersons != ''">
+		        CONTRADICTIONS_PERSONS = #{contradictionsPersons,jdbcType=VARCHAR},
+		      </if>
+		      <if test="contradictionsSituation != null and contradictionsSituation != ''">
+		        CONTRADICTIONS_SITUATION = #{contradictionsSituation,jdbcType=VARCHAR},
+		      </if>
+		      <if test="takeName != null and takeName != ''">
+		        TAKE_NAME = #{takeName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="stabilityName != null and stabilityName != ''">
+		        STABILITY_NAME = #{stabilityName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="stabilityMeasure != null and stabilityMeasure != ''">
+		        STABILITY_MEASURE = #{stabilityMeasure,jdbcType=VARCHAR},
+		      </if>
+		      <if test="problemUnit != null and problemUnit != ''">
+		        PROBLEM_UNIT = #{problemUnit,jdbcType=VARCHAR},
+		      </if>
+		      <if test="problemName != null and problemName != ''">
+		        PROBLEM_NAME = #{problemName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="problemResolution != null and problemResolution != ''">
+		        PROBLEM_RESOLUTION = #{problemResolution,jdbcType=VARCHAR},
+		      </if>
+		      <if test="feedBake != null and feedBake != ''">
+		        FEED_BAKE = #{feedBake,jdbcType=VARCHAR},
+		      </if>
+		      <if test="supervisionDuty != null and supervisionDuty != ''">
+		        SUPERVISION_DUTY = #{supervisionDuty,jdbcType=VARCHAR},
+		      </if>
+		      <if test="supervisionPerson != null and supervisionPerson != ''">
+		        SUPERVISION_PERSON = #{supervisionPerson,jdbcType=VARCHAR},
+		      </if>
+		       <if test="position != null and position != ''">
+		        POSITION = #{position,jdbcType=VARCHAR},
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		        REGISTER_DATE = #{registerDate,jdbcType=VARCHAR},
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		        MRMARK = #{mrmark,jdbcType=VARCHAR},
+		      </if>
+		      <if test="contradictPhoto != null and contradictPhoto != ''">
+		        CONTRADICT_PHOTO = #{contradictPhoto,jdbcType=VARCHAR},
+		      </if>
+        </set>
+          where CODE = #{code,jdbcType=VARCHAR}
+    </update>
+     <!-- 批量更新 (注：由于业务上暂时没有要求，
+     所以预留批量更新的接口，但没有具体实现功能)-->  
+   <update id="updateBatch" parameterType="EventContradict"></update>
+    
+    <!-- 根据主键删除实体对象 -->
+    <!-- <delete id="deletePk" parameterType="int">
+        DELETE FROM R_USERS WHERE CODE=#{code}
+    </delete> -->
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+    <update id="deletePk" parameterType="String">
+       UPDATE EVENT_CONTRADICT SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+    
+    <!-- 根据参数删除实体对象(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteParam" parameterType="int">
+    </update>
+    
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE EVENT_CONTRADICT SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+    
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="eventContradict">
+        SELECT EVENT_CONTRADICT.*,SSG.GRID_TOTAL_NAME 
+		FROM EVENT_CONTRADICT LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = EVENT_CONTRADICT.GRID_CODE 
+		WHERE EVENT_CONTRADICT.FLAG_DEL != 1 AND EVENT_CONTRADICT.CODE=#{code}
+    </select>
+    
+     <!-- 查询所有实体对象集合  -->
+   <select id="queryList" resultMap="eventContradict">
+   		SELECT * FROM EVENT_CONTRADICT where FLAG_DEL !=1 ORDER BY CODE ASC 
+   </select>
+    
+   <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryListParam" parameterType="EventContradict" resultMap="eventContradict">
+   		   SELECT * FROM EVENT_CONTRADICT 
+   		   <where>
+   		      FLAG_DEL != 1
+		     <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		       AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		       AND SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		       AND REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridCode != null and gridCode != ''">
+		       AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+		      </if>
+		      <if test="id != null and id != ''">
+		       AND ID = #{id,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		       AND GRID_NUM = #{gridNum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="codeEventType != null and codeEventType != ''">
+		       AND CODEEVENT_TYPE = #{codeEventType,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsDate != null and contradictionsDate != ''">
+		       AND CONTRADICTIONS_DATE = #{contradictionsDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="resolveDate != null and resolveDate != ''">
+		       AND RESOLVE_DATE = #{resolveDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictions != null and contradictions != ''">
+		       AND CONTRADICTIONS = #{contradictions,jdbcType=CHAR}
+		      </if>
+		      <if test="contradictionsParty != null and contradictionsParty != ''">
+		       AND CONTRADICTIONS_PARTY = #{contradictionsParty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsPersons != null and contradictionsPersons != ''">
+		       AND CONTRADICTIONS_PERSONS = #{contradictionsPersons,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsSituation != null and contradictionsSituation != ''">
+		       AND CONTRADICTIONS_SITUATION = #{contradictionsSituation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="takeName != null and takeName != ''">
+		       AND TAKE_NAME = #{takeName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="stabilityName != null and stabilityName != ''">
+		       AND STABILITY_NAME = #{stabilityName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="stabilityMeasure != null and stabilityMeasure != ''">
+		       AND STABILITY_MEASURE = #{stabilityMeasure,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemUnit != null and problemUnit != ''">
+		       AND PROBLEM_UNIT = #{problemUnit,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemName != null and problemName != ''">
+		       AND PROBLEM_NAME = #{problemName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemResolution != null and problemResolution != ''">
+		       AND PROBLEM_RESOLUTION = #{problemResolution,jdbcType=VARCHAR}
+		      </if>
+		      <if test="feedBake != null and feedBake != ''">
+		       AND FEED_BAKE = #{feedBake,jdbcType=VARCHAR}
+		      </if>
+		      <if test="supervisionDuty != null and supervisionDuty != ''">
+		       AND SUPERVISION_DUTY = #{supervisionDuty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="supervisionPerson != null and supervisionPerson != ''">
+		       AND SUPERVISION_PERSON = #{supervisionPerson,jdbcType=VARCHAR}
+		      </if>
+		       <if test="position != null and position != ''">
+		       AND POSITION = #{position,jdbcType=VARCHAR}
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		       AND REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		       AND MRMARK = #{mrmark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictPhoto != null and contradictPhoto != ''">
+		       AND CONTRADICT_PHOTO = #{contradictPhoto,jdbcType=VARCHAR}
+		      </if>
+   		   </where>
+   </select>
+   
+    <!-- 分页查询,所有实体对象集合  -->
+   <select id="queryParamPage" parameterType="EventContradict" resultMap="eventContradict">
+   		   SELECT EVENT_CONTRADICT.*,SSG.GRID_TOTAL_NAME  FROM EVENT_CONTRADICT 
+   		   LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = EVENT_CONTRADICT.GRID_CODE
+   		   <where>
+   		      EVENT_CONTRADICT.FLAG_DEL != 1
+		      <if test="createDate != null and createDate != ''">
+		        EVENT_CONTRADICT.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		       AND EVENT_CONTRADICT.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		       AND EVENT_CONTRADICT.SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		       AND EVENT_CONTRADICT.REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridCode != null and gridCode != ''">
+		       AND EVENT_CONTRADICT.GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="id != null and id != ''">
+		       AND EVENT_CONTRADICT.ID = #{id,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		       AND EVENT_CONTRADICT.GRID_NUM = #{gridNum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="codeEventType != null and codeEventType != ''">
+		       AND EVENT_CONTRADICT.CODEEVENT_TYPE LIKE CONCAT(CONCAT('%', #{codeEventType,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="contradictionsDate != null and contradictionsDate != ''">
+		       AND EVENT_CONTRADICT.CONTRADICTIONS_DATE LIKE CONCAT(CONCAT('%', #{contradictionsDate,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="resolveDate != null and resolveDate != ''">
+		       AND EVENT_CONTRADICT.RESOLVE_DATE = #{resolveDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictions != null and contradictions != ''">
+		       AND EVENT_CONTRADICT.CONTRADICTIONS = #{contradictions,jdbcType=CHAR}
+		      </if>
+		      <if test="contradictionsParty != null and contradictionsParty != ''">
+		       AND EVENT_CONTRADICT.CONTRADICTIONS_PARTY = #{contradictionsParty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsPersons != null and contradictionsPersons != ''">
+		       AND EVENT_CONTRADICT.CONTRADICTIONS_PERSONS = #{contradictionsPersons,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsSituation != null and contradictionsSituation != ''">
+		       AND EVENT_CONTRADICT.CONTRADICTIONS_SITUATION = #{contradictionsSituation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="takeName != null and takeName != ''">
+		       AND EVENT_CONTRADICT.TAKE_NAME LIKE CONCAT(CONCAT('%', #{takeName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="stabilityName != null and stabilityName != ''">
+		       AND EVENT_CONTRADICT.STABILITY_NAME LIKE CONCAT(CONCAT('%', #{stabilityName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="stabilityMeasure != null and stabilityMeasure != ''">
+		       AND EVENT_CONTRADICT.STABILITY_MEASURE = #{stabilityMeasure,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemUnit != null and problemUnit != ''">
+		       AND EVENT_CONTRADICT.PROBLEM_UNIT = #{problemUnit,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemName != null and problemName != ''">
+		       AND EVENT_CONTRADICT.PROBLEM_NAME LIKE CONCAT(CONCAT('%', #{problemName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="problemResolution != null and problemResolution != ''">
+		       AND EVENT_CONTRADICT.PROBLEM_RESOLUTION = #{problemResolution,jdbcType=VARCHAR}
+		      </if>
+		      <if test="feedBake != null and feedBake != ''">
+		       AND EVENT_CONTRADICT.FEED_BAKE = #{feedBake,jdbcType=VARCHAR}
+		      </if>
+		      <if test="supervisionDuty != null and supervisionDuty != ''">
+		       AND EVENT_CONTRADICT.SUPERVISION_DUTY = #{supervisionDuty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="supervisionPerson != null and supervisionPerson != ''">
+		       AND EVENT_CONTRADICT.SUPERVISION_PERSON = #{supervisionPerson,jdbcType=VARCHAR}
+		      </if>
+		       <if test="position != null and position != ''">
+		       AND EVENT_CONTRADICT.POSITION = #{position,jdbcType=VARCHAR}
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		       AND EVENT_CONTRADICT.REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		       AND EVENT_CONTRADICT.MRMARK = #{mrmark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictPhoto != null and contradictPhoto != ''">
+		       AND EVENT_CONTRADICT.CONTRADICT_PHOTO = #{contradictPhoto,jdbcType=VARCHAR}
+		      </if>
+   		   </where>
+   </select>
+    
+   <!--  查询总记录数据  -->
+   <select id="queryAllCount"  resultType="Integer">
+   		SELECT COUNT(*) C FROM EVENT_CONTRADICT WHERE FLAG_DEL != 1
+   </select>
+   
+    <!--  查询总记录数据  -->
+   <select id="queryAllCountParam" parameterType="EventContradict" resultType="Integer">
+   		<!-- <bind name="loginName" value="'%'+_parameter.loginName+'%'"/> -->
+   		   SELECT COUNT(*) C FROM EVENT_CONTRADICT  
+   		   <where>
+   		      FLAG_DEL != 1
+		     <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		       AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		       AND SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		       AND REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridCode != null and gridCode != ''">
+		       AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+		      </if>
+		      <if test="id != null and id != ''">
+		       AND ID = #{id,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		       AND GRID_NUM = #{gridNum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="codeEventType != null and codeEventType != ''">
+		       AND CODEEVENT_TYPE = #{codeEventType,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsDate != null and contradictionsDate != ''">
+		       AND CONTRADICTIONS_DATE = #{contradictionsDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="resolveDate != null and resolveDate != ''">
+		       AND RESOLVE_DATE = #{resolveDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictions != null and contradictions != ''">
+		       AND CONTRADICTIONS = #{contradictions,jdbcType=CHAR}
+		      </if>
+		      <if test="contradictionsParty != null and contradictionsParty != ''">
+		       AND CONTRADICTIONS_PARTY = #{contradictionsParty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsPersons != null and contradictionsPersons != ''">
+		       AND CONTRADICTIONS_PERSONS = #{contradictionsPersons,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsSituation != null and contradictionsSituation != ''">
+		       AND CONTRADICTIONS_SITUATION = #{contradictionsSituation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="takeName != null and takeName != ''">
+		       AND TAKE_NAME = #{takeName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="stabilityName != null and stabilityName != ''">
+		       AND STABILITY_NAME = #{stabilityName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="stabilityMeasure != null and stabilityMeasure != ''">
+		       AND STABILITY_MEASURE = #{stabilityMeasure,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemUnit != null and problemUnit != ''">
+		       AND PROBLEM_UNIT = #{problemUnit,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemName != null and problemName != ''">
+		       AND PROBLEM_NAME = #{problemName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemResolution != null and problemResolution != ''">
+		       AND PROBLEM_RESOLUTION = #{problemResolution,jdbcType=VARCHAR}
+		      </if>
+		      <if test="feedBake != null and feedBake != ''">
+		       AND FEED_BAKE = #{feedBake,jdbcType=VARCHAR}
+		      </if>
+		      <if test="supervisionDuty != null and supervisionDuty != ''">
+		       AND SUPERVISION_DUTY = #{supervisionDuty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="supervisionPerson != null and supervisionPerson != ''">
+		       AND SUPERVISION_PERSON = #{supervisionPerson,jdbcType=VARCHAR}
+		      </if>
+		       <if test="position != null and position != ''">
+		       AND POSITION = #{position,jdbcType=VARCHAR}
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		       AND REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		       AND MRMARK = #{mrmark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictPhoto != null and contradictPhoto != ''">
+		       AND CONTRADICT_PHOTO = #{contradictPhoto,jdbcType=VARCHAR}
+		      </if>
+   		   </where>
+   </select>
+   
+   <select id="Charts" parameterType="BParts" resultMap="tempResult" >
+	<if test="gridCode.length() ==2 ">
+		SELECT COUNT(EVENT_CONTRADICT.code) AS COUNTS , sys_seat_second.name AS NAME
+		,sys_seat_second.code FROM EVENT_CONTRADICT
+		LEFT JOIN sys_seat_grid ON EVENT_CONTRADICT.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		LEFT JOIN sys_seat_second ON
+		sys_seat_third.parent_code=sys_seat_second.code
+		where 1=1
+		and sys_seat_second.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==5 ">
+		SELECT COUNT(EVENT_CONTRADICT.code) AS COUNTS , sys_seat_third.name AS NAME
+		,sys_seat_third.code FROM EVENT_CONTRADICT
+		LEFT JOIN sys_seat_grid ON EVENT_CONTRADICT.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		where 1=1
+		and sys_seat_third.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==8 ">
+		SELECT COUNT(EVENT_CONTRADICT.code) AS COUNTS , sys_seat_four.name AS NAME
+		,sys_seat_four.code FROM EVENT_CONTRADICT
+		LEFT JOIN sys_seat_grid ON EVENT_CONTRADICT.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		where 1=1
+		and sys_seat_four.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() >8 ">
+		SELECT COUNT(EVENT_CONTRADICT.code) AS COUNTS , sys_seat_grid.name AS NAME
+		,sys_seat_grid.code FROM EVENT_CONTRADICT
+		LEFT JOIN sys_seat_grid ON EVENT_CONTRADICT.grid_code=sys_seat_grid.code
+		where 1=1
+		and sys_seat_grid.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+
+		     <if test="createDate != null and createDate != ''">
+		       AND CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		       AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		       AND SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		       AND REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="id != null and id != ''">
+		       AND ID = #{id,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		       AND GRID_NUM = #{gridNum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="codeEventType != null and codeEventType != ''">
+		       AND CODEEVENT_TYPE LIKE CONCAT(CONCAT('%', #{codeEventType,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="contradictionsDate != null and contradictionsDate != ''">
+		       AND CONTRADICTIONS_DATE LIKE CONCAT(CONCAT('%', #{contradictionsDate,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="resolveDate != null and resolveDate != ''">
+		       AND RESOLVE_DATE = #{resolveDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictions != null and contradictions != ''">
+		       AND CONTRADICTIONS = #{contradictions,jdbcType=CHAR}
+		      </if>
+		      <if test="contradictionsParty != null and contradictionsParty != ''">
+		       AND CONTRADICTIONS_PARTY = #{contradictionsParty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsPersons != null and contradictionsPersons != ''">
+		       AND CONTRADICTIONS_PERSONS = #{contradictionsPersons,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictionsSituation != null and contradictionsSituation != ''">
+		       AND CONTRADICTIONS_SITUATION = #{contradictionsSituation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="takeName != null and takeName != ''">
+		       AND TAKE_NAME LIKE CONCAT(CONCAT('%', #{takeName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="stabilityName != null and stabilityName != ''">
+		       AND STABILITY_NAME LIKE CONCAT(CONCAT('%', #{stabilityName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="stabilityMeasure != null and stabilityMeasure != ''">
+		       AND STABILITY_MEASURE = #{stabilityMeasure,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemUnit != null and problemUnit != ''">
+		       AND PROBLEM_UNIT = #{problemUnit,jdbcType=VARCHAR}
+		      </if>
+		      <if test="problemName != null and problemName != ''">
+		       AND PROBLEM_NAME LIKE CONCAT(CONCAT('%', #{problemName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="problemResolution != null and problemResolution != ''">
+		       AND PROBLEM_RESOLUTION = #{problemResolution,jdbcType=VARCHAR}
+		      </if>
+		      <if test="feedBake != null and feedBake != ''">
+		       AND FEED_BAKE = #{feedBake,jdbcType=VARCHAR}
+		      </if>
+		      <if test="supervisionDuty != null and supervisionDuty != ''">
+		       AND SUPERVISION_DUTY = #{supervisionDuty,jdbcType=VARCHAR}
+		      </if>
+		      <if test="supervisionPerson != null and supervisionPerson != ''">
+		       AND SUPERVISION_PERSON = #{supervisionPerson,jdbcType=VARCHAR}
+		      </if>
+		       <if test="position != null and position != ''">
+		       AND POSITION = #{position,jdbcType=VARCHAR}
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		       AND REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		       AND MRMARK = #{mrmark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="contradictPhoto != null and contradictPhoto != ''">
+		       AND CONTRADICT_PHOTO = #{contradictPhoto,jdbcType=VARCHAR}
+		      </if>
+
+
+ AND EVENT_CONTRADICT.FLAG_DEL != 1
+	<if test="gridCode.length() ==2 ">
+	GROUP BY sys_seat_second.name ,sys_seat_second.code
+	</if>
+	<if test="gridCode.length() ==5 ">
+		GROUP BY sys_seat_third.name ,sys_seat_third.code
+	</if>
+	<if test="gridCode.length() ==8 ">
+		GROUP BY sys_seat_four.name ,sys_seat_four.code
+	</if>
+	<if test="gridCode.length() >8 ">
+		GROUP BY sys_seat_grid.name ,sys_seat_grid.code
+	</if>
+   </select>
+</mapper>
+ 

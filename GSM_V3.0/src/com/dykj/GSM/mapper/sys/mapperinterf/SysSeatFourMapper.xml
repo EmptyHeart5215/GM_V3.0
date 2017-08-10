@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysSeatFourMapper" >
+<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+  <resultMap id="sysSeatFourResult" type="SysSeatFour" >
+     <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+	<result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+	<result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+	<result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+	<result column="SORT" jdbcType="DECIMAL" property="sort" />
+	<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CITY_CODE" property="cityCode" jdbcType="VARCHAR" />
+    <result column="SECRETARY_NAME" property="secretaryName" jdbcType="VARCHAR" />
+    <result column="SECRETARY_PHONE" property="secretaryPhone" jdbcType="VARCHAR" />
+    <result column="GRID_MANAGER_NAME" property="gridManagerName" jdbcType="VARCHAR" />
+    <result column="MIN_QING_NAME" property="minQingName" jdbcType="VARCHAR" />
+    <result column="DIRE_NAME" property="direName" jdbcType="VARCHAR" />
+    <result column="DIRE_PHONE" property="direPhone" jdbcType="VARCHAR" />
+    <result column="MANAGER_NAME" property="managerName" jdbcType="VARCHAR" />
+    <result column="MANAGER_PHONE" property="managerPhone" jdbcType="VARCHAR" />
+    <result column="MANAGER_DUTY" property="managerDuty" jdbcType="VARCHAR" />
+    <result column="MANAGER_ADDRESS" property="managerAddress" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="SEAT_PICTURE" property="seatPicture" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="FLAG_DEPARTMENT" property="flagDepartment" jdbcType="CHAR" />
+    <result column="THIRD_NAME" property="thirdName" jdbcType="VARCHAR" />
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="sysSeatThirdResult" type="SysSeatThird" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="SECOND_NAME" property="secondName" jdbcType="VARCHAR" />
+    <result column="FLAG_DEPARTMENT" property="flagDepartment" jdbcType="CHAR" />
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="SysSeatFour" >
+    declare SCODE varchar(4) :='';
+     begin
+     select replace(lpad(nvl(MAX(substr(code,9,4)+1),1),4),' ','0') into scode  from sys_seat_four where sys_seat_four.parent_code=#{parentCode,jdbcType=VARCHAR};
+    insert into SYS_SEAT_FOUR (CODE, CREATE_DATE, CREATE_BY, SORT, 
+      REMARK, NAME, CITY_CODE, SECRETARY_NAME, 
+      SECRETARY_PHONE, GRID_MANAGER_NAME, MIN_QING_NAME, 
+      DIRE_NAME, DIRE_PHONE, MANAGER_NAME, 
+      MANAGER_PHONE, MANAGER_DUTY, MANAGER_ADDRESS, 
+      POSITION, ADDRESS, DESCRIPTION, 
+      SEAT_PICTURE, PARENT_CODE, FLAG_DEPARTMENT, 
+      THIRD_NAME, GRID_TOTAL_NAME)
+    values (#{parentCode,jdbcType=VARCHAR}||scode, #{createDate,jdbcType=VARCHAR},
+      #{createBy,jdbcType=VARCHAR},#{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, #{secretaryName,jdbcType=VARCHAR}, 
+      #{secretaryPhone,jdbcType=VARCHAR}, #{gridManagerName,jdbcType=VARCHAR}, #{minQingName,jdbcType=VARCHAR}, 
+      #{direName,jdbcType=VARCHAR}, #{direPhone,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, 
+      #{managerPhone,jdbcType=VARCHAR}, #{managerDuty,jdbcType=VARCHAR}, #{managerAddress,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{seatPicture,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{flagDepartment,jdbcType=CHAR}, 
+      #{thirdName,jdbcType=VARCHAR}, #{gridTotalName,jdbcType=VARCHAR});
+      end ;
+  </insert>
+    <!-- 更新实体对象   -->
+    <update id="update" parameterType="SysSeatFour">
+        UPDATE SYS_SEAT_FOUR 
+         <set>
+	      <if test="createBy != null and createBy != ''" >
+	        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sort != null and sort != ''" >
+	        SORT = #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        REMARK = #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="name != null and name != ''" >
+	        NAME = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="cityCode != null and cityCode != ''" >
+	        CITY_CODE = #{cityCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="secretaryName != null and secretaryName != ''" >
+	        SECRETARY_NAME = #{secretaryName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="secretaryPhone != null and secretaryPhone != ''" >
+	        SECRETARY_PHONE = #{secretaryPhone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="gridManagerName != null and gridManagerName != ''" >
+	        GRID_MANAGER_NAME = #{gridManagerName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="minQingName != null and minQingName != ''" >
+	        MIN_QING_NAME = #{minQingName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="direName != null and direName != ''" >
+	        DIRE_NAME = #{direName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="direPhone != null and direPhone != ''" >
+	        DIRE_PHONE = #{direPhone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerName != null and managerName != ''" >
+	        MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerPhone != null and managerPhone != ''" >
+	        MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerDuty != null and managerDuty != ''" >
+	        MANAGER_DUTY = #{managerDuty,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerAddress != null and managerAddress != ''" >
+	        MANAGER_ADDRESS = #{managerAddress,jdbcType=VARCHAR},
+	      </if>
+	      <if test="position != null and position != ''" >
+	        POSITION = #{position,jdbcType=VARCHAR},
+	      </if>
+	      <if test="address != null and address != ''" >
+	        ADDRESS = #{address,jdbcType=VARCHAR},
+	      </if>
+	      <if test="description != null and description != ''" >
+	        DESCRIPTION = #{description,jdbcType=VARCHAR},
+	      </if>
+	      <if test="seatPicture != null and seatPicture != ''" >
+	       SEAT_PICTURE = #{seatPicture,jdbcType=VARCHAR},
+	      </if>
+	      <if test="parentCode != null and parentCode != ''" >
+	        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="flagDepartment != null and flagDepartment != ''" >
+	        FLAG_DEPARTMENT = #{flagDepartment,jdbcType=CHAR},
+	      </if>
+	      <if test="thirdName != null and thirdName != ''" >
+	        THIRD_NAME = #{thirdName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="gridTotalName != null and gridTotalName != ''" >
+	        GRID_TOTAL_NAME = #{gridTotalName,jdbcType=VARCHAR},
+	      </if>
+        </set> 
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+    
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+    <update id="deletePk" parameterType="String">
+       UPDATE SYS_SEAT_FOUR SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+    
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE SYS_SEAT_FOUR SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+  
+  <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="sysSeatFourResult">
+        SELECT * FROM SYS_SEAT_FOUR WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+  
+  <!-- 根据主键查询二级坐落实体对象  -->
+  <select id="queryByparentCode" parameterType="String" resultMap="sysSeatThirdResult">
+      SELECT * FROM SYS_SEAT_THIRD WHERE FLAG_DEL != 1 AND CODE=#{code}
+  </select>
+</mapper>

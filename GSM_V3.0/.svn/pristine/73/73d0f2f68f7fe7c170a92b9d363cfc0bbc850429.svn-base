@@ -1,0 +1,93 @@
+		.main {
+	max-width: 69em;
+	padding: 0 1.875em 3.125em;
+	width: 95%;
+	overflow:auto;
+}
+ul.timeline {
+	list-style-type: none;
+	background: url("/GSM_V3.0/resource/css/images/timeline/line.png") repeat-y scroll 133px 0 transparent;
+	margin: 20px 0;
+	padding: 0;
+	padding: 0 0 10px;
+}
+ul.timeline li {
+	margin-bottom: 20px;
+	min-height: 65px;
+}
+ul.timeline li .time {
+	font-family: "Lato", Calibri, Arial, sans-serif;
+	float: left;
+	width: 100px;
+	text-align: right;
+	color: #6cbfee;
+	font-size: 1.5em;
+	margin-right: 10px;
+
+}
+ul.timeline li .version {
+	float: left;
+	width: 290px;
+	text-align: right;
+	left: -200px;
+	top: 30px;
+	font-size: 40px;
+	line-height: 50px;
+	color: #3594cb;
+	overflow: hidden;
+}
+ul.timeline li .number {
+	float: left;
+	background: url("/GSM_V3.0/resource/css/images/timeline/dot.png") no-repeat scroll 0 0 transparent;
+	width: 56px;
+	height: 56px;
+	left: 128px;
+	line-height: 56px;
+	text-align: center;
+	color: #fff;
+	font-size: 18px;
+	margin-top:-8px;
+}
+ul.timeline li.alt .number {
+	background-image: url("/gsm/resource/js/VerticalTimeline/img/version_dot_alt.png");
+}
+
+ul.timeline li .content {
+padding: 10px;
+	top: 15px;
+	background-color: #fff;
+	line-height: 20px;
+	border: 1px solid;
+	border-color:#43B1F1;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	z-index: 2;
+	color: #3594cb;
+	font-size: 13px;
+	line-height: 20px;
+	margin-left: 185px;
+	/*  behavior: url(/gsm/resource/js/VerticalTimeline/iecss3.htc);  */
+}
+.arrow {
+	float:left;
+	width:0;
+	height:0;
+	font-size:0;
+	border:solid 8px;
+	border-color:#fff #43B1F1 #fff #fff;
+	margin: 15px 0 20px 3px;
+}
+ul.timeline li .content h5 {
+	border-bottom: 1px solid #ccc;
+	margin-top: 0;
+	padding: 0 0 10px;
+}
+
+
+ul.timeline li.alt .content {
+	background-color: #43B1F1;
+}
+.timeline .content p{
+	margin:0;
+}

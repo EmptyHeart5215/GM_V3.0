@@ -1,0 +1,88 @@
+@charset "utf-8";
+body {
+	background-color: #f5f5f5;
+}
+.login-hengtiao {
+	background-color: #0066cc;
+	height: 160px;
+	width: 100%;
+	position: absolute;
+	top: 40%;
+	margin-top: -50px;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+}
+.Main {
+	width: 960px;
+	position: relative;
+	margin: 0 auto;
+}
+.logo {
+	position: absolute;
+	top: -52px;
+}
+.login-from {
+	/* padding: 25px 0 0 0; */
+	height: 135px;
+	background-image: url(../images/login/login_bj.png);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+}
+.login-int {
+	height: 28px;
+	line-height: 28px;
+	border: none;
+	width: 160px;
+	padding-left: 40px;
+	color: #0542a0;
+	font-weight: bold;
+	font-family: Arial, "微软雅黑";
+}
+.login-user {
+	background:url(../images/login/login_user.png) no-repeat 0 center #ffffff;
+	
+}
+.login-pa {
+	background:url(../images/login/login_pa.png) no-repeat 0 center #ffffff;
+}
+.login-btn {
+	width: 66px;
+	height: 73px;
+	background-color: #f90;
+	color: #FFF;
+	border: none;
+	cursor: pointer;
+	font-size: 14px;
+}
+.login-btn:hover {
+	background-color: #7DC1EA;
+}
+.login-btn:active {
+	background-color: #0542a0;
+}
+.login-text {
+	position: absolute;
+	right: 0;
+	top: 175px;
+	padding-right: 10px;
+	color: #bbbbbb;
+}
+.login-rembtext {
+	color: #fff;
+	padding-left: 5px;
+}
+.login-success {
+	padding-top:5px;
+	margin: auto auto auto 13px;
+	height:25px;
+	width:26px;
+    position:absolute;
+    clip:rect(0px 13px 25px 0px);
+}
+.login-fail {
+	padding-top:5px;
+	height:25px;
+	width:26px;
+    position:absolute;
+    clip:rect(0px 26px 25px 13px);
+}

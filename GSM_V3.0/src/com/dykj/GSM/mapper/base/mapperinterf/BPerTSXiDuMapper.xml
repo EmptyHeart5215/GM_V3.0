@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BPerTSXiDuMapper" >
+  <resultMap id="perTSXiDuResult" type="BPerTSXiDu" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PERSON_CODE" property="personCode" jdbcType="VARCHAR" />
+    <result column="FIRST_DATE" property="firstDate" jdbcType="VARCHAR" />
+    <result column="CODE_GUAN_KONG" property="codeGuanKong" jdbcType="VARCHAR" />
+    <result column="GUAN_KONG_NAME" property="guanKongName" jdbcType="VARCHAR" />
+    <result column="GUAN_KONG_PHONE" property="guanKongPhone" jdbcType="VARCHAR" />
+    <result column="BANG_FU_REMARK" property="bangFuRemark" jdbcType="VARCHAR" />
+    <result column="BANG_FU_NAME" property="bangFuName" jdbcType="VARCHAR" />
+    <result column="BANG_FU_PHONE" property="bangFuPhone" jdbcType="VARCHAR" />
+    <result column="IS_FAN_ZUI" property="isFanZui" jdbcType="CHAR" />
+    <result column="FAN_ZUI_REMARK" property="fanZuiRemark" jdbcType="VARCHAR" />
+    <result column="CODE_XI_DU_REASON" property="codeXiDuReason" jdbcType="VARCHAR" />
+    <result column="CODE_XI_DU_EFFECT" property="codeXiDuEffect" jdbcType="VARCHAR" />
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" />
+    
+    <association property="person" javaType="com.dykj.GSM.model.base.BPerson">
+     <result column="HOUSE_CODE" property="houseCode" jdbcType="VARCHAR" />
+     <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="OTHER_NAME" property="otherName" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="PCID" property="cid" jdbcType="VARCHAR" />
+    <result column="CODE_NATION" property="codeNation" jdbcType="VARCHAR" />
+    <result column="NATIVE_PLACE_CODE" property="nativePlaceCode" jdbcType="VARCHAR" />
+    <result column="CODE_MARRIAGE" property="codeMarriage" jdbcType="VARCHAR" />
+    <result column="CODE_POLITICAL" property="codePolitical" jdbcType="VARCHAR" />
+    <result column="CODE_EDUCATION" property="codeEducation" jdbcType="VARCHAR" />
+    <result column="CODE_RELIGIOUS" property="codeReligious" jdbcType="VARCHAR" />
+    <result column="CODE_JOB_TYPE" property="codeJobType" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="SERVER_ADDRESS" property="serverAddress" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="RESIDENCE_ADDRESS_CODE" property="residenceAddressCode" jdbcType="VARCHAR" />
+    <result column="RESIDENCE_DETAIL" property="residenceDetail" jdbcType="VARCHAR" />
+    <result column="NOW_ADDRESS_CODE" property="nowAddressCode" jdbcType="VARCHAR" />
+    <result column="NOW_ADDRESS_DETAIL" property="nowAddressDetail" jdbcType="VARCHAR" />
+    <result column="CODE_HOUSEHOLD_STATUS" property="codeHouseholdStatus" jdbcType="VARCHAR" />
+    <result column="IMG" property="img" jdbcType="VARCHAR" />
+    <result column="CODE_MANAGE_TYPE" property="codeManageType" jdbcType="VARCHAR" />
+    <result property="unitName" column="UNITNAME" />
+	<result property="buildName" column="BUILDNAME" />
+	<result property="houseNum" column="house_num"/>
+	</association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+     CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, PERSON_CODE, 
+    FIRST_DATE, CODE_GUAN_KONG, GUAN_KONG_NAME, GUAN_KONG_PHONE, BANG_FU_REMARK, BANG_FU_NAME, 
+    BANG_FU_PHONE, IS_FAN_ZUI, FAN_ZUI_REMARK, CODE_XI_DU_REASON, CODE_XI_DU_EFFECT
+  </sql>
+   <sql id="person_column" >
+   	p.HOUSE_CODE, p.NAME, 
+    p.OTHER_NAME, p.SEX, p.CID as pcid, p.CODE_NATION, p.NATIVE_PLACE_CODE, p.CODE_MARRIAGE, p.CODE_POLITICAL, 
+    p.CODE_EDUCATION, p.CODE_RELIGIOUS, p.CODE_JOB_TYPE, p.JOB, p.SERVER_ADDRESS, p.PHONE, p.RESIDENCE_ADDRESS_CODE, 
+    p.RESIDENCE_DETAIL, p.NOW_ADDRESS_CODE, p.NOW_ADDRESS_DETAIL, p.CODE_HOUSEHOLD_STATUS, p.IMG, p.CODE_MANAGE_TYPE
+  </sql>
+  <insert id="insert" parameterType="BPerTSXiDu" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+   insert into B_PER_TS_XI_DU (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, PERSON_CODE, FIRST_DATE, 
+      CODE_GUAN_KONG, GUAN_KONG_NAME, GUAN_KONG_PHONE, 
+      BANG_FU_REMARK, BANG_FU_NAME, BANG_FU_PHONE, 
+      IS_FAN_ZUI, FAN_ZUI_REMARK, CODE_XI_DU_REASON, 
+      CODE_XI_DU_EFFECT)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{personCode,jdbcType=VARCHAR}, #{firstDate,jdbcType=VARCHAR}, 
+      #{codeGuanKong,jdbcType=VARCHAR}, #{guanKongName,jdbcType=VARCHAR}, #{guanKongPhone,jdbcType=VARCHAR}, 
+      #{bangFuRemark,jdbcType=VARCHAR}, #{bangFuName,jdbcType=VARCHAR}, #{bangFuPhone,jdbcType=VARCHAR}, 
+      #{isFanZui,jdbcType=CHAR}, #{fanZuiRemark,jdbcType=VARCHAR}, #{codeXiDuReason,jdbcType=VARCHAR}, 
+      #{codeXiDuEffect,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="BPerTSXiDu" >
+   update B_PER_TS_XI_DU
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="personCode != null" >
+        PERSON_CODE = #{personCode,jdbcType=VARCHAR},
+      </if>
+      <if test="firstDate != null" >
+        FIRST_DATE = #{firstDate,jdbcType=VARCHAR},
+      </if>
+      <if test="codeGuanKong != null" >
+        CODE_GUAN_KONG = #{codeGuanKong,jdbcType=VARCHAR},
+      </if>
+      <if test="guanKongName != null" >
+        GUAN_KONG_NAME = #{guanKongName,jdbcType=VARCHAR},
+      </if>
+      <if test="guanKongPhone != null" >
+        GUAN_KONG_PHONE = #{guanKongPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="bangFuRemark != null" >
+        BANG_FU_REMARK = #{bangFuRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="bangFuName != null" >
+        BANG_FU_NAME = #{bangFuName,jdbcType=VARCHAR},
+      </if>
+      <if test="bangFuPhone != null" >
+        BANG_FU_PHONE = #{bangFuPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="isFanZui != null" >
+        IS_FAN_ZUI = #{isFanZui,jdbcType=CHAR},
+      </if>
+      <if test="fanZuiRemark != null" >
+        FAN_ZUI_REMARK = #{fanZuiRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="codeXiDuReason != null" >
+        CODE_XI_DU_REASON = #{codeXiDuReason,jdbcType=VARCHAR},
+      </if>
+      <if test="codeXiDuEffect != null" >
+        CODE_XI_DU_EFFECT = #{codeXiDuEffect,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_PER_TS_XI_DU SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+   <update id="deleteByPersonCode" parameterType="String">
+       UPDATE B_PER_TS_XI_DU SET FLAG_DEL=1 WHERE person_code=#{personCode}
+   </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="perTSXiDuResult">
+        SELECT h.* FROM B_PER_TS_XI_DU h
+                WHERE h.FLAG_DEL != 1 AND h.CODE=#{code}
+    </select>
+      <!-- 根据基本信息code查询流动人员的信息  -->
+    <select id="queryByPersonCode" parameterType="String" resultMap="perTSXiDuResult">
+        SELECT h.* FROM B_PER_TS_XI_DU h
+        WHERE h.FLAG_DEL != 1 AND h.person_code=#{personCode}
+    </select>
+     <select id="queryMapParamPage" parameterType="java.util.Map" resultMap="perTSXiDuResult">
+  SELECT hu.* , <include refid="person_column"/>,b.build_name as buildName,u.name as unitName,h.house_num ,grid.grid_total_name 
+  FROM  B_PER_TS_XI_DU hu 
+  		join B_PERSON p on hu.person_code=p.code and hu.flag_del=0
+        join b_house h on h.code=p.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+        join sys_seat_grid grid on grid.code=b.grid_code and grid.flag_del=0 WHERE p.FLAG_DEL != 1 and p.grid_code like CONCAT( #{gridCode,jdbcType=VARCHAR},'%')
+	 <if test="houseCode != null and houseCode != ''">
+	  and h.code=#{houseCode}
+	 </if>
+  	<if test="gridCode != null and gridCode != ''">
+	  and grid.code like '%'||#{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="name != null and name != ''">
+	  and p.name like '%'||#{name,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="unitName != null and unitName != ''">
+		AND u.NAME like '%'||#{unitName,jdbcType=VARCHAR}||'%'
+	</if>
+	<if test="buildName != null and buildName != ''">
+		AND b.BUILD_NAME like '%'||#{buildName,jdbcType=VARCHAR}||'%'
+	</if>
+	<if test="houseNum != null and houseNum != ''">
+		AND h.HOUSE_NUM like '%'||#{houseNum,jdbcType=VARCHAR}||'%'
+	</if>
+	
+	<if test="cid != null and cid != ''">
+		AND p.CID like '%'||#{cid,jdbcType=VARCHAR}||'%'
+	</if>
+		<if test="sex != null and sex != ''">
+		AND p.sex =#{sex,jdbcType=VARCHAR}
+	</if>
+	
+	<if test="codeGuanKong != null and codeGuanKong.size()>0 ">
+		and (
+		<foreach collection="codeGuanKong" item="s" index="index" separator=" or ">
+		   hu.CODE_GUAN_KONG =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="firstDate != null and firstDate != ''">
+		AND hu.FIRST_DATE &lt;=#{firstDateEnd,jdbcType=VARCHAR}
+		AND hu.FIRST_DATE &gt;=#{firstDateStart,jdbcType=VARCHAR}
+	</if> 
+	<if test="codeHouseholdStatus != null and codeHouseholdStatus.size()>0 ">
+		and (
+		<foreach collection="codeHouseholdStatus" item="s" index="index" separator=" or ">
+		   p.CODE_HOUSEHOLD_STATUS =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+</select>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.event.mapperinterf.EOpinionMapper" >
+  <resultMap id="opinionResult" type="EOpinion" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ENTRY_ID" property="entryId" jdbcType="DECIMAL" />
+    <result column="ACTION_ID" property="actionId" jdbcType="VARCHAR" />
+    <result column="TO_PERSON_CODE" property="toPersonCode" jdbcType="VARCHAR" />
+    <result column="OPINION" property="opinion" jdbcType="VARCHAR" />
+    <result column="CODE_APPRAISE" property="codeAppraise" jdbcType="VARCHAR" />
+    <result property="toPersonName"/>
+	<result property="callerName"/>
+	<result property="appraiseStr"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, ENTRY_ID, ACTION_ID, 
+    TO_PERSON_CODE, OPINION, CODE_APPRAISE
+  </sql>
+  
+  <insert id="insert" parameterType="EOpinion" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+    insert into E_OPINION (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, ENTRY_ID, ACTION_ID, 
+      TO_PERSON_CODE, OPINION, CODE_APPRAISE)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{entryId,jdbcType=DECIMAL}, #{actionId,jdbcType=VARCHAR}, 
+      #{toPersonCode,jdbcType=VARCHAR}, #{opinion,jdbcType=VARCHAR}, #{codeAppraise,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="EOpinion" >
+   update E_OPINION
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="entryId != null" >
+        ENTRY_ID = #{entryId,jdbcType=DECIMAL},
+      </if>
+      <if test="actionId != null" >
+        ACTION_ID = #{actionId,jdbcType=VARCHAR},
+      </if>
+      <if test="toPersonCode != null" >
+        TO_PERSON_CODE = #{toPersonCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opinion != null" >
+        OPINION = #{opinion,jdbcType=VARCHAR},
+      </if>
+      <if test="codeAppraise != null" >
+        CODE_APPRAISE = #{codeAppraise,jdbcType=VARCHAR},
+      </if>
+     
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE E_OPINION SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+   
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="opinionResult">
+        SELECT h.* FROM E_OPINION h
+                WHERE h.FLAG_DEL != 1 AND h.CODE=#{code}
+    </select>
+    
+  
+
+    <!-- 根据entryid得到所有的意见 -->
+    <select id="queryOpinionsByWfEntry" parameterType="java.lang.Long" resultMap="opinionResult">
+    SELECT E_OPINION.*,R_USERS1.LOGIN_NAME||'('||R_USERS1.real_NAME||')' callerName,R_USERS2.real_NAME toPersonName,DIC.NAME_C appraiseStr
+     FROM E_OPINION 
+     LEFT JOIN sys_USER R_USERS1 ON R_USERS1.CODE=E_OPINION.create_by 
+     LEFT JOIN sys_USER R_USERS2 ON R_USERS2.CODE=E_OPINION.to_person_code 
+	 LEFT JOIN SYS_DIC_VALUE DIC ON E_OPINION.CODE_APPRAISE=DIC.CODE WHERE E_OPINION.ENTRY_ID=#{entryId,jdbcType=DECIMAL}
+	  ORDER BY E_OPINION.create_DATE,E_OPINION.CODE
+    </select>
+    <!-- 得到上一条意见 -->
+     <select id="queryPreOpinion" parameterType="String" resultMap="opinionResult">
+   		select e.* from(select * from e_opinion where ENTRY_ID=#{entryId} order by create_date desc ) e where  rownum=1 
+    </select>
+    <!-- 更新某条意见的去向 -->
+    <update id="updateToPersonCode" parameterType="java.util.Map">
+       UPDATE E_OPINION SET to_person_code=#{toPersonCode} WHERE CODE=#{code}
+   </update>
+    
+</mapper>

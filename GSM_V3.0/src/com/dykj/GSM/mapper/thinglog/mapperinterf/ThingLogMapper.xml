@@ -1,0 +1,681 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.thinglog.mapperinterf.ThingLogMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="ThingLog" id="thingLogResult">
+        <id column="CODE" property="code"/>
+        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="GRID_NAME" jdbcType="VARCHAR" property="gridName" />
+        <result column="GRID_PHONE" jdbcType="VARCHAR" property="gridPhone" />
+        <result column="INSPECTION_VISITS" jdbcType="VARCHAR" property="inspectionVisits" />
+        <result column="CODE_VISITS_DUTY" jdbcType="VARCHAR" property="codeVisitsDuty" />
+        <result column="INTERVIEW_ONE_TIME_START" jdbcType="VARCHAR" property="interviewOneTimeStart" />
+        <result column="INTERVIEW_ONE_TIME_END" jdbcType="VARCHAR" property="interviewOneTimeEnd" />
+        <result column="INTERVIEW_TWO_TIME_START1" jdbcType="VARCHAR" property="interviewTwoTimeStart1" />
+        <result column="INTERVIEW_TWO_TIME_END1" jdbcType="VARCHAR" property="interviewTwoTimeEnd1" />
+        <result column="TOTAL_HOUR" jdbcType="VARCHAR" property="totalHour" />
+        <result column="TOTAL_MINUTE" jdbcType="VARCHAR" property="totalMinute" />
+        <result column="FALIMY_COUNT" jdbcType="VARCHAR" property="falimyCount" />
+        <result column="FALIMY_DETAILS" jdbcType="VARCHAR" property="falimyDetails" />
+        <result column="QUESTION_COUNT" jdbcType="VARCHAR" property="questionCount" />
+        <result column="QUESTION_CONFLICT" jdbcType="VARCHAR" property="questionConflict" />
+        <result column="QUESTION_APPEAL" jdbcType="VARCHAR" property="questionAppeal" />
+        <result column="QUESTION_IDEA" jdbcType="VARCHAR" property="questionIdea" />
+        <result column="QUESTION_OTHER" jdbcType="VARCHAR" property="questionOther" />
+        <result column="SECURITY_COUNT" jdbcType="VARCHAR" property="securityCount" />
+        <result column="SECURITY_QUESTION" jdbcType="VARCHAR" property="securityQuestion" />
+        <result column="FIRE_COUN" jdbcType="VARCHAR" property="fireCoun" />
+        <result column="FIRE_QUESTION" jdbcType="VARCHAR" property="fireQuestion" />
+        <result column="ENV_COUNT" jdbcType="VARCHAR" property="envCount" />
+        <result column="SANITATION_REACTION" jdbcType="VARCHAR" property="sanitationReaction" />
+        <result column="SANITATION_AD" jdbcType="VARCHAR" property="sanitationAd" />
+        <result column="SANITATION_CHAOS" jdbcType="VARCHAR" property="sanitationChaos" />
+        <result column="SANITATION_BUILD" jdbcType="VARCHAR" property="sanitationBuild" />
+        <result column="SANITATION_OTHER" jdbcType="VARCHAR" property="sanitationOther" />
+        <result column="OTHER_COUNT" jdbcType="VARCHAR" property="otherCount" />
+        <result column="OTHER_QUESTION" jdbcType="VARCHAR" property="otherQuestion" />
+        <result column="INTERVIEW_AUTO" jdbcType="VARCHAR" property="interviewAuto" />
+        <result column="INTERVIEW_UP" jdbcType="VARCHAR" property="interviewUp" />
+        <result column="INTERVIEW_CONTENT" jdbcType="VARCHAR" property="interviewContent" />
+        <result column="INTERVIEW_FILE" jdbcType="VARCHAR" property="interviewFile" />
+        <result column="LOG_TYPE" jdbcType="VARCHAR" property="logType" />
+        <result javaType="String" property="searchStartTime" />
+        <result javaType="String" property="searchEndTime" />
+        <result column="LOG_TYPE" jdbcType="VARCHAR" property="logType" />
+        <association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>
+    </resultMap>
+    <!-- 关联表需要的列 -->
+    <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+    
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="ThingLog">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO THING_LOG
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    GRID_CODE,GRID_NAME,GRID_PHONE,INSPECTION_VISITS,CODE_VISITS_DUTY,
+                    INTERVIEW_ONE_TIME_START,INTERVIEW_ONE_TIME_END,INTERVIEW_TWO_TIME_START1,INTERVIEW_TWO_TIME_END1,
+                    TOTAL_HOUR,TOTAL_MINUTE,FALIMY_COUNT,FALIMY_DETAILS,
+                    QUESTION_COUNT,QUESTION_CONFLICT,QUESTION_APPEAL,QUESTION_IDEA,
+                    QUESTION_OTHER,SECURITY_COUNT,SECURITY_QUESTION,FIRE_COUN,
+                    FIRE_QUESTION,ENV_COUNT,SANITATION_REACTION,SANITATION_AD,
+                    SANITATION_CHAOS,SANITATION_BUILD,SANITATION_OTHER,OTHER_COUNT,
+                    OTHER_QUESTION,INTERVIEW_AUTO,INTERVIEW_UP,INTERVIEW_CONTENT,
+                    INTERVIEW_FILE,LOG_TYPE)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},#{gridName,jdbcType=VARCHAR},
+                     #{gridPhone,jdbcType=VARCHAR},#{inspectionVisits,jdbcType=VARCHAR},#{codeVisitsDuty,jdbcType=VARCHAR},
+                     #{interviewOneTimeStart,jdbcType=VARCHAR},#{interviewOneTimeEnd,jdbcType=VARCHAR},#{interviewTwoTimeStart1,jdbcType=VARCHAR},
+                     #{interviewTwoTimeEnd1,jdbcType=VARCHAR},#{totalHour,jdbcType=VARCHAR},#{totalMinute,jdbcType=VARCHAR},
+                     #{falimyCount,jdbcType=VARCHAR},#{falimyDetails,jdbcType=VARCHAR},#{questionCount,jdbcType=VARCHAR},
+                     #{questionConflict,jdbcType=VARCHAR},#{questionAppeal,jdbcType=VARCHAR},#{questionIdea,jdbcType=VARCHAR},
+                     #{questionOther,jdbcType=VARCHAR},#{securityCount,jdbcType=VARCHAR},#{securityQuestion,jdbcType=VARCHAR},
+                     #{fireCoun,jdbcType=VARCHAR},#{fireQuestion,jdbcType=VARCHAR},#{envCount,jdbcType=VARCHAR},
+                     #{sanitationReaction,jdbcType=VARCHAR},#{sanitationAd,jdbcType=VARCHAR},#{sanitationChaos,jdbcType=VARCHAR},
+                     #{sanitationBuild,jdbcType=VARCHAR},#{sanitationOther,jdbcType=VARCHAR},#{otherCount,jdbcType=VARCHAR},
+                     #{otherQuestion,jdbcType=VARCHAR},#{interviewAuto,jdbcType=VARCHAR},#{interviewUp,jdbcType=VARCHAR},
+                     #{interviewContent,jdbcType=VARCHAR},#{interviewFile,jdbcType=VARCHAR},#{logType,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="ThingLog">
+        UPDATE THING_LOG
+        <set>
+		    <if test="createDate != null and createDate != ''">
+		       CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+		    </if>
+		    <if test="createBy != null and createBy != ''">
+		       CREATE_BY = #{createBy,jdbcType=VARCHAR},
+		    </if>
+		    <if test="sort != null and sort != ''">
+		       SORT = #{sort,jdbcType=DECIMAL},
+		    </if>
+		    <if test="remark != null and remark != ''">
+		       REMARK = #{remark,jdbcType=VARCHAR},
+		    </if>
+		    <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gridName != null and gridName != ''">
+                GRID_NAME = #{gridName,jdbcType=VARCHAR},
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                GRID_PHONE = #{gridPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectionVisits != null and inspectionVisits != ''">
+                INSPECTION_VISITS = #{inspectionVisits,jdbcType=VARCHAR},
+            </if>
+            <if test="codeVisitsDuty != null and codeVisitsDuty != ''">
+                CODE_VISITS_DUTY = #{codeVisitsDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="interviewOneTimeStart != null and interviewOneTimeStart != ''">
+                INTERVIEW_ONE_TIME_START = #{interviewOneTimeStart,jdbcType=VARCHAR},
+            </if>
+            <if test="interviewOneTimeEnd != null and interviewOneTimeEnd != ''">
+                INTERVIEW_ONE_TIME_END = #{interviewOneTimeEnd,jdbcType=VARCHAR},
+            </if>
+            <if test="interviewTwoTimeStart1 != null and interviewTwoTimeStart1 != ''">
+                INTERVIEW_TWO_TIME_START1 = #{interviewTwoTimeStart1,jdbcType=VARCHAR},
+            </if>
+            <if test="interviewTwoTimeEnd1 != null and interviewTwoTimeEnd1 != ''">
+                INTERVIEW_TWO_TIME_END1 = #{interviewTwoTimeEnd1,jdbcType=VARCHAR},
+            </if>
+            <if test="totalHour != null and totalHour != ''">
+                TOTAL_HOUR = #{totalHour,jdbcType=VARCHAR},
+            </if>
+            <if test="totalMinute != null and totalMinute != ''">
+                TOTAL_MINUTE = #{totalMinute,jdbcType=VARCHAR},
+            </if>
+            <if test="falimyCount != null and falimyCount != ''">
+                FALIMY_COUNT = #{falimyCount,jdbcType=VARCHAR},
+            </if>
+            <if test="falimyDetails != null and falimyDetails != ''">
+                FALIMY_DETAILS = #{falimyDetails,jdbcType=VARCHAR},
+            </if>
+            <if test="questionCount != null and questionCount != ''">
+                QUESTION_COUNT = #{questionCount,jdbcType=VARCHAR},
+            </if>
+            <if test="questionConflict != null and questionConflict != ''">
+                QUESTION_CONFLICT = #{questionConflict,jdbcType=VARCHAR},
+            </if>
+            <if test="questionAppeal != null and questionAppeal != ''">
+                QUESTION_APPEAL = #{questionAppeal,jdbcType=VARCHAR},
+            </if>
+            <if test="questionIdea != null and questionIdea != ''">
+                QUESTION_IDEA = #{questionIdea,jdbcType=VARCHAR},
+            </if>
+            <if test="questionOther != null and questionOther != ''">
+                QUESTION_OTHER = #{questionOther,jdbcType=VARCHAR},
+            </if>
+            <if test="securityCount != null and securityCount != ''">
+                SECURITY_COUNT = #{securityCount,jdbcType=VARCHAR},
+            </if>
+            <if test="securityQuestion != null and securityQuestion != ''">
+                SECURITY_QUESTION = #{securityQuestion,jdbcType=VARCHAR},
+            </if>
+            <if test="fireCoun != null and fireCoun != ''">
+                FIRE_COUN = #{fireCoun,jdbcType=VARCHAR},
+            </if>
+            <if test="fireQuestion != null and fireQuestion != ''">
+                FIRE_QUESTION = #{fireQuestion,jdbcType=VARCHAR},
+            </if>
+            <if test="envCount != null and envCount != ''">
+                ENV_COUNT = #{envCount,jdbcType=VARCHAR},
+            </if>
+            <if test="sanitationReaction != null and sanitationReaction != ''">
+                SANITATION_REACTION = #{sanitationReaction,jdbcType=VARCHAR},
+            </if>
+            <if test="sanitationAd != null and sanitationAd != ''">
+                SANITATION_AD = #{sanitationAd,jdbcType=VARCHAR},
+            </if>
+            <if test="sanitationChaos != null and sanitationChaos != ''">
+                SANITATION_CHAOS = #{sanitationChaos,jdbcType=VARCHAR},
+            </if>
+            <if test="sanitationBuild != null and sanitationBuild != ''">
+                SANITATION_BUILD = #{sanitationBuild,jdbcType=VARCHAR},
+            </if>
+            <if test="sanitationOther != null and sanitationOther != ''">
+                SANITATION_OTHER = #{sanitationOther,jdbcType=VARCHAR},
+            </if>
+            <if test="otherCount != null and otherCount != ''">
+                OTHER_COUNT = #{otherCount,jdbcType=VARCHAR},
+            </if>
+            <if test="otherQuestion != null and otherQuestion != ''">
+                OTHER_QUESTION = #{otherQuestion,jdbcType=VARCHAR},
+            </if>
+            <if test="interviewAuto != null and interviewAuto != ''">
+                INTERVIEW_AUTO = #{interviewAuto,jdbcType=VARCHAR},
+            </if>
+            <if test="interviewUp != null and interviewUp != ''">
+                INTERVIEW_UP = #{interviewUp,jdbcType=VARCHAR},
+            </if>
+            <if test="interviewContent != null and interviewContent != ''">
+                INTERVIEW_CONTENT = #{interviewContent,jdbcType=VARCHAR},
+            </if>
+            <if test="interviewFile != null">
+                INTERVIEW_FILE = #{interviewFile,jdbcType=VARCHAR},
+            </if>
+            <if test="logType != null and logType != ''">
+                LOG_TYPE = #{logType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE THING_LOG SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE THING_LOG SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="thingLogResult">
+        SELECT * FROM THING_LOG WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="thingLogResult">
+        SELECT * FROM THING_LOG where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+    
+    <!-- 返回日志报表统计数 -->
+    <select id="statisticLogQuestion" resultMap="thingLogResult">
+    	select sum(FALIMY_COUNT) as FALIMY_COUNT,
+		sum(SECURITY_COUNT) as SECURITY_COUNT,
+		sum(FIRE_COUN) as FIRE_COUN,
+		sum(OTHER_COUNT) as OTHER_COUNT,
+		sum(QUESTION_CONFLICT) as QUESTION_CONFLICT,
+		sum(QUESTION_APPEAL) as QUESTION_APPEAL,
+		sum(QUESTION_IDEA) as QUESTION_IDEA,
+		sum(QUESTION_OTHER) as QUESTION_OTHER,
+		sum(SANITATION_REACTION) as SANITATION_REACTION,
+		sum(SANITATION_AD) as SANITATION_AD,
+		sum(SANITATION_CHAOS) as SANITATION_CHAOS,
+		sum(SANITATION_BUILD) as SANITATION_BUILD,
+		sum(SANITATION_OTHER) as SANITATION_OTHER,
+		sum(INTERVIEW_AUTO) as INTERVIEW_AUTO,
+		sum(INTERVIEW_UP) as INTERVIEW_UP from thing_log
+		<where>
+		    FLAG_DEL != 1
+		      <if test="searchStartTime != null and searchStartTime != ''">
+                AND THING_LOG.CREATE_DATE &gt;= #{searchStartTime}
+            </if>
+            <if test="searchEndTime != null and searchEndTime != ''">
+                AND THING_LOG.CREATE_DATE &lt;= #{searchEndTime}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                 AND GRID_CODE LIKE CONCAT(CONCAT('%',#{gridCode,jdbcType=VARCHAR}),'%') 
+            </if>
+		</where>
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="ThingLog" resultMap="thingLogResult">
+        SELECT * FROM THING_LOG 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gridName != null and gridName != ''">
+                AND GRID_NAME = #{gridName,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="inspectionVisits != null and inspectionVisits != ''">
+                AND INSPECTION_VISITS = #{inspectionVisits,jdbcType=VARCHAR}
+            </if>
+            <if test="codeVisitsDuty != null and codeVisitsDuty != ''">
+                AND CODE_VISITS_DUTY = #{codeVisitsDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewOneTimeStart != null and interviewOneTimeStart != ''">
+                AND INTERVIEW_ONE_TIME_START = #{interviewOneTimeStart,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewOneTimeEnd != null and interviewOneTimeEnd != ''">
+                AND INTERVIEW_ONE_TIME_END = #{interviewOneTimeEnd,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewTwoTimeStart1 != null and interviewTwoTimeStart1 != ''">
+                AND INTERVIEW_TWO_TIME_START1 = #{interviewTwoTimeStart1,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewTwoTimeEnd1 != null and interviewTwoTimeEnd1 != ''">
+                AND INTERVIEW_TWO_TIME_END1 = #{interviewTwoTimeEnd1,jdbcType=VARCHAR}
+            </if>
+            <if test="totalHour != null and totalHour != ''">
+                AND TOTAL_HOUR = #{totalHour,jdbcType=VARCHAR}
+            </if>
+            <if test="totalMinute != null and totalMinute != ''">
+                AND TOTAL_MINUTE = #{totalMinute,jdbcType=VARCHAR}
+            </if>
+            <if test="falimyCount != null and falimyCount != ''">
+                AND FALIMY_COUNT = #{falimyCount,jdbcType=VARCHAR}
+            </if>
+            <if test="falimyDetails != null and falimyDetails != ''">
+                AND FALIMY_DETAILS = #{falimyDetails,jdbcType=VARCHAR}
+            </if>
+            <if test="questionCount != null and questionCount != ''">
+                AND QUESTION_COUNT = #{questionCount,jdbcType=VARCHAR}
+            </if>
+            <if test="questionConflict != null and questionConflict != ''">
+                AND QUESTION_CONFLICT = #{questionConflict,jdbcType=VARCHAR}
+            </if>
+            <if test="questionAppeal != null and questionAppeal != ''">
+                AND QUESTION_APPEAL = #{questionAppeal,jdbcType=VARCHAR}
+            </if>
+            <if test="questionIdea != null and questionIdea != ''">
+                AND QUESTION_IDEA = #{questionIdea,jdbcType=VARCHAR}
+            </if>
+            <if test="questionOther != null and questionOther != ''">
+                AND QUESTION_OTHER = #{questionOther,jdbcType=VARCHAR}
+            </if>
+            <if test="securityCount != null and securityCount != ''">
+                AND SECURITY_COUNT = #{securityCount,jdbcType=VARCHAR}
+            </if>
+            <if test="securityQuestion != null and securityQuestion != ''">
+                AND SECURITY_QUESTION = #{securityQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="fireCoun != null and fireCoun != ''">
+                AND FIRE_COUN = #{fireCoun,jdbcType=VARCHAR}
+            </if>
+            <if test="fireQuestion != null and fireQuestion != ''">
+                AND FIRE_QUESTION = #{fireQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="envCount != null and envCount != ''">
+                AND ENV_COUNT = #{envCount,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationReaction != null and sanitationReaction != ''">
+                AND SANITATION_REACTION = #{sanitationReaction,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationAd != null and sanitationAd != ''">
+                AND SANITATION_AD = #{sanitationAd,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationChaos != null and sanitationChaos != ''">
+                AND SANITATION_CHAOS = #{sanitationChaos,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationBuild != null and sanitationBuild != ''">
+                AND SANITATION_BUILD = #{sanitationBuild,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationOther != null and sanitationOther != ''">
+                AND SANITATION_OTHER = #{sanitationOther,jdbcType=VARCHAR}
+            </if>
+            <if test="otherCount != null and otherCount != ''">
+                AND OTHER_COUNT = #{otherCount,jdbcType=VARCHAR}
+            </if>
+            <if test="otherQuestion != null and otherQuestion != ''">
+                AND OTHER_QUESTION = #{otherQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewAuto != null and interviewAuto != ''">
+                AND INTERVIEW_AUTO = #{interviewAuto,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewUp != null and interviewUp != ''">
+                AND INTERVIEW_UP = #{interviewUp,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewContent != null and interviewContent != ''">
+                AND INTERVIEW_CONTENT = #{interviewContent,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewFile != null and interviewFile != ''">
+                AND INTERVIEW_FILE = #{interviewFile,jdbcType=VARCHAR}
+            </if>
+            <if test="logType != null and logType != ''">
+                AND LOG_TYPE = #{logType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    
+    <!-- 自动获取网格员姓名及联系电话  -->
+    <select id="queryAutoGirgInfo" parameterType="ThingLog" resultMap="thingLogResult">
+        SELECT SYS_SEAT_GRID.NAME AS GRID_NAME,SYS_SEAT_GRID.MANAGER_PHONE AS GRID_PHONE FROM SYS_SEAT_GRID 
+        <where>
+            SYS_SEAT_GRID.FLAG_DEL!=1 
+            <if test="gridCode != null and gridCode != ''">
+               AND SYS_SEAT_GRID.CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="ThingLog" resultMap="thingLogResult">
+        SELECT THING_LOG.*,SYS_SEAT_GRID.GRID_TOTAL_NAME FROM THING_LOG LEFT JOIN SYS_SEAT_GRID ON THING_LOG.GRID_CODE = SYS_SEAT_GRID.CODE 
+        <where>
+            THING_LOG.FLAG_DEL != 1 AND SYS_SEAT_GRID.FLAG_DEL!=1
+            <if test="createDate != null and createDate != ''">
+                THING_LOG.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND THING_LOG.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND THING_LOG.SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND THING_LOG.REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+               AND THING_LOG.GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="gridName != null and gridName != ''">
+                AND THING_LOG.GRID_NAME = #{gridName,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND THING_LOG.GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="inspectionVisits != null and inspectionVisits != ''">
+                AND THING_LOG.INSPECTION_VISITS = #{inspectionVisits,jdbcType=VARCHAR}
+            </if>
+            <if test="codeVisitsDuty != null and codeVisitsDuty != ''">
+                AND THING_LOG.CODE_VISITS_DUTY = #{codeVisitsDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewOneTimeStart != null and interviewOneTimeStart != ''">
+                AND THING_LOG.INTERVIEW_ONE_TIME_START = #{interviewOneTimeStart,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewOneTimeEnd != null and interviewOneTimeEnd != ''">
+                AND THING_LOG.INTERVIEW_ONE_TIME_END = #{interviewOneTimeEnd,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewTwoTimeStart1 != null and interviewTwoTimeStart1 != ''">
+                AND THING_LOG.INTERVIEW_TWO_TIME_START1 = #{interviewTwoTimeStart1,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewTwoTimeEnd1 != null and interviewTwoTimeEnd1 != ''">
+                AND THING_LOG.INTERVIEW_TWO_TIME_END1 = #{interviewTwoTimeEnd1,jdbcType=VARCHAR}
+            </if>
+            <if test="totalHour != null and totalHour != ''">
+                AND THING_LOG.TOTAL_HOUR = #{totalHour,jdbcType=VARCHAR}
+            </if>
+            <if test="totalMinute != null and totalMinute != ''">
+                AND THING_LOG.TOTAL_MINUTE = #{totalMinute,jdbcType=VARCHAR}
+            </if>
+            <if test="falimyCount != null and falimyCount != ''">
+                AND THING_LOG.FALIMY_COUNT = #{falimyCount,jdbcType=VARCHAR}
+            </if>
+            <if test="falimyDetails != null and falimyDetails != ''">
+                AND THING_LOG.FALIMY_DETAILS = #{falimyDetails,jdbcType=VARCHAR}
+            </if>
+            <if test="questionCount != null and questionCount != ''">
+                AND THING_LOG.QUESTION_COUNT = #{questionCount,jdbcType=VARCHAR}
+            </if>
+            <if test="questionConflict != null and questionConflict != ''">
+                AND THING_LOG.QUESTION_CONFLICT = #{questionConflict,jdbcType=VARCHAR}
+            </if>
+            <if test="questionAppeal != null and questionAppeal != ''">
+                AND THING_LOG.QUESTION_APPEAL = #{questionAppeal,jdbcType=VARCHAR}
+            </if>
+            <if test="questionIdea != null and questionIdea != ''">
+                AND THING_LOG.QUESTION_IDEA = #{questionIdea,jdbcType=VARCHAR}
+            </if>
+            <if test="questionOther != null and questionOther != ''">
+                AND THING_LOG.QUESTION_OTHER = #{questionOther,jdbcType=VARCHAR}
+            </if>
+            <if test="securityCount != null and securityCount != ''">
+                AND THING_LOG.SECURITY_COUNT = #{securityCount,jdbcType=VARCHAR}
+            </if>
+            <if test="securityQuestion != null and securityQuestion != ''">
+                AND THING_LOG.SECURITY_QUESTION = #{securityQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="fireCoun != null and fireCoun != ''">
+                AND THING_LOG.FIRE_COUN = #{fireCoun,jdbcType=VARCHAR}
+            </if>
+            <if test="fireQuestion != null and fireQuestion != ''">
+                AND THING_LOG.FIRE_QUESTION = #{fireQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="envCount != null and envCount != ''">
+                AND THING_LOG.ENV_COUNT = #{envCount,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationReaction != null and sanitationReaction != ''">
+                AND THING_LOG.SANITATION_REACTION = #{sanitationReaction,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationAd != null and sanitationAd != ''">
+                AND THING_LOG.SANITATION_AD = #{sanitationAd,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationChaos != null and sanitationChaos != ''">
+                AND THING_LOG.SANITATION_CHAOS = #{sanitationChaos,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationBuild != null and sanitationBuild != ''">
+                AND THING_LOG.SANITATION_BUILD = #{sanitationBuild,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationOther != null and sanitationOther != ''">
+                AND THING_LOG.SANITATION_OTHER = #{sanitationOther,jdbcType=VARCHAR}
+            </if>
+            <if test="otherCount != null and otherCount != ''">
+                AND THING_LOG.THING_LOG.OTHER_COUNT = #{otherCount,jdbcType=VARCHAR}
+            </if>
+            <if test="otherQuestion != null and otherQuestion != ''">
+                AND THING_LOG.OTHER_QUESTION = #{otherQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewAuto != null and interviewAuto != ''">
+                AND THING_LOG.INTERVIEW_AUTO = #{interviewAuto,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewUp != null and interviewUp != ''">
+                AND THING_LOG.INTERVIEW_UP = #{interviewUp,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewContent != null and interviewContent != ''">
+                AND THING_LOG.INTERVIEW_CONTENT = #{interviewContent,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewFile != null and interviewFile != ''">
+                AND THING_LOG.INTERVIEW_FILE = #{interviewFile,jdbcType=VARCHAR}
+            </if>
+            <if test="logType != null and logType != ''">
+                AND THING_LOG.LOG_TYPE = #{logType,jdbcType=VARCHAR}
+            </if>
+            <if test="searchStartTime != null and searchStartTime != ''">
+                AND THING_LOG.CREATE_DATE &gt;= #{searchStartTime}
+            </if>
+            <if test="searchEndTime != null and searchEndTime != ''">
+                AND THING_LOG.CREATE_DATE &lt;= #{searchEndTime}
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM THING_LOG WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="ThingLog" resultType="Integer">
+        SELECT COUNT(*) C FROM THING_LOG 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gridName != null and gridName != ''">
+                AND GRID_NAME = #{gridName,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="inspectionVisits != null and inspectionVisits != ''">
+                AND INSPECTION_VISITS = #{inspectionVisits,jdbcType=VARCHAR}
+            </if>
+            <if test="codeVisitsDuty != null and codeVisitsDuty != ''">
+                AND CODE_VISITS_DUTY = #{codeVisitsDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewOneTimeStart != null and interviewOneTimeStart != ''">
+                AND INTERVIEW_ONE_TIME_START = #{interviewOneTimeStart,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewOneTimeEnd != null and interviewOneTimeEnd != ''">
+                AND INTERVIEW_ONE_TIME_END = #{interviewOneTimeEnd,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewTwoTimeStart1 != null and interviewTwoTimeStart1 != ''">
+                AND INTERVIEW_TWO_TIME_START1 = #{interviewTwoTimeStart1,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewTwoTimeEnd1 != null and interviewTwoTimeEnd1 != ''">
+                AND INTERVIEW_TWO_TIME_END1 = #{interviewTwoTimeEnd1,jdbcType=VARCHAR}
+            </if>
+            <if test="totalHour != null and totalHour != ''">
+                AND TOTAL_HOUR = #{totalHour,jdbcType=VARCHAR}
+            </if>
+            <if test="totalMinute != null and totalMinute != ''">
+                AND TOTAL_MINUTE = #{totalMinute,jdbcType=VARCHAR}
+            </if>
+            <if test="falimyCount != null and falimyCount != ''">
+                AND FALIMY_COUNT = #{falimyCount,jdbcType=VARCHAR}
+            </if>
+            <if test="falimyDetails != null and falimyDetails != ''">
+                AND FALIMY_DETAILS = #{falimyDetails,jdbcType=VARCHAR}
+            </if>
+            <if test="questionCount != null and questionCount != ''">
+                AND QUESTION_COUNT = #{questionCount,jdbcType=VARCHAR}
+            </if>
+            <if test="questionConflict != null and questionConflict != ''">
+                AND QUESTION_CONFLICT = #{questionConflict,jdbcType=VARCHAR}
+            </if>
+            <if test="questionAppeal != null and questionAppeal != ''">
+                AND QUESTION_APPEAL = #{questionAppeal,jdbcType=VARCHAR}
+            </if>
+            <if test="questionIdea != null and questionIdea != ''">
+                AND QUESTION_IDEA = #{questionIdea,jdbcType=VARCHAR}
+            </if>
+            <if test="questionOther != null and questionOther != ''">
+                AND QUESTION_OTHER = #{questionOther,jdbcType=VARCHAR}
+            </if>
+            <if test="securityCount != null and securityCount != ''">
+                AND SECURITY_COUNT = #{securityCount,jdbcType=VARCHAR}
+            </if>
+            <if test="securityQuestion != null and securityQuestion != ''">
+                AND SECURITY_QUESTION = #{securityQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="fireCoun != null and fireCoun != ''">
+                AND FIRE_COUN = #{fireCoun,jdbcType=VARCHAR}
+            </if>
+            <if test="fireQuestion != null and fireQuestion != ''">
+                AND FIRE_QUESTION = #{fireQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="envCount != null and envCount != ''">
+                AND ENV_COUNT = #{envCount,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationReaction != null and sanitationReaction != ''">
+                AND SANITATION_REACTION = #{sanitationReaction,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationAd != null and sanitationAd != ''">
+                AND SANITATION_AD = #{sanitationAd,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationChaos != null and sanitationChaos != ''">
+                AND SANITATION_CHAOS = #{sanitationChaos,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationBuild != null and sanitationBuild != ''">
+                AND SANITATION_BUILD = #{sanitationBuild,jdbcType=VARCHAR}
+            </if>
+            <if test="sanitationOther != null and sanitationOther != ''">
+                AND SANITATION_OTHER = #{sanitationOther,jdbcType=VARCHAR}
+            </if>
+            <if test="otherCount != null and otherCount != ''">
+                AND OTHER_COUNT = #{otherCount,jdbcType=VARCHAR}
+            </if>
+            <if test="otherQuestion != null and otherQuestion != ''">
+                AND OTHER_QUESTION = #{otherQuestion,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewAuto != null and interviewAuto != ''">
+                AND INTERVIEW_AUTO = #{interviewAuto,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewUp != null and interviewUp != ''">
+                AND INTERVIEW_UP = #{interviewUp,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewContent != null and interviewContent != ''">
+                AND INTERVIEW_CONTENT = #{interviewContent,jdbcType=VARCHAR}
+            </if>
+            <if test="interviewFile != null and interviewFile != ''">
+                AND INTERVIEW_FILE = #{interviewFile,jdbcType=VARCHAR}
+            </if>
+            <if test="logType != null and logType != ''">
+                AND LOG_TYPE = #{logType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.zongzhitraining.mapperinterf.ZongzhiMaterialMapper">
+   <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+     <resultMap id="zongzhiMaterialBaseResult" type="ZongzhiMaterial" >
+	    <id column="CODE" property="code"/>
+        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+	    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+	    <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+	    <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+	    <result column="SORT" jdbcType="DECIMAL" property="sort" />
+	    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+	    <result column="GIRD_CODE" property="girdCode" jdbcType="VARCHAR" />
+	    <result column="MATERIAL_NAME" property="materialName" jdbcType="VARCHAR" />
+	    <result column="MATERIAL_SIZE" property="materialSize" jdbcType="VARCHAR" />
+	    <result column="CODE_MATERIAL_TYPE" property="codeMaterialType" jdbcType="VARCHAR" />
+	    <result column="CODE_UPLOAD_MATERIAL_TYPE" property="codeUploadMaterialType" jdbcType="VARCHAR" />
+	    <result column="MATERIAL_CONTENT" property="materialContent" jdbcType="VARCHAR" />
+	    <result column="DOWNLOAD_COUNT" property="downloadCount" jdbcType="VARCHAR" />
+	    <result column="DOWN_LOAD_TIME" property="downLoadTime" jdbcType="VARCHAR" />
+	    <result column="DOWN_LOAD_USER_CODE" property="downLoadUserCode" jdbcType="VARCHAR" />
+	    <result column="MATERIAL_FILE" property="materialFile" jdbcType="VARCHAR" />
+	    <result property="createUserName"/>
+    </resultMap>
+    
+    <!-- 保存实体对象  -->
+   <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+   <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+   <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+   如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+   <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement 和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="ZongzhiMaterial" >
+    	<selectKey keyProperty="code" resultType="String" order="BEFORE">
+        	SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+	    INSERT INTO ZONGZHI_MATERIAL 
+	    (CODE, CREATE_DATE, CREATE_BY,SORT, REMARK, 
+	      GIRD_CODE, MATERIAL_NAME, MATERIAL_SIZE,
+	      CODE_MATERIAL_TYPE, CODE_UPLOAD_MATERIAL_TYPE, 
+	      MATERIAL_CONTENT, DOWNLOAD_COUNT, DOWN_LOAD_TIME, 
+	      DOWN_LOAD_USER_CODE,MATERIAL_FILE)
+	    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+	      #{sort,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, #{girdCode,jdbcType=VARCHAR}, #{materialName,jdbcType=VARCHAR}, 
+	      #{materialSize,jdbcType=VARCHAR}, #{codeMaterialType,jdbcType=VARCHAR}, #{codeUploadMaterialType,jdbcType=VARCHAR}, 
+	      #{materialContent,jdbcType=VARCHAR}, #{downloadCount,jdbcType=VARCHAR}, #{downLoadTime,jdbcType=VARCHAR}, 
+	      #{downLoadUserCode,jdbcType=VARCHAR},#{materialFile,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 更新实体对象   -->
+  <update id="update" parameterType="ZongzhiMaterial">
+  	  UPDATE ZONGZHI_MATERIAL 
+      <set>
+	      <if test="createDate != null and createDate != ''" >
+	        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createBy != null and createBy != ''" >
+	        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sort != null and sort != ''" >
+	        SORT = #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        REMARK = #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="girdCode != null and girdCode != ''" >
+	        GIRD_CODE = #{girdCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="materialName != null and materialName != ''" >
+	        MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="materialSize != null and materialSize != ''" >
+	        MATERIAL_SIZE = #{materialSize,jdbcType=VARCHAR},
+	      </if>
+	      <if test="codeMaterialType != null and codeMaterialType != ''" >
+	        CODE_MATERIAL_TYPE = #{codeMaterialType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="codeUploadMaterialType != null and codeUploadMaterialType != ''" >
+	        CODE_UPLOAD_MATERIAL_TYPE = #{codeUploadMaterialType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="materialContent != null and materialContent != ''">
+	        MATERIAL_CONTENT = #{materialContent,jdbcType=VARCHAR},
+	      </if>
+	      <if test="downloadCount != null and downloadCount != ''" >
+	        DOWNLOAD_COUNT = #{downloadCount,jdbcType=VARCHAR},
+	      </if>
+	      <if test="downLoadTime != null and downLoadTime != ''" >
+	        DOWN_LOAD_TIME = #{downLoadTime,jdbcType=VARCHAR},
+	      </if>
+	      <if test="downLoadUserCode != null and downLoadUserCode != ''" >
+	        DOWN_LOAD_USER_CODE = #{downLoadUserCode,jdbcType=VARCHAR},
+	      </if>    
+	      <if test="materialFile != null " >
+	        MATERIAL_FILE = #{materialFile,jdbcType=VARCHAR},
+	      </if>    
+      </set> 
+      <where>
+          <if test="code != null and code != ''">
+             CODE = #{code,jdbcType=VARCHAR}
+          </if>
+        </where>
+    </update>
+    <!-- 更新实体对象 (参数)  -->
+    <update id="updateParam" parameterType="java.util.Map">
+       UPDATE ZONGZHI_MATERIAL 
+         <set>
+          <if test="createDate != null and createDate != ''" >
+	        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createBy != null and createBy != ''" >
+	        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sort != null and sort != ''" >
+	        SORT = #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        REMARK = #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="girdCode != null and girdCode != ''" >
+	        GIRD_CODE = #{girdCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="materialName != null and materialName != ''" >
+	        MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="materialSize != null and materialSize != ''" >
+	        MATERIAL_SIZE = #{materialSize,jdbcType=VARCHAR},
+	      </if>
+	      <if test="codeMaterialType != null and codeMaterialType != ''" >
+	        CODE_MATERIAL_TYPE = #{codeMaterialType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="codeUploadMaterialType != null and codeUploadMaterialType != ''" >
+	        CODE_UPLOAD_MATERIAL_TYPE = #{codeUploadMaterialType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="materialContent != null and materialContent != ''">
+	        MATERIAL_CONTENT = #{materialContent,jdbcType=VARCHAR},
+	      </if>
+	      <if test="downloadCount != null and downloadCount != ''" >
+	        DOWNLOAD_COUNT = #{downloadCount,jdbcType=VARCHAR},
+	      </if>
+	      <if test="downLoadTime != null and downLoadTime != ''" >
+	        DOWN_LOAD_TIME = #{downLoadTime,jdbcType=VARCHAR},
+	      </if>
+	      <if test="downLoadUserCode != null and downLoadUserCode != ''" >
+	        DOWN_LOAD_USER_CODE = #{downLoadUserCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="materialFile != null and materialFile != ''" >
+	        MATERIAL_FILE = #{materialFile,jdbcType=VARCHAR},
+	      </if>     
+        </set>
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+    
+    <!-- 根据主键删除实体对象 -->
+    <!-- <delete id="deletePk" parameterType="int">
+        DELETE FROM R_USERS WHERE CODE=#{code}
+    </delete> -->
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+    <update id="deletePk" parameterType="String">
+       UPDATE ZONGZHI_MATERIAL SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+    
+    <!-- 根据参数删除实体对象(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteParam" parameterType="int">
+    </update>
+    
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE ZONGZHI_MATERIAL SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+    
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="zongzhiMaterialBaseResult">
+        SELECT ZONGZHI_MATERIAL.*,u.real_name as createUserName FROM ZONGZHI_MATERIAL join sys_user u on u.code=ZONGZHI_MATERIAL.create_by
+         WHERE u.FLAG_DEL =0 and ZONGZHI_MATERIAL.flag_del=0 AND ZONGZHI_MATERIAL.CODE=#{code}
+    </select>
+    
+     <!-- 查询所有实体对象集合  -->
+   <select id="queryList" resultMap="zongzhiMaterialBaseResult">
+   		SELECT * FROM ZONGZHI_MATERIAL where FLAG_DEL !=1 ORDER BY CODE ASC 
+   </select>
+    
+   <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryListParam" parameterType="ZongzhiMaterial" resultMap="zongzhiMaterialBaseResult">
+   	    SELECT * FROM ZONGZHI_MATERIAL 
+   		<where>
+   		    FLAG_DEL != 1
+		    <if test="createDate != null and createDate != ''" >
+	          AND CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+	        </if>
+	        <if test="createBy != null and createBy != ''" >
+	          AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+	        </if>
+	        <if test="sort != null and sort != ''" >
+	          AND SORT = #{sort,jdbcType=DECIMAL}
+	        </if>
+	        <if test="remark != null and remark != ''" >
+	          AND REMARK = #{remark,jdbcType=VARCHAR}
+	        </if>
+	        <if test="girdCode != null and girdCode != ''" >
+	          AND GIRD_CODE = #{girdCode,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialName != null and materialName != ''" >
+	          AND MATERIAL_NAME = #{materialName,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialSize != null and materialSize != ''" >
+	          AND MATERIAL_SIZE = #{materialSize,jdbcType=VARCHAR}
+	        </if>
+	        <if test="codeMaterialType != null and codeMaterialType != ''" >
+	          AND CODE_MATERIAL_TYPE = #{codeMaterialType,jdbcType=VARCHAR}
+	        </if>
+	        <if test="codeUploadMaterialType != null and codeUploadMaterialType != ''" >
+	          AND CODE_UPLOAD_MATERIAL_TYPE = #{codeUploadMaterialType,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialContent != null and materialContent != ''">
+	          AND MATERIAL_CONTENT = #{materialContent,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downloadCount != null and downloadCount != ''" >
+	          AND DOWNLOAD_COUNT = #{downloadCount,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downLoadTime != null and downLoadTime != ''" >
+	          AND DOWN_LOAD_TIME = #{downLoadTime,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downLoadUserCode != null and downLoadUserCode != ''" >
+	          AND DOWN_LOAD_USER_CODE = #{downLoadUserCode,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialFile != null and materialFile != ''" >
+	          AND MATERIAL_FILE = #{materialFile,jdbcType=VARCHAR}
+	        </if>     
+   	    </where>
+   </select>
+   
+    <!-- 分页查询,所有实体对象集合  -->
+   <select useCache="true" id="queryParamPage" parameterType="ZongzhiMaterial" resultMap="zongzhiMaterialBaseResult">
+   		SELECT * FROM ZONGZHI_MATERIAL 
+   		<where>
+   		   FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''" >
+	          AND CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+	        </if>
+	        <if test="createBy != null and createBy != ''" >
+	          AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+	        </if>
+	        <if test="sort != null and sort != ''" >
+	          AND SORT = #{sort,jdbcType=DECIMAL}
+	        </if>
+	        <if test="remark != null and remark != ''" >
+	          AND REMARK = #{remark,jdbcType=VARCHAR}
+	        </if>
+	        <if test="girdCode != null and girdCode != ''" >
+	          AND GIRD_CODE = #{girdCode,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialName != null and materialName != ''" >
+	          AND MATERIAL_NAME = #{materialName,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialSize != null and materialSize != ''" >
+	          AND MATERIAL_SIZE = #{materialSize,jdbcType=VARCHAR}
+	        </if>
+	        <if test="codeMaterialType != null and codeMaterialType != ''" >
+	          AND CODE_MATERIAL_TYPE = #{codeMaterialType,jdbcType=VARCHAR}
+	        </if>
+	        <if test="codeUploadMaterialType != null and codeUploadMaterialType != ''" >
+	          AND CODE_UPLOAD_MATERIAL_TYPE = #{codeUploadMaterialType,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialContent != null and materialContent != ''">
+	          AND MATERIAL_CONTENT = #{materialContent,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downloadCount != null and downloadCount != ''" >
+	          AND DOWNLOAD_COUNT = #{downloadCount,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downLoadTime != null and downLoadTime != ''" >
+	          AND DOWN_LOAD_TIME = #{downLoadTime,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downLoadUserCode != null and downLoadUserCode != ''" >
+	          AND DOWN_LOAD_USER_CODE = #{downLoadUserCode,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialFile != null and materialFile != ''" >
+	          AND MATERIAL_FILE = #{materialFile,jdbcType=VARCHAR}
+	        </if>        
+   		</where>
+   </select>
+    
+   <!--  查询总记录数据  -->
+   <select id="queryAllCount"  resultType="Integer">
+   		SELECT COUNT(*) C FROM ZONGZHI_MATERIAL WHERE FLAG_DEL != 1
+   </select>
+   
+    <!--  查询总记录数据  -->
+   <select id="queryAllCountParam" parameterType="ZongzhiMaterial" resultType="Integer">
+   		SELECT COUNT(*) C FROM ZONGZHI_MATERIAL  
+   		<where>
+   		    FLAG_DEL != 1
+			<if test="createDate != null and createDate != ''" >
+	          AND CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+	        </if>
+	        <if test="createBy != null and createBy != ''" >
+	          AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+	        </if>
+	        <if test="sort != null and sort != ''" >
+	          AND SORT = #{sort,jdbcType=DECIMAL}
+	        </if>
+	        <if test="remark != null and remark != ''" >
+	          AND REMARK = #{remark,jdbcType=VARCHAR}
+	        </if>
+	        <if test="girdCode != null and girdCode != ''" >
+	          AND GIRD_CODE = #{girdCode,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialName != null and materialName != ''" >
+	          AND MATERIAL_NAME = #{materialName,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialSize != null and materialSize != ''" >
+	          AND MATERIAL_SIZE = #{materialSize,jdbcType=VARCHAR}
+	        </if>
+	        <if test="codeMaterialType != null and codeMaterialType != ''" >
+	          AND CODE_MATERIAL_TYPE = #{codeMaterialType,jdbcType=VARCHAR}
+	        </if>
+	        <if test="codeUploadMaterialType != null and codeUploadMaterialType != ''" >
+	          AND CODE_UPLOAD_MATERIAL_TYPE = #{codeUploadMaterialType,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialContent != null and materialContent != ''">
+	          AND MATERIAL_CONTENT = #{materialContent,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downloadCount != null and downloadCount != ''" >
+	          AND DOWNLOAD_COUNT = #{downloadCount,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downLoadTime != null and downLoadTime != ''" >
+	          AND DOWN_LOAD_TIME = #{downLoadTime,jdbcType=VARCHAR}
+	        </if>
+	        <if test="downLoadUserCode != null and downLoadUserCode != ''" >
+	          AND DOWN_LOAD_USER_CODE = #{downLoadUserCode,jdbcType=VARCHAR}
+	        </if>
+	        <if test="materialFile != null and materialFile != ''" >
+	          AND MATERIAL_FILE = #{materialFile,jdbcType=VARCHAR}
+	        </if>         
+   		</where>
+   </select>
+</mapper>

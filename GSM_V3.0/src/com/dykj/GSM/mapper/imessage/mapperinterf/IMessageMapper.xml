@@ -1,0 +1,243 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.imessage.mapperinterf.IMessageMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="IMessage" id="iMessageResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="TEXT" jdbcType="VARCHAR" property="text" />
+        <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+        <result column="USER_CODE" jdbcType="VARCHAR" property="userCode" />
+        <result column="DEPARTMENT_CODE" jdbcType="VARCHAR" property="departmentCode" />
+        <result column="ROLE_CODE" jdbcType="VARCHAR" property="roleCode" />
+        <result column="SEND_USER_CODE" jdbcType="VARCHAR" property="sendUserCode" />
+        <result column="DATE1" jdbcType="VARCHAR" property="date1" />
+        <result column="ORIGINAL_TEXT" jdbcType="VARCHAR" property="originalText" />
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="IMessage">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO I_MESSAGE
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    TEXT,USER_NAME,USER_CODE,DEPARTMENT_CODE,
+                    ROLE_CODE,SEND_USER_CODE,ORIGINAL_TEXT)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{text,jdbcType=VARCHAR},
+                     #{userName,jdbcType=VARCHAR},#{userCode,jdbcType=VARCHAR},#{departmentCode,jdbcType=VARCHAR},
+                     #{roleCode,jdbcType=VARCHAR},#{sendUserCode,jdbcType=VARCHAR},#{originalText,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="IMessage">
+        UPDATE I_MESSAGE
+        <set>
+            <if test="text != null and text != ''">
+                TEXT = #{text,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null and userName != ''">
+                USER_NAME = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null and userCode != ''">
+                USER_CODE = #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="sendUserCode != null and sendUserCode != ''">
+                SEND_USER_CODE = #{sendUserCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE I_MESSAGE SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE I_MESSAGE SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="iMessageResult">
+        SELECT * FROM I_MESSAGE WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="iMessageResult">
+        SELECT * FROM I_MESSAGE where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+    
+     <!-- 查询十分钟以内的聊天记录  -->
+    <select id="queryMessageTenMini" parameterType="IMessage" resultMap="iMessageResult">
+        SELECT * FROM (SELECT * FROM I_MESSAGE WHERE FLAG_DEL != 1 and CREATE_DATE &gt; #{createDate,jdbcType=VARCHAR} and CREATE_DATE &lt; #{date1,jdbcType=VARCHAR} 
+		AND USER_CODE = #{userCode,jdbcType=VARCHAR} AND SEND_USER_CODE = #{sendUserCode,jdbcType=VARCHAR}
+		UNION ALL
+		SELECT * FROM I_MESSAGE WHERE FLAG_DEL != 1 and CREATE_DATE &gt; #{createDate,jdbcType=VARCHAR} and CREATE_DATE &lt; #{date1,jdbcType=VARCHAR} 
+		AND USER_CODE = #{sendUserCode,jdbcType=VARCHAR} AND SEND_USER_CODE = #{userCode,jdbcType=VARCHAR}) TEMP ORDER BY TEMP.CREATE_DATE ASC
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="IMessage" resultMap="iMessageResult">
+        SELECT * FROM I_MESSAGE 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="text != null and text != ''">
+                AND TEXT = #{text,jdbcType=VARCHAR}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND USER_NAME = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="userCode != null and userCode != ''">
+                AND USER_CODE = #{userCode,jdbcType=VARCHAR}
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                AND DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                AND ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+            </if>
+            <if test="sendUserCode != null and sendUserCode != ''">
+                AND SEND_USER_CODE = #{sendUserCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select id="queryParamPage" parameterType="IMessage" resultMap="iMessageResult">
+        SELECT * FROM I_MESSAGE
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="text != null and text != ''">
+                AND TEXT = #{text,jdbcType=VARCHAR}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND USER_NAME = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="userCode != null and userCode != ''">
+                AND USER_CODE = #{userCode,jdbcType=VARCHAR}
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                AND DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                AND ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+            </if>
+            <if test="sendUserCode != null and sendUserCode != ''">
+                AND SEND_USER_CODE = #{sendUserCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM I_MESSAGE WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="IMessage" resultType="Integer">
+        SELECT COUNT(*) C FROM I_MESSAGE 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="text != null and text != ''">
+                AND TEXT = #{text,jdbcType=VARCHAR}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND USER_NAME = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="userCode != null and userCode != ''">
+                AND USER_CODE = #{userCode,jdbcType=VARCHAR}
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                AND DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                AND ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+            </if>
+            <if test="sendUserCode != null and sendUserCode != ''">
+                AND SEND_USER_CODE = #{sendUserCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

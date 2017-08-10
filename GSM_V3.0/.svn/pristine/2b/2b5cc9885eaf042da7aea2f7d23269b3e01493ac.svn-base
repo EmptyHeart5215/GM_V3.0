@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysRegionMapper" >
+  <resultMap id="sysRegionResult" type="SysRegion" >
+     <id column="REGION_ID" property="regionId" jdbcType="VARCHAR" />
+    <result column="REGION_CODE" property="regionCode" jdbcType="VARCHAR" />
+    <result column="REGION_NAME" property="regionName" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+    <result column="REGION_LEVEL" property="regionLevel" jdbcType="VARCHAR" />
+    <result column="REGION_ORDER" property="regionOrder" jdbcType="VARCHAR" />
+    <result column="REGION_NAME_EN" property="regionNameEn" jdbcType="VARCHAR" />
+    <result column="REGION_SHORTNAME_EN" property="regionShortnameEn" jdbcType="VARCHAR" />
+    <result column="TOTAL_NAME" property="totalName" jdbcType="VARCHAR" />
+  </resultMap>
+ <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="sysRegionResult">
+        SELECT * FROM SYS_region WHERE REGION_ID=#{code}
+    </select>
+
+   <select id="queryTree" resultType="java.util.Map" parameterType="java.util.Map">
+       select region_id as code,region_name as name ,parent_id as parentcode from sys_region  start with parent_id=1 CONNECT by PRIOR region_id=parent_id
+   </select>
+   
+   <select id="queryListByCodes" resultMap="sysRegionResult" parameterType="java.util.List">
+		 SELECT * FROM SYS_region WHERE REGION_ID in 
+		(
+		<foreach collection="list" item="s" index="index" separator=",">
+		  #{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+      
+   </select>
+</mapper>

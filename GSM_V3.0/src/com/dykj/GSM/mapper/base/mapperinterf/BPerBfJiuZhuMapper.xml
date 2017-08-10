@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BPerBfJiuZhuMapper" >
+  <resultMap id="perBfJiuZhuResult" type="BPerBfJiuZhu" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PERSON_CODE" property="personCode" jdbcType="VARCHAR" />
+    <result column="IS_MAJOR_DISEASES" property="isMajorDiseases" jdbcType="CHAR" />
+    <result column="DISEASE" property="disease" jdbcType="VARCHAR" />
+    <result column="ASSIST_DATE" property="assistDate" jdbcType="VARCHAR" />
+    <result column="ASSIST_AMOUNT" property="assistAmount" jdbcType="DECIMAL" />
+    <result column="BANG_FU_REMARK" property="bangFuRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+     CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, PERSON_CODE, 
+    IS_MAJOR_DISEASES, DISEASE, ASSIST_DATE, ASSIST_AMOUNT, BANG_FU_REMARK
+  </sql>
+  <insert id="insert" parameterType="BPerBfJiuZhu" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+   insert into B_PER_BF_JIU_ZHU (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, PERSON_CODE, IS_MAJOR_DISEASES, 
+      DISEASE, ASSIST_DATE, ASSIST_AMOUNT, 
+      BANG_FU_REMARK)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{personCode,jdbcType=VARCHAR}, #{isMajorDiseases,jdbcType=CHAR}, 
+      #{disease,jdbcType=VARCHAR}, #{assistDate,jdbcType=VARCHAR}, #{assistAmount,jdbcType=DECIMAL}, 
+      #{bangFuRemark,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="BPerBfJiuZhu" >
+   update B_PER_BF_JIU_ZHU
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="personCode != null" >
+        PERSON_CODE = #{personCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isMajorDiseases != null" >
+        IS_MAJOR_DISEASES = #{isMajorDiseases,jdbcType=CHAR},
+      </if>
+      <if test="disease != null" >
+        DISEASE = #{disease,jdbcType=VARCHAR},
+      </if>
+      <if test="assistDate != null" >
+        ASSIST_DATE = #{assistDate,jdbcType=VARCHAR},
+      </if>
+      <if test="assistAmount != null" >
+        ASSIST_AMOUNT = #{assistAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="bangFuRemark != null" >
+        BANG_FU_REMARK = #{bangFuRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_PER_BF_JIU_ZHU SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+   <update id="deleteByPersonCode" parameterType="String">
+       UPDATE B_PER_BF_JIU_ZHU SET FLAG_DEL=1 WHERE person_code=#{personCode}
+   </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="perBfJiuZhuResult">
+        SELECT h.* FROM B_PER_BF_JIU_ZHU h
+                WHERE h.FLAG_DEL != 1 AND h.CODE=#{code}
+    </select>
+      <!-- 根据基本信息code查询流动人员的信息  -->
+    <select id="queryByPersonCode" parameterType="String" resultMap="perBfJiuZhuResult">
+        SELECT h.* FROM B_PER_BF_JIU_ZHU h
+        WHERE h.FLAG_DEL != 1 AND h.person_code=#{personCode}
+    </select>
+</mapper>

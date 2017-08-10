@@ -1,0 +1,20 @@
+@Null  元素必须为 null  
+@NotNull   元素必须不为 null  
+@AssertTrue    元素必须为 true  
+@AssertFalse   元素必须为 false  
+@Min(value)    元素必须是一个数字，其值必须大于等于指定的最小值  
+@Max(value)    元素必须是一个数字，其值必须小于等于指定的最大值  
+@DecimalMin(value) 元素必须是一个数字，其值必须大于等于指定的最小值  
+@DecimalMax(value) 元素必须是一个数字，其值必须小于等于指定的最大值  
+@Size(max=, min=)  元素的大小必须在指定的范围内  
+@Digits (integer, fraction)    元素必须是一个数字，其值必须在可接受的范围内  
+@Past  元素必须是一个过去的日期  
+@Future    元素必须是一个将来的日期  
+@Pattern(regex=,flag=) 元素必须符合指定的正则表达式  
+  
+Hibernate Validator 附加的 constraint  
+@NotBlank(message =)   检查该字符串不为null,并且不是空字符串.必须大于0 本约束和下面的@NotEmpty的不同之处在于,本约束只能被用在字符串类型上,并且会忽略字符串尾部的空白字符  
+@Email 元素必须是电子邮箱地址  
+@Length(min=,max=) 字符串的大小必须在指定的范围内  
+@NotEmpty  字符串的必须非空  
+@Range(min=,max=,message=) 元素必须在合适的范围内 

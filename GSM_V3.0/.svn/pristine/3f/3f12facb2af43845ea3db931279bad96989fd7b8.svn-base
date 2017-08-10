@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BPersonMapper" >
+  <resultMap id="bPersonResult" type="BPerson" >
+   <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="HOUSE_CODE" property="houseCode" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="OTHER_NAME" property="otherName" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="CID" property="cid" jdbcType="VARCHAR" />
+    <result column="CODE_NATION" property="codeNation" jdbcType="VARCHAR" />
+    <result column="NATIVE_PLACE_CODE" property="nativePlaceCode" jdbcType="VARCHAR" />
+    <result column="CODE_MARRIAGE" property="codeMarriage" jdbcType="VARCHAR" />
+    <result column="CODE_POLITICAL" property="codePolitical" jdbcType="VARCHAR" />
+    <result column="CODE_EDUCATION" property="codeEducation" jdbcType="VARCHAR" />
+    <result column="CODE_RELIGIOUS" property="codeReligious" jdbcType="VARCHAR" />
+    <result column="CODE_JOB_TYPE" property="codeJobType" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="SERVER_ADDRESS" property="serverAddress" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="RESIDENCE_ADDRESS_CODE" property="residenceAddressCode" jdbcType="VARCHAR" />
+    <result column="RESIDENCE_DETAIL" property="residenceDetail" jdbcType="VARCHAR" />
+    <result column="NOW_ADDRESS_CODE" property="nowAddressCode" jdbcType="VARCHAR" />
+    <result column="NOW_ADDRESS_DETAIL" property="nowAddressDetail" jdbcType="VARCHAR" />
+    <result column="CODE_HOUSEHOLD_STATUS" property="codeHouseholdStatus" jdbcType="VARCHAR" />
+    <result column="IMG" property="img" jdbcType="VARCHAR" />
+    <result column="CODE_MANAGE_TYPE" property="codeManageType" jdbcType="VARCHAR" />
+    <result property="gridCode" column="GRID_CODE" jdbcType="VARCHAR"/>
+    
+    <result column="unitName" property="unitName"  jdbcType="VARCHAR"/>
+	<result column="buildName" property="buildName"  jdbcType="VARCHAR"/>
+	
+	
+	<!-- 关联表需要的列 <result property="houseNum"/>-->
+	 <association property="fuShu" javaType="com.dykj.GSM.model.base.BPerFuShu">
+	 <result column="TS_XING_SHI" property="tsXingShi" jdbcType="CHAR" />
+    <result column="TS_JIAO_ZHENG" property="tsJiaoZheng" jdbcType="CHAR" />
+    <result column="TS_XI_DU" property="tsXiDu" jdbcType="CHAR" />
+    <result column="TS_AI_ZI" property="tsAiZi" jdbcType="CHAR" />
+    <result column="TS_JING_SHEN" property="tsJingShen" jdbcType="CHAR" />
+    <result column="TS_XIE_JIAO" property="tsXieJiao" jdbcType="CHAR" />
+    <result column="BF_CAN_JI" property="bfCanJi" jdbcType="CHAR" />
+    <result column="BF_DI_BAO" property="bfDiBao" jdbcType="CHAR" />
+    <result column="BF_JIU_ZHU" property="bfJiuZhu" jdbcType="CHAR" />
+    <result column="BF_KONG_CHAO" property="bfKongChao" jdbcType="CHAR" />
+    <result column="BF_KUN_NAN_ZHI_GONG" property="bfKunNanZhiGong" jdbcType="CHAR" />
+    <result column="BF_LIU_SHOU" property="bfLiuShou" jdbcType="CHAR" />
+    <result column="BF_TE_KUN_SHENG" property="bfTeKunSheng" jdbcType="CHAR" />
+    <result column="BF_WU_BAO" property="bfWuBao" jdbcType="CHAR" />
+      <result column="YONG_JUN" property="yongJun" jdbcType="CHAR" />
+    <result column="ZI_YUAN" property="ziYuan" jdbcType="CHAR" />
+    <result column="ZHI_YUAN" property="zhiYuan" jdbcType="CHAR" />
+    <result column="QING_SHAO_NIAN" property="qingShaoNian" jdbcType="CHAR" />
+    <result column="LIU_DONG" property="liuDong" jdbcType="CHAR" />
+    <result column="HU_JI" property="huJi" jdbcType="CHAR" />
+    <result column="LAO_DONG" property="laoDong" jdbcType="CHAR" />
+	</association>
+	<association property="building" javaType="BBuilding" resultMap="joinBBuildingResult"></association>
+	<association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>
+  </resultMap>
+  <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+  <resultMap id="tempResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+   <resultMap id="tempResults" type="ReMap" >
+	    <result column="POSITION" jdbcType="VARCHAR" property="position" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+  <!-- 关联表需要的列 -->
+    <resultMap type="BBuilding" id="joinBBuildingResult">
+        <result column="POSITION" jdbcType="VARCHAR" property="position"/>
+    </resultMap>
+  <sql id="Base_Column_List" >
+  CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, HOUSE_CODE, NAME, 
+    OTHER_NAME, SEX, CID, CODE_NATION, NATIVE_PLACE_CODE, CODE_MARRIAGE, CODE_POLITICAL, 
+    CODE_EDUCATION, CODE_RELIGIOUS, CODE_JOB_TYPE, JOB, SERVER_ADDRESS, PHONE, RESIDENCE_ADDRESS_CODE, 
+    RESIDENCE_DETAIL, NOW_ADDRESS_CODE, NOW_ADDRESS_DETAIL, CODE_HOUSEHOLD_STATUS, IMG, 
+    CODE_MANAGE_TYPE,GRID_CODE
+  </sql>
+ <sql id="fushu_column" >
+    fu.TS_XING_SHI,fu. TS_JIAO_ZHENG,fu.TS_XI_DU,fu.TS_AI_ZI,fu.TS_JING_SHEN,fu.TS_XIE_JIAO,fu.BF_CAN_JI,
+    fu.BF_DI_BAO,fu.BF_JIU_ZHU,fu.BF_KONG_CHAO,fu.BF_KUN_NAN_ZHI_GONG,fu.BF_LIU_SHOU,fu.BF_TE_KUN_SHENG,
+    fu.BF_WU_BAO, fu.YONG_JUN, fu.ZI_YUAN, fu.ZHI_YUAN, fu.QING_SHAO_NIAN, fu.LIU_DONG, fu.HU_JI,fu.LAO_DONG
+  </sql>
+  <insert id="insert" parameterType="BPerson" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+   insert into B_PERSON (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, HOUSE_CODE, NAME, 
+      OTHER_NAME, SEX, CID, CODE_NATION, 
+      NATIVE_PLACE_CODE, CODE_MARRIAGE, CODE_POLITICAL, 
+      CODE_EDUCATION, CODE_RELIGIOUS, CODE_JOB_TYPE, 
+      JOB, SERVER_ADDRESS, PHONE, 
+      RESIDENCE_ADDRESS_CODE, RESIDENCE_DETAIL, NOW_ADDRESS_CODE, 
+      NOW_ADDRESS_DETAIL, CODE_HOUSEHOLD_STATUS, IMG, 
+      CODE_MANAGE_TYPE,GRID_CODE)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{houseCode,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{otherName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{codeNation,jdbcType=VARCHAR}, 
+      #{nativePlaceCode,jdbcType=VARCHAR}, #{codeMarriage,jdbcType=VARCHAR}, #{codePolitical,jdbcType=VARCHAR}, 
+      #{codeEducation,jdbcType=VARCHAR}, #{codeReligious,jdbcType=VARCHAR}, #{codeJobType,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{serverAddress,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{residenceAddressCode,jdbcType=VARCHAR}, #{residenceDetail,jdbcType=VARCHAR}, #{nowAddressCode,jdbcType=VARCHAR}, 
+      #{nowAddressDetail,jdbcType=VARCHAR}, #{codeHouseholdStatus,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, 
+      #{codeManageType,jdbcType=VARCHAR}, #{gridCode,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="BPerson" >
+   update B_PERSON
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="houseCode != null" >
+        HOUSE_CODE = #{houseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="otherName != null" >
+        OTHER_NAME = #{otherName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        CID = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="codeNation != null" >
+        CODE_NATION = #{codeNation,jdbcType=VARCHAR},
+      </if>
+      <if test="nativePlaceCode != null" >
+        NATIVE_PLACE_CODE = #{nativePlaceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="codeMarriage != null" >
+        CODE_MARRIAGE = #{codeMarriage,jdbcType=VARCHAR},
+      </if>
+      <if test="codePolitical != null" >
+        CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR},
+      </if>
+      <if test="codeEducation != null" >
+        CODE_EDUCATION = #{codeEducation,jdbcType=VARCHAR},
+      </if>
+      <if test="codeReligious != null" >
+        CODE_RELIGIOUS = #{codeReligious,jdbcType=VARCHAR},
+      </if>
+      <if test="codeJobType != null" >
+        CODE_JOB_TYPE = #{codeJobType,jdbcType=VARCHAR},
+      </if>
+      <if test="job != null" >
+        JOB = #{job,jdbcType=VARCHAR},
+      </if>
+      <if test="serverAddress != null" >
+        SERVER_ADDRESS = #{serverAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="residenceAddressCode != null" >
+        RESIDENCE_ADDRESS_CODE = #{residenceAddressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="residenceDetail != null" >
+        RESIDENCE_DETAIL = #{residenceDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="nowAddressCode != null" >
+        NOW_ADDRESS_CODE = #{nowAddressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="nowAddressDetail != null" >
+        NOW_ADDRESS_DETAIL = #{nowAddressDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="codeHouseholdStatus != null" >
+        CODE_HOUSEHOLD_STATUS = #{codeHouseholdStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        IMG = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="codeManageType != null" >
+        CODE_MANAGE_TYPE = #{codeManageType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_PERSON SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+    
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bPersonResult">
+        SELECT  <include refid="fushu_column"/>,p.*,grid.grid_total_name as gridTotalName,b.build_name as buildName,u.name as unitName FROM b_per_fu_shu fu 
+        join B_PERSON p on fu.PERSON_CODE=p.code and fu.flag_del=0
+        join b_house h on h.code=p.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+        join sys_seat_grid grid on grid.code=b.grid_code and grid.flag_del=0 WHERE p.FLAG_DEL != 1 AND p.CODE=#{code}
+    </select>
+    
+  <select id="queryParamPageMap" parameterType="BPerson" resultType="java.util.Map">
+  select * from(SELECT p.code as code,p.name as name,'jingNei' as personType FROM B_PERSON p
+   where p.FLAG_DEL != 1
+	<if test="houseCode != null and houseCode != ''">
+   		AND p.HOUSE_CODE = #{houseCode,jdbcType=VARCHAR}
+	</if>
+  UNION ALL SELECT j.code as code,j.first_Name||' '||j.last_Name as name,'jingWai' as personType from B_PER_JING_WAI j where j.flag_del=0
+  <if test="houseCode != null and houseCode != ''">
+   		AND j.HOUSE_CODE = #{houseCode,jdbcType=VARCHAR}
+	</if>)
+</select>
+ 
+    <!-- 分页查询,所有实体对象集合  -->
+    <select id="queryParamPage" parameterType="BPerson" resultMap="bPersonResult">
+        SELECT B_PERSON.*,BB.POSITION FROM B_PERSON  
+        LEFT JOIN B_HOUSE BH ON BH.CODE = B_PERSON.HOUSE_CODE 
+        LEFT JOIN B_UNIT BU ON BU.CODE = BH.UNIT_CODE 
+        LEFT JOIN B_BUILDING BB ON BB.CODE = BU.BUILD_CODE 
+        <where>
+            B_PERSON.FLAG_DEL != 1
+            			<if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND B_PERSON.NAME  LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="otherName != null and otherName != ''">
+                AND OTHER_NAME = #{otherName,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null and sex != ''">
+            	AND B_PERSON.SEX  LIKE CONCAT(CONCAT('%', #{sex,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="cid != null and cid != ''">
+                AND CID = #{cid,jdbcType=VARCHAR}
+            </if>
+            <if test="codeNation != null and codeNation != ''">
+            	AND CODE_NATION  LIKE CONCAT(CONCAT('%', #{codeNation,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codePolitical != null and codePolitical != ''">
+                AND CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR}
+            </if>
+            <if test="codeEducation != null and codeEducation != ''">
+                AND CODE_EDUCATION = #{codeEducation,jdbcType=VARCHAR}
+            </if>
+            <if test="codeManageType != null and codeManageType != ''">
+            	AND B_PERSON.CODE_MANAGE_TYPE  LIKE CONCAT(CONCAT('%', #{codeManageType,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="houseNum != null and houseNum != ''">
+            	AND B_PERSON.HOUSE_NUM  LIKE CONCAT(CONCAT('%', #{houseNum,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="unitName != null and unitName != ''">
+            	AND B_PERSON.UNIT_NAME  LIKE CONCAT(CONCAT('%', #{unitName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="buildName != null and buildName != ''">
+            	AND B_PERSON.BUILD_NAME  LIKE CONCAT(CONCAT('%', #{buildName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND B_PERSON.GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+        <select id="Charts" parameterType="BParts" resultMap="tempResult" >
+	<if test="gridCode.length() ==2 ">
+		SELECT COUNT(B_PERSON.code) AS COUNTS , sys_seat_second.name AS NAME
+		,sys_seat_second.code FROM B_PERSON
+		join b_house h on h.code=B_PERSON.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+		LEFT JOIN sys_seat_grid ON B_PERSON.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		LEFT JOIN sys_seat_second ON
+		sys_seat_third.parent_code=sys_seat_second.code
+		where 1=1
+		and sys_seat_second.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==5 ">
+		SELECT COUNT(B_PERSON.code) AS COUNTS , sys_seat_third.name AS NAME
+		,sys_seat_third.code FROM B_PERSON
+		join b_house h on h.code=B_PERSON.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+		LEFT JOIN sys_seat_grid ON B_PERSON.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		where 1=1
+		and sys_seat_third.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==8 ">
+		SELECT COUNT(B_PERSON.code) AS COUNTS , sys_seat_four.name AS NAME
+		,sys_seat_four.code FROM B_PERSON
+		join b_house h on h.code=B_PERSON.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+		LEFT JOIN sys_seat_grid ON B_PERSON.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		where 1=1
+		and sys_seat_four.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() >8 ">
+		SELECT COUNT(B_PERSON.code) AS COUNTS , sys_seat_grid.name AS NAME
+		,sys_seat_grid.code FROM B_PERSON
+		join b_house h on h.code=B_PERSON.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+		LEFT JOIN sys_seat_grid ON B_PERSON.grid_code=sys_seat_grid.code
+		where 1=1
+		and sys_seat_grid.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+
+			<if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND B_PERSON.NAME  LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="otherName != null and otherName != ''">
+                AND OTHER_NAME = #{otherName,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null and sex != ''">
+            	AND B_PERSON.SEX  LIKE CONCAT(CONCAT('%', #{sex,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="cid != null and cid != ''">
+                AND CID = #{cid,jdbcType=VARCHAR}
+            </if>
+            <if test="codeNation != null and codeNation != ''">
+            	AND CODE_NATION  LIKE CONCAT(CONCAT('%', #{codeNation,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codePolitical != null and codePolitical != ''">
+                AND CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR}
+            </if>
+            <if test="codeEducation != null and codeEducation != ''">
+                AND CODE_EDUCATION = #{codeEducation,jdbcType=VARCHAR}
+            </if>
+            <if test="codeManageType != null and codeManageType != ''">
+            	AND B_PERSON.CODE_MANAGE_TYPE  LIKE CONCAT(CONCAT('%', #{codeManageType,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="buildName != null and buildName != ''">
+			  and b.build_name like '%'||#{buildName,jdbcType=VARCHAR}||'%'
+			 </if>
+			 <if test="unitName != null and unitName != ''">
+			  and u.name like '%'||#{unitName,jdbcType=VARCHAR}||'%'
+			 </if>
+			 <if test="houseNum != null and houseNum != ''">
+			  and h.house_Num like '%'||#{houseNum,jdbcType=VARCHAR}||'%'
+			 </if>
+
+
+ AND B_PERSON.FLAG_DEL != 1
+	<if test="gridCode.length() ==2 ">
+	GROUP BY sys_seat_second.name ,sys_seat_second.code
+	</if>
+	<if test="gridCode.length() ==5 ">
+		GROUP BY sys_seat_third.name ,sys_seat_third.code
+	</if>
+	<if test="gridCode.length() ==8 ">
+		GROUP BY sys_seat_four.name ,sys_seat_four.code
+	</if>
+	<if test="gridCode.length() >8 ">
+		GROUP BY sys_seat_grid.name ,sys_seat_grid.code
+	</if>
+   </select>
+   <select id="mapqueryByParamPage" parameterType="BPerson" resultMap="tempResults">
+select count(*) AS COUNTS,to_char(B_BUILDING.position) as POSITION from b_person 
+left join B_HOUSE on b_person.house_code=B_HOUSE.code
+left join B_unit on B_HOUSE.unit_code=B_unit.Code
+left join B_BUILDING on B_unit.build_code=B_BUILDING.CODE
+where b_person.flag_del=0
+
+<if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND B_PERSON.NAME  LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="otherName != null and otherName != ''">
+                AND OTHER_NAME = #{otherName,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null and sex != ''">
+            	AND B_PERSON.SEX  LIKE CONCAT(CONCAT('%', #{sex,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="cid != null and cid != ''">
+                AND CID = #{cid,jdbcType=VARCHAR}
+            </if>
+            <if test="codeNation != null and codeNation != ''">
+            	AND CODE_NATION  LIKE CONCAT(CONCAT('%', #{codeNation,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codePolitical != null and codePolitical != ''">
+                AND CODE_POLITICAL = #{codePolitical,jdbcType=VARCHAR}
+            </if>
+            <if test="codeEducation != null and codeEducation != ''">
+                AND CODE_EDUCATION = #{codeEducation,jdbcType=VARCHAR}
+            </if>
+            <if test="codeManageType != null and codeManageType != ''">
+            	AND B_PERSON.CODE_MANAGE_TYPE  LIKE CONCAT(CONCAT('%', #{codeManageType,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="houseNum != null and houseNum != ''">
+            	AND B_PERSON.HOUSE_NUM  LIKE CONCAT(CONCAT('%', #{houseNum,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="unitName != null and unitName != ''">
+            	AND B_PERSON.UNIT_NAME  LIKE CONCAT(CONCAT('%', #{unitName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="buildName != null and buildName != ''">
+            	AND B_PERSON.BUILD_NAME  LIKE CONCAT(CONCAT('%', #{buildName,jdbcType=VARCHAR}),'%')
+            </if>
+            
+group by to_char(B_BUILDING.position)
+
+    </select>
+    
+    <select id="queryZongHePage" parameterType="java.util.Map" resultMap="bPersonResult">
+  SELECT B_PERSON.* ,b.build_name as buildName,u.name as unitName,h.house_num ,grid.grid_total_name, b.POSITION
+  		from
+  		 B_PERSON B_PERSON
+        join b_house h on h.code=B_PERSON.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+        join sys_seat_grid grid on grid.code=b.grid_code and grid.flag_del=0 
+        LEFT JOIN B_PER_FU_SHU bp ON bp.PERSON_CODE=B_PERSON.code and bp.flag_del=0
+        LEFT JOIN B_PER_ZHI_YUAN bpz ON bpz.PERSON_CODE=bp.PERSON_CODE and bpz.flag_del=0
+        LEFT JOIN B_PER_ZI_YUAN bpzs ON bpzs.PERSON_CODE=bp.PERSON_CODE and bpzs.flag_del=0
+        LEFT JOIN B_PER_YONG_JUN bpy ON bpy.PERSON_CODE=bp.PERSON_CODE and bpy.flag_del=0
+        LEFT JOIN B_PER_LAO_DONG bpl ON bpl.PERSON_CODE=bp.PERSON_CODE and bpl.flag_del=0
+        LEFT JOIN B_PER_LIU_DONG bpld ON bpld.PERSON_CODE=bp.PERSON_CODE and bpld.flag_del=0
+        WHERE B_PERSON.FLAG_DEL != 1 
+        <if test="gridCode != null and gridCode != ''">
+	  and B_PERSON.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if> 
+	 <if test="buildName != null and buildName != ''">
+	  and b.build_name like '%'||#{buildName,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="unitName != null and unitName != ''">
+	  and u.name like '%'||#{unitName,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="houseNum != null and houseNum != ''">
+	  and h.house_Num like '%'||#{houseNum,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="name != null and name != ''">
+	  and B_PERSON.name like '%'||#{name,jdbcType=VARCHAR}||'%'
+	 </if>
+
+	<if test="cid != null and cid != ''">
+		 	and B_PERSON.CID like '%'||#{cid,jdbcType=VARCHAR}||'%'
+	</if>
+
+	 <if test="codeManageType != null and codeManageType.size()>0">
+	 and (
+		<foreach collection="codeManageType" item="s" index="index" separator=" or ">
+		   B_PERSON.CODE_MANAGE_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+	 <if test="sex != null and sex != ''">
+	  and B_PERSON.sex like '%'||#{sex,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="codeNation != null and codeNation.size()>0">
+	 and (
+		<foreach collection="codeNation" item="s" index="index" separator=" or ">
+		   B_PERSON.code_Nation =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+<!-- 	 <if test="codeIdType != null and codeIdType.size()>0"> -->
+<!-- 	 and ( -->
+<!-- 		<foreach collection="codeIdType" item="s" index="index" separator=" or "> -->
+<!-- 		   B_PERSON.code_Id_Type =#{s,jdbcType=VARCHAR} -->
+<!-- 		</foreach> -->
+<!-- 		) -->
+<!-- 	 </if> -->
+<!-- 	 <if test="cid != null and cid != ''"> -->
+<!-- 	  and B_PERSON.cid like '%'||#{cid,jdbcType=VARCHAR}||'%' -->
+<!-- 	 </if> -->
+	 <if test="codePolitical != null and codePolitical.size()>0">
+	 and (
+		<foreach collection="codePolitical" item="s" index="index" separator=" or ">
+		   B_PERSON.code_Political =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+	 <if test="codeEducation != null and codeEducation.size()>0">
+	  and (
+		<foreach collection="codeEducation" item="s" index="index" separator=" or ">
+		   B_PERSON.code_Education =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+	 <if test="codeReligious != null and codeReligious.size()>0">
+	 and (
+		<foreach collection="codeReligious" item="s" index="index" separator=" or ">
+		   B_PERSON.code_Religious =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+	 <if test="codeVolunteerType != null and codeVolunteerType.size()>0">
+	 and bp.ZHI_YUAN=1 
+	 and (
+		<foreach collection="codeVolunteerType" item="s" index="index" separator=" or ">
+		   bpz.CODE_VOLUNTEER_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+	 <if test="codePerResources != null and codePerResources.size()>0">
+	 and bp.ZI_YUAN=1  
+	 and (
+		<foreach collection="codePerResources" item="s" index="index" separator=" or ">
+		   bpzs.CODE_PER_RESOURCES =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+	 <if test="codeSamc != null and codeSamc.size()>0">
+	 and bp.YONG_JUN=1
+	 and (
+		<foreach collection="codeSamc" item="s" index="index" separator=" or ">
+		   bpy.CODE_SAMC=#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+	 <if test="codeJiuYeType != null and codeJiuYeType.size()>0">
+	 and bp.LAO_DONG=1
+	 and (
+		<foreach collection="codeJiuYeType" item="s" index="index" separator=" or ">
+		   bpl.CODE_JIU_YE_TYPE=#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>
+	 <if test="laborSecurity != null and laborSecurity != ''">
+	 	<if test="laborSecurity == 'IS_ZI_GE'">
+	 		and bpl.IS_ZI_GE=1
+	 	</if>
+	 	<if test="laborSecurity == 'IS_HAS_JIU_YE_ZHENG'">
+	 		and bpl.IS_HAS_JIU_YE_ZHENG=1
+	 	</if>
+	 	<if test="laborSecurity == 'IS_HE_TONG'">
+	 		and bpl.IS_HE_TONG=1
+	 	</if>
+	 	<if test="laborSecurity == 'IS_YANG_LAO'">
+	 		and bpl.IS_YANG_LAO=1
+	 	</if>
+	 	<if test="laborSecurity == 'IS_SHI_YE_BAO_XIAN'">
+	 		and bpl.IS_SHI_YE_BAO_XIAN=1
+	 	</if>
+	 	<if test="laborSecurity == 'IS_YI_LIAO'">
+	 		and bpl.IS_YI_LIAO=1
+	 	</if>
+	 	<if test="laborSecurity == 'IS_GONG_SHANG'">
+	 		and bpl.IS_GONG_SHANG=1
+	 	</if>
+	 	<if test="laborSecurity == 'IS_SHENG_YU'">
+	 		and bpl.IS_SHENG_YU=1
+	 	</if>
+	 	<if test="laborSecurity == 'IS_GONG_JI_JIN'">
+	 		and bpl.IS_GONG_JI_JIN=1
+	 	</if>
+	 </if>
+	 
+	 <if test="focusPeople != null and focusPeople != ''">
+	 	<if test="focusPeople == 'TS_XING_SHI'">
+	 		and bp.TS_XING_SHI=1
+	 	</if>
+	 	<if test="focusPeople == 'TS_JIAO_ZHENG'">
+	 		and bp.TS_JIAO_ZHENG=1
+	 	</if>
+	 	<if test="focusPeople == 'TS_XI_DU'">
+	 		and bp.TS_XI_DU=1
+	 	</if>
+	 	<if test="focusPeople == 'TS_JING_SHEN'">
+	 		and bp.TS_JING_SHEN=1
+	 	</if>
+	 	<if test="focusPeople == 'TS_AI_ZI'">
+	 		and bp.TS_AI_ZI=1
+	 	</if>
+	 	<if test="focusPeople == 'TS_XIE_JIAO'">
+	 		and bp.TS_XIE_JIAO=1
+	 	</if>
+	 </if>
+	 <if test="helpingPeople != null and helpingPeople != ''">
+	 	<if test="helpingPeople == 'BF_LIU_SHOU'">
+	 		and bp.BF_LIU_SHOU=1
+	 	</if>
+	 	<if test="helpingPeople == 'BF_CAN_JI'">
+	 		and bp.BF_CAN_JI=1
+	 	</if>
+	 	<if test="helpingPeople == 'BF_DI_BAO'">
+	 		and bp.BF_DI_BAO=1
+	 	</if>
+	 	<if test="helpingPeople == 'BF_WU_BAO'">
+	 		and bp.BF_WU_BAO=1
+	 	</if>
+	 	<if test="helpingPeople == 'BF_JIU_ZHU'">
+	 		and bp.BF_JIU_ZHU=1
+	 	</if>
+	 	<if test="helpingPeople == 'BF_KONG_CHAO'">
+	 		and bp.BF_KONG_CHAO=1
+	 	</if>
+	 	<if test="helpingPeople == 'BF_KUN_NAN_ZHI_GONG'">
+	 		and bp.BF_KUN_NAN_ZHI_GONG=1
+	 	</if>
+	 	<if test="helpingPeople == 'BF_TE_KUN_SHENG'">
+	 		and bp.BF_TE_KUN_SHENG=1
+	 	</if>
+	 </if>
+</select>
+<!-- 用于index页显示的人口统计 -->
+ <select id="queryPersonTypeStatistics" parameterType="java.util.Map" resultType="java.util.Map">
+ 	select sum(case when sex='女' then counts else 0 end) as nv,
+sum(case when sex='男' then counts else 0 end) as nan ,
+sum(case when name='常住人口' then counts else 0 end) as chang ,
+sum(case when name='流动人口' then counts else 0 end) as liu ,
+sum(case when name='境外' then counts else 0 end) as wai ,
+sum(case when name='户籍' then counts else 0 end) as hu ,
+sum(case when name='门店'then counts else 0 end) as men ,
+sum(case when name='自住'then counts else 0 end) as zi ,
+sum(case when name='出租'then counts else 0 end) as chu ,
+sum(case when name='民宿'then counts else 0 end) as min ,
+sum(case when name='其他'then counts else 0 end) as qi ,
+sum(case when name='空置'then counts else 0 end) as kong
+from(
+SELECT COUNT(b.code)  AS counts ,
+  TO_CHAR(dic.NAME_C) AS name,b.sex
+FROM B_PERSON b
+JOIN SYS_DIC_VALUE dic
+ON b.CODE_MANAGE_TYPE=dic.code
+WHERE b.FLAG_DEL     =0
+AND dic.FLAG_DEL     =0
+AND b.GRID_CODE LIKE #{gridCode}||'%'
+GROUP BY dic.code,
+  dic.NAME_C,b.SEX
+UNION ALL
+SELECT COUNT(w.code) AS counts,
+  '境外'               AS name,w.SEX
+FROM B_per_jing_wai w
+WHERE w.flag_del=0
+AND w.grid_code LIKE #{gridCode}||'%'
+group by w.sex
+UNION ALL
+SELECT COUNT(f.code) AS counts,
+  '户籍'               AS name,p.sex
+FROM b_person p
+LEFT JOIN B_PER_FU_SHU f
+ON f.HU_JI       =1
+AND f.PERSON_CODE=p.CODE
+WHERE p.GRID_CODE LIKE #{gridCode}||'%' group by p.sex
+union all 
+select count(u.code) as counts,'门店'as name,null as sex from B_ENTERPRISE_STORES u where u.FLAG_DEL=0 and u.GRID_CODE like #{gridCode}||'%'
+union all 
+select count(h.code) as counts,to_char(dic.name_c) as name,null as sex from B_house h join sys_dic_value dic on dic.code =h.CODE_HOUSE_NATURE
+ where h.FLAG_DEL=0 and h.GRID_CODE like #{gridCode}||'%' and dic.flag_del=0
+group by h.CODE_HOUSE_NATURE,dic.name_c
+)
+
+ 	
+ </select>
+</mapper>

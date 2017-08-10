@@ -1,0 +1,27 @@
+#biaoge div{
+   border-top:1px solid #99BCE8;
+   border-bottom:1px solid #99BCE8;
+   border-left:1px solid #99BCE8;
+   border-right:1px solid #99BCE8;
+}
+#tables td{
+	height:8px;
+ 	border:#99BCE8 1px solid;
+ 	font-size: 11px;
+}
+#tables tbody { 
+	display: block; 
+	height: 218px; 
+	overflow: auto; 
+} 
+#tables thead{
+    display:table;
+    width:100%;
+}
+#tables tbody tr {
+	width:100%;
+	display:table;
+}
+#tables thead {
+    width: calc( 100% - 1.3em )
+}

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BPerTSJingShenMapper" >
+  <resultMap id="perTSJingShenResult" type="BPerTSJingShen" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+  <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PERSON_CODE" property="personCode" jdbcType="VARCHAR" />
+    <result column="CODE_JING_JI_SITUATION" property="codeJingJiSituation" jdbcType="VARCHAR" />
+    <result column="IS_DI_BAO" property="isDiBao" jdbcType="CHAR" />
+    <result column="JIAN_HU_CID" property="jianHuCid" jdbcType="VARCHAR" />
+    <result column="JIAN_HU_NAME" property="jianHuName" jdbcType="VARCHAR" />
+    <result column="JIAN_HU_PHONE" property="jianHuPhone" jdbcType="VARCHAR" />
+    <result column="FIRST_ILL_DATE" property="firstIllDate" jdbcType="VARCHAR" />
+    <result column="CODE_ZHEN_DUAN_TYPE" property="codeZhenDuanType" jdbcType="VARCHAR" />
+    <result column="IS_ZHAO_SHI" property="isZhaoShi" jdbcType="CHAR" />
+    <result column="ZHAO_SHI_COUNT" property="zhaoShiCount" jdbcType="DECIMAL" />
+    <result column="LAST_ZHAO_SHI_DATE" property="lastZhaoShiDate" jdbcType="VARCHAR" />
+    <result column="CODE_WEI_XIAN_CLASSES" property="codeWeiXianClasses" jdbcType="VARCHAR" />
+    <result column="CODE_ZHI_LIAO_SITUATION" property="codeZhiLiaoSituation" jdbcType="VARCHAR" />
+    <result column="YI_YUAN_NAME" property="yiYuanName" jdbcType="VARCHAR" />
+    <result column="CODE_ZHU_YUAN_REASON" property="codeZhuYuanReason" jdbcType="VARCHAR" />
+    <result column="JI_GOU_NAME" property="jiGouName" jdbcType="VARCHAR" />
+    <result column="CODE_MANAGE_PEOPLE" property="codeManagePeople" jdbcType="VARCHAR" />
+    <result column="CODE_BANG_FU_SITUATION" property="codeBangFuSituation" jdbcType="VARCHAR" />
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" />
+    
+    <association property="person" javaType="com.dykj.GSM.model.base.BPerson">
+     <result column="HOUSE_CODE" property="houseCode" jdbcType="VARCHAR" />
+     <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="OTHER_NAME" property="otherName" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="CID" property="cid" jdbcType="VARCHAR" />
+    <result column="CODE_NATION" property="codeNation" jdbcType="VARCHAR" />
+    <result column="NATIVE_PLACE_CODE" property="nativePlaceCode" jdbcType="VARCHAR" />
+    <result column="CODE_MARRIAGE" property="codeMarriage" jdbcType="VARCHAR" />
+    <result column="CODE_POLITICAL" property="codePolitical" jdbcType="VARCHAR" />
+    <result column="CODE_EDUCATION" property="codeEducation" jdbcType="VARCHAR" />
+    <result column="CODE_RELIGIOUS" property="codeReligious" jdbcType="VARCHAR" />
+    <result column="CODE_JOB_TYPE" property="codeJobType" jdbcType="VARCHAR" />
+    <result column="JOB" property="job" jdbcType="VARCHAR" />
+    <result column="SERVER_ADDRESS" property="serverAddress" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="RESIDENCE_ADDRESS_CODE" property="residenceAddressCode" jdbcType="VARCHAR" />
+    <result column="RESIDENCE_DETAIL" property="residenceDetail" jdbcType="VARCHAR" />
+    <result column="NOW_ADDRESS_CODE" property="nowAddressCode" jdbcType="VARCHAR" />
+    <result column="NOW_ADDRESS_DETAIL" property="nowAddressDetail" jdbcType="VARCHAR" />
+    <result column="CODE_HOUSEHOLD_STATUS" property="codeHouseholdStatus" jdbcType="VARCHAR" />
+    <result column="IMG" property="img" jdbcType="VARCHAR" />
+    <result column="CODE_MANAGE_TYPE" property="codeManageType" jdbcType="VARCHAR" />
+    <result property="unitName" column="UNITNAME" />
+	<result property="buildName" column="BUILDNAME" />
+	<result property="houseNum" column="house_num"/>
+	</association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+   CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, PERSON_CODE, 
+    CODE_JING_JI_SITUATION, IS_DI_BAO, JIAN_HU_CID, JIAN_HU_NAME, JIAN_HU_PHONE, FIRST_ILL_DATE, 
+    CODE_ZHEN_DUAN_TYPE, IS_ZHAO_SHI, ZHAO_SHI_COUNT, LAST_ZHAO_SHI_DATE, CODE_WEI_XIAN_CLASSES, 
+    CODE_ZHI_LIAO_SITUATION, YI_YUAN_NAME, CODE_ZHU_YUAN_REASON, JI_GOU_NAME, CODE_MANAGE_PEOPLE, 
+    CODE_BANG_FU_SITUATION
+  </sql>
+   <sql id="person_column" >
+   	p.HOUSE_CODE, p.NAME, 
+    p.OTHER_NAME, p.SEX, p.CID , p.CODE_NATION, p.NATIVE_PLACE_CODE, p.CODE_MARRIAGE, p.CODE_POLITICAL, 
+    p.CODE_EDUCATION, p.CODE_RELIGIOUS, p.CODE_JOB_TYPE, p.JOB, p.SERVER_ADDRESS, p.PHONE, p.RESIDENCE_ADDRESS_CODE, 
+    p.RESIDENCE_DETAIL, p.NOW_ADDRESS_CODE, p.NOW_ADDRESS_DETAIL, p.CODE_HOUSEHOLD_STATUS, p.IMG, p.CODE_MANAGE_TYPE
+  </sql>
+  <insert id="insert" parameterType="BPerTSJingShen" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+  insert into B_PER_TS_JING_SHEN (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, PERSON_CODE, CODE_JING_JI_SITUATION, 
+      IS_DI_BAO, JIAN_HU_CID, JIAN_HU_NAME, 
+      JIAN_HU_PHONE, FIRST_ILL_DATE, CODE_ZHEN_DUAN_TYPE, 
+      IS_ZHAO_SHI, ZHAO_SHI_COUNT, LAST_ZHAO_SHI_DATE, 
+      CODE_WEI_XIAN_CLASSES, CODE_ZHI_LIAO_SITUATION, YI_YUAN_NAME, 
+      CODE_ZHU_YUAN_REASON, JI_GOU_NAME, CODE_MANAGE_PEOPLE, 
+      CODE_BANG_FU_SITUATION)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{personCode,jdbcType=VARCHAR}, #{codeJingJiSituation,jdbcType=VARCHAR}, 
+      #{isDiBao,jdbcType=CHAR}, #{jianHuCid,jdbcType=VARCHAR}, #{jianHuName,jdbcType=VARCHAR}, 
+      #{jianHuPhone,jdbcType=VARCHAR}, #{firstIllDate,jdbcType=VARCHAR}, #{codeZhenDuanType,jdbcType=VARCHAR}, 
+      #{isZhaoShi,jdbcType=CHAR}, #{zhaoShiCount,jdbcType=DECIMAL}, #{lastZhaoShiDate,jdbcType=VARCHAR}, 
+      #{codeWeiXianClasses,jdbcType=VARCHAR}, #{codeZhiLiaoSituation,jdbcType=VARCHAR}, #{yiYuanName,jdbcType=VARCHAR}, 
+      #{codeZhuYuanReason,jdbcType=VARCHAR}, #{jiGouName,jdbcType=VARCHAR}, #{codeManagePeople,jdbcType=VARCHAR}, 
+      #{codeBangFuSituation,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="BPerTSJingShen" >
+    update B_PER_TS_JING_SHEN
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="codeJingJiSituation != null" >
+        CODE_JING_JI_SITUATION = #{codeJingJiSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="isDiBao != null" >
+        IS_DI_BAO = #{isDiBao,jdbcType=CHAR},
+      </if>
+      <if test="jianHuCid != null" >
+        JIAN_HU_CID = #{jianHuCid,jdbcType=VARCHAR},
+      </if>
+      <if test="jianHuName != null" >
+        JIAN_HU_NAME = #{jianHuName,jdbcType=VARCHAR},
+      </if>
+      <if test="jianHuPhone != null" >
+        JIAN_HU_PHONE = #{jianHuPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="firstIllDate != null" >
+        FIRST_ILL_DATE = #{firstIllDate,jdbcType=VARCHAR},
+      </if>
+      <if test="codeZhenDuanType != null" >
+        CODE_ZHEN_DUAN_TYPE = #{codeZhenDuanType,jdbcType=VARCHAR},
+      </if>
+      <if test="isZhaoShi != null" >
+        IS_ZHAO_SHI = #{isZhaoShi,jdbcType=CHAR},
+      </if>
+      <if test="zhaoShiCount != null" >
+        ZHAO_SHI_COUNT = #{zhaoShiCount,jdbcType=DECIMAL},
+      </if>
+      <if test="lastZhaoShiDate != null" >
+        LAST_ZHAO_SHI_DATE = #{lastZhaoShiDate,jdbcType=VARCHAR},
+      </if>
+      <if test="codeWeiXianClasses != null" >
+        CODE_WEI_XIAN_CLASSES = #{codeWeiXianClasses,jdbcType=VARCHAR},
+      </if>
+      <if test="codeZhiLiaoSituation != null" >
+        CODE_ZHI_LIAO_SITUATION = #{codeZhiLiaoSituation,jdbcType=VARCHAR},
+      </if>
+      <if test="yiYuanName != null" >
+        YI_YUAN_NAME = #{yiYuanName,jdbcType=VARCHAR},
+      </if>
+      <if test="codeZhuYuanReason != null" >
+        CODE_ZHU_YUAN_REASON = #{codeZhuYuanReason,jdbcType=VARCHAR},
+      </if>
+      <if test="jiGouName != null" >
+        JI_GOU_NAME = #{jiGouName,jdbcType=VARCHAR},
+      </if>
+      <if test="codeManagePeople != null" >
+        CODE_MANAGE_PEOPLE = #{codeManagePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="codeBangFuSituation != null" >
+        CODE_BANG_FU_SITUATION = #{codeBangFuSituation,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_PER_TS_JING_SHEN SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+   <update id="deleteByPersonCode" parameterType="String">
+       UPDATE B_PER_TS_JING_SHEN SET FLAG_DEL=1 WHERE person_code=#{personCode}
+   </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="perTSJingShenResult">
+        SELECT <include refid="Base_Column_List" /> FROM B_PER_TS_JING_SHEN 
+                WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+      <!-- 根据基本信息code查询流动人员的信息  -->
+    <select id="queryByPersonCode" parameterType="String" resultMap="perTSJingShenResult">
+        SELECT h.* FROM B_PER_TS_JING_SHEN h
+        WHERE h.FLAG_DEL != 1 AND h.person_code=#{personCode}
+    </select>
+    
+     <select id="queryMapParamPage" parameterType="java.util.Map" resultMap="perTSJingShenResult">
+  SELECT hu.* , <include refid="person_column"/>,b.build_name as buildName,u.name as unitName,h.house_num ,grid.grid_total_name 
+  FROM  B_PER_TS_JING_SHEN hu 
+  		join B_PERSON p on hu.person_code=p.code and hu.flag_del=0
+        join b_house h on h.code=p.house_code and h.flag_del=0
+        join B_unit u on u.code=h.unit_code and u.flag_del=0
+        join B_Building b on u.build_code=b.code and b.flag_del=0 
+        join sys_seat_grid grid on grid.code=b.grid_code and grid.flag_del=0 WHERE p.FLAG_DEL != 1 and p.grid_code like CONCAT( #{gridCode,jdbcType=VARCHAR},'%')
+	 <if test="houseCode != null and houseCode != ''">
+	  and h.code=#{houseCode}
+	 </if>
+  	<if test="gridCode != null and gridCode != ''">
+	  and grid.code like '%'||#{gridCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="name != null and name != ''">
+	  and p.name like '%'||#{name,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="unitName != null and unitName != ''">
+		AND u.NAME like '%'||#{unitName,jdbcType=VARCHAR}||'%'
+	</if>
+	<if test="buildName != null and buildName != ''">
+		AND b.BUILD_NAME like '%'||#{buildName,jdbcType=VARCHAR}||'%'
+	</if>
+	<if test="houseNum != null and houseNum != ''">
+		AND h.HOUSE_NUM like '%'||#{houseNum,jdbcType=VARCHAR}||'%'
+	</if>
+	
+	<if test="cid != null and cid != ''">
+		AND p.CID like '%'||#{cid,jdbcType=VARCHAR}||'%'
+	</if>
+		<if test="sex != null and sex != ''">
+		AND p.sex =#{sex,jdbcType=VARCHAR}
+	</if>
+	
+
+	<if test="codeZhenDuanType != null and codeZhenDuanType.size() >0 ">
+		and (
+		<foreach collection="codeZhenDuanType" item="s" index="index" separator=" or ">
+		   hu.CODE_ZHEN_DUAN_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="codeWeiXianClasses != null and codeWeiXianClasses.size() >0 ">
+		and (
+		<foreach collection="codeWeiXianClasses" item="s" index="index" separator=" or ">
+		   hu.CODE_WEI_XIAN_CLASSES =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="codeZhiLiaoSituation != null and codeZhiLiaoSituation.size() >0">
+		and (
+		<foreach collection="codeZhiLiaoSituation" item="s" index="index" separator=" or ">
+		   hu.CODE_ZHI_LIAO_SITUATION =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	<if test="codeHouseholdStatus != null and codeHouseholdStatus.size()>0 ">
+		and (
+		<foreach collection="codeHouseholdStatus" item="s" index="index" separator=" or ">
+		   p.CODE_HOUSEHOLD_STATUS =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	</if>
+	</select>
+</mapper>

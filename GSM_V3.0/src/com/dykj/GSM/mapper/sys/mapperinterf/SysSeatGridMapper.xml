@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysSeatGridMapper" >
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+  <resultMap id="sysSeatGridResult" type="SysSeatGrid" >
+     <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+	<result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+	<result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+	<result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+	<result column="SORT" jdbcType="DECIMAL" property="sort" />
+	<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CITY_CODE" property="cityCode" jdbcType="VARCHAR" />
+    <result column="MANAGER_NAME" property="managerName" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="MANAGER_PHONE" property="managerPhone" jdbcType="VARCHAR" />
+    <result column="ASSISTANT" property="assistant" jdbcType="VARCHAR" />
+    <result column="ASSISTANT_DUTY" property="assistantDuty" jdbcType="VARCHAR" />
+    <result column="ASSISTANT_PHONE" property="assistantPhone" jdbcType="VARCHAR" />
+    <result column="ASSISTANT_PHOTO" property="assistantPhoto" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="SEAT_PICTURE" property="seatPicture" jdbcType="VARCHAR" />
+    <result column="MANAGER_PHOTO" property="managerPhoto" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="FOUR_NAME" property="fourName" jdbcType="VARCHAR" />
+    <result column="FLAG_DEPARTMENT" property="flagDepartment" jdbcType="CHAR" />
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap type="SysTempGrid" id="sysSeatAllResult">
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="SORT" jdbcType="DECIMAL" property="sort" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+   <result column="FLAG_DEPARTMENT" property="flagDepartment" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="sysSeatFourResult" type="SysSeatFour" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+     <result column="THIRD_NAME" property="thirdName" jdbcType="VARCHAR" />
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="SysSeatGrid" >
+    declare SCODE varchar(20) :='';
+    begin 
+    select replace(lpad(nvl(MAX(substr(code,13,8)+1),1),8),' ','0') into scode  from sys_seat_grid where sys_seat_grid.parent_code = #{parentCode,jdbcType=VARCHAR};
+    insert into SYS_SEAT_GRID (CODE, CREATE_DATE, CREATE_BY, SORT, 
+      REMARK, NAME, CITY_CODE, MANAGER_NAME, 
+      ADDRESS, MANAGER_PHONE, ASSISTANT, 
+      ASSISTANT_DUTY, ASSISTANT_PHONE, ASSISTANT_PHOTO, 
+      POSITION, DESCRIPTION, SEAT_PICTURE, 
+      MANAGER_PHOTO, PARENT_CODE, FOUR_NAME, 
+      FLAG_DEPARTMENT, GRID_TOTAL_NAME)
+    values (#{parentCode,jdbcType=VARCHAR}||scode, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{managerPhone,jdbcType=VARCHAR}, #{assistant,jdbcType=VARCHAR}, 
+      #{assistantDuty,jdbcType=VARCHAR}, #{assistantPhone,jdbcType=VARCHAR}, #{assistantPhoto,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{seatPicture,jdbcType=VARCHAR}, 
+      #{managerPhoto,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{fourName,jdbcType=VARCHAR}, 
+      #{flagDepartment,jdbcType=CHAR}, #{gridTotalName,jdbcType=VARCHAR});
+       end ;
+  </insert>
+  <!-- 更新实体对象   -->
+    <update id="update" parameterType="SysSeatGrid">
+        UPDATE SYS_SEAT_GRID 
+     <set>
+	  <if test="createDate != null and createDate!=''" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null and createBy != ''" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+     
+      <if test="sort != null and sort != ''" >
+        SORT = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null and remark != ''" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null and name != ''" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null and cityCode != ''" >
+        CITY_CODE = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null and managerName != ''" >
+        MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null and address != ''" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPhone != null and managerPhone != ''" >
+        MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="assistant != null and assistant != ''" >
+        ASSISTANT = #{assistant,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantDuty != null and assistantDuty != ''" >
+        ASSISTANT_DUTY = #{assistantDuty,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantPhone != null and assistantPhone != ''" >
+        ASSISTANT_PHONE = #{assistantPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="assistantPhoto != null and assistantPhoto != ''" >
+        ASSISTANT_PHOTO = #{assistantPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null and position != ''" >
+        POSITION = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null and description != ''" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="seatPicture != null and seatPicture != ''" >
+        SEAT_PICTURE = #{seatPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPhoto != null and managerPhoto != ''" >
+        MANAGER_PHOTO = #{managerPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null and parentCode != ''" >
+        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fourName != null and fourName != ''" >
+        FOUR_NAME = #{fourName,jdbcType=VARCHAR},
+      </if>
+      <if test="gridTotalName != null and gridTotalName != ''" >
+        GRID_TOTAL_NAME = #{gridTotalName,jdbcType=VARCHAR},
+      </if>
+      </set>
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+    <update id="deletePk" parameterType="String">
+       UPDATE SYS_SEAT_GRID SET FLAG_DEL=1 WHERE CODE like CONCAT(#{code},'%')
+    </update>
+    <update id="updateBatch"  parameterType="java.util.Map">
+       <foreach collection="list" item="item" open="begin" close="end;" >
+                update ${item.tableName} 
+                <set>
+                  flag_del=1
+                </set>
+                where code like concat(#{code},${item.likeChar});
+       </foreach>
+    </update>
+     <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE SYS_SEAT_GRID SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="sysSeatGridResult">
+        SELECT * FROM SYS_SEAT_GRID WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+    
+     <!-- 查询所有实体对象集合  -->
+   <select id="queryList" resultMap="sysSeatGridResult">
+   		SELECT * FROM SYS_SEAT_GRID WHERE FLAG_DEL !=1 ORDER BY CREATE_DATE ASC 
+   </select>
+   <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryListParam" parameterType="SysSeatGrid" resultMap="sysSeatGridResult">
+   		SELECT * FROM SYS_SEAT_GRID 
+   		<where>
+   		  FLAG_DEL != 1
+		  <if test="createDate != null and createDate!=''" >
+	        AND CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+	      </if>
+	      <if test="createBy != null and createBy != ''" >
+	        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        AND REMARK = #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="name != null and name != ''" >
+	        AND NAME = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="cityCode != null and cityCode != ''" >
+	        AND CITY_CODE = #{cityCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerName != null and managerName != ''" >
+	        AND MANAGER_NAME = #{managerName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="address != null and address != ''" >
+	        AND ADDRESS = #{address,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerPhone != null and managerPhone != ''" >
+	        AND MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR}
+	      </if>
+	      <if test="assistant != null and assistant != ''" >
+	        AND ASSISTANT = #{assistant,jdbcType=VARCHAR}
+	      </if>
+	      <if test="assistantDuty != null and assistantDuty != ''" >
+	        AND ASSISTANT_DUTY = #{assistantDuty,jdbcType=VARCHAR}
+	      </if>
+	      <if test="assistantPhone != null and assistantPhone != ''" >
+	        AND ASSISTANT_PHONE = #{assistantPhone,jdbcType=VARCHAR}
+	      </if>
+	      <if test="assistantPhoto != null and assistantPhoto != ''" >
+	        AND ASSISTANT_PHOTO = #{assistantPhoto,jdbcType=VARCHAR}
+	      </if>
+	      <if test="position != null and position != ''" >
+	        AND POSITION = #{position,jdbcType=VARCHAR}
+	      </if>
+	      <if test="description != null and description != ''" >
+	        AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+	      </if>
+	      <if test="seatPicture != null and seatPicture != ''" >
+	        AND SEAT_PICTURE = #{seatPicture,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerPhoto != null and managerPhoto != ''" >
+	        AND MANAGER_PHOTO = #{managerPhoto,jdbcType=VARCHAR}
+	      </if>
+	      <if test="parentCode != null and parentCode != ''" >
+	        AND PARENT_CODE = #{parentCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="fourName != null and fourName != ''" >
+	        AND FOUR_NAME = #{fourName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="flagDepartment != null and flagDepartment != ''" >
+	        AND FLAG_DEPARTMENT = #{flagDepartment,jdbcType=CHAR}
+	      </if>
+	      <if test="gridTotalName != null and gridTotalName != ''" >
+	        AND GRID_TOTAL_NAME = #{gridTotalName,jdbcType=VARCHAR}
+	      </if>
+   		</where>
+   </select> 
+<sql id="gridSql">
+ select '01' as code,'唐山市' as name,'' as parentCode,0 as sort,'0' as flagDepartment,'唐山市'as gridTotalName,''as position from dual
+        union all 
+        SELECT to_char(SSS.CODE) AS CODE,to_char(SSS.NAME) AS NAME,to_char(SSS.PARENT_CODE) AS PARENTCODE,SSS.SORT AS SORT,SSS.FLAG_DEPARTMENT flagDepartment,to_char(SSS.GRID_TOTAL_NAME) as gridTotalName ,to_char(sss.position) FROM SYS_SEAT_SECOND SSS WHERE SSS.FLAG_DEL!='1'
+		UNION ALL SELECT to_char(SST.CODE) AS CODE,to_char(SST.NAME) AS NAME,to_char(SST.PARENT_CODE) AS PARENTCODE,SST.SORT AS SORT,SST.FLAG_DEPARTMENT flagDepartment ,to_char(SST.GRID_TOTAL_NAME) as gridTotalName,to_char(sst.position) FROM SYS_SEAT_THIRD SST WHERE SST.FLAG_DEL != '1'
+		UNION ALL SELECT to_char(SSF.CODE) AS CODE,to_char(SSF.NAME) AS NAME,to_char(SSF.PARENT_CODE) AS PARENTCODE,SSF.SORT AS SORT,SSF.FLAG_DEPARTMENT flagDepartment ,to_char(SSF.GRID_TOTAL_NAME) as gridTotalName,to_char(ssf.position) FROM SYS_SEAT_FOUR SSF WHERE SSF.FLAG_DEL != '1'
+		UNION ALL SELECT to_char(SSG.CODE) AS CODE,to_char(SSG.NAME) AS NAME,to_char(SSG.PARENT_CODE) AS PARENTCODE,SSG.SORT AS SORT,SSG.FLAG_DEPARTMENT flagDepartment ,to_char(SSG.GRID_TOTAL_NAME) as gridTotalName,to_char(ssg.position) FROM SYS_SEAT_GRID SSG WHERE SSG.FLAG_DEL != '1'
+		
+</sql>
+   <select id="queryGridTreeByUserGridCode" resultMap="sysSeatAllResult" parameterType="java.util.Map">
+        SELECT * FROM (
+        <include refid="gridSql"></include>
+       )
+		WHERE code like CONCAT( #{gridCode,jdbcType=VARCHAR},'%')
+		<if test="flagDepartment != null and flagDepartment != ''" >
+	        AND flagDepartment = #{flagDepartment,jdbcType=CHAR}
+	      </if>
+	       <if test="length!=null">
+	      and length(code)=${length}
+	      </if>
+	      <if test="leastLength!=null">
+	      and length(code)&lt;=${leastLength}
+	      </if>
+	      <if test="noOrder==null">
+	      	ORDER BY SORT
+	      </if>
+	     
+   </select>
+   <select id="queryDepartmentTreeByUserGridCode" resultMap="sysSeatAllResult" parameterType="java.util.Map">
+        SELECT distinct g.code,g.gridTotalName,g.parentCode,g.name,g.position FROM 
+         (select * from(
+        <include refid="gridSql"></include>
+       )d WHERE d.flagDepartment = 1  )d left join 
+  (	<include refid="gridSql"></include>
+       )g on instr(d.code, g.code)=1	
+  WHERE g.code like CONCAT( #{gridCode,jdbcType=VARCHAR},'%')
+   </select>
+    <select id="queryDepartmentAndStreetTreeByUserGridCode" resultMap="sysSeatAllResult" parameterType="java.util.Map">
+        SELECT distinct g.code,g.gridTotalName,g.parentCode,g.name,g.position FROM 
+         (select * from(
+        <include refid="gridSql"></include>
+       )d WHERE d.flagDepartment = 1  
+        union all select to_char(code) as code ,to_char(name) as name ,to_char(parent_code) as parentcode,sort,'1' as flagDepartment,to_char(grid_total_name) as gridTotalName,'' as position from SYS_SEAT_THIRD where flag_department=0
+		)d left join 
+  (	<include refid="gridSql"></include>
+       )g on instr(d.code, g.code)=1	
+  WHERE g.code like CONCAT( #{gridCode,jdbcType=VARCHAR},'%')
+   </select>
+   <!-- 通过gridcode查询通讯相关人员 -->
+   <select id="queryImUserByGridCode" resultMap="sysSeatAllResult" parameterType="java.util.Map">
+        SELECT * FROM(SELECT TEMPS.* FROM(SELECT SSS.CODE AS CODE,SSS.NAME AS NAME,SSS.PARENT_CODE AS PARENTCODE,SSS.SORT AS SORT FROM SYS_SEAT_SECOND SSS WHERE SSS.FLAG_DEL!='1' AND SSS.FLAG_DEPARTMENT!='1' 
+		UNION ALL SELECT SST.CODE AS CODE,SST.NAME AS NAME,SST.PARENT_CODE AS PARENTCODE,SST.SORT AS SORT FROM SYS_SEAT_THIRD SST WHERE SST.FLAG_DEL != '1' AND SST.FLAG_DEPARTMENT!='1' 
+		UNION ALL SELECT SSF.CODE AS CODE,SSF.NAME AS NAME,SSF.PARENT_CODE AS PARENTCODE,SSF.SORT AS SORT FROM SYS_SEAT_FOUR SSF WHERE SSF.FLAG_DEL != '1' AND SSF.FLAG_DEPARTMENT!='1' 
+		UNION ALL SELECT SSG.CODE AS CODE,SSG.NAME AS NAME,SSG.PARENT_CODE AS PARENTCODE,SSG.SORT AS SORT FROM SYS_SEAT_GRID SSG WHERE SSG.FLAG_DEL != '1' AND SSG.FLAG_DEPARTMENT!='1') TEMPS ORDER BY TEMPS.CODE ASC)
+		UNION ALL SELECT * FROM((SELECT SYS_USER.CODE,SYS_USER.LOGIN_NAME||'('||SYS_USER.REAL_NAME||')' AS NAME,SYS_USER.GRID_CODE AS PARENTCODE,SYS_USER.SORT AS SORT FROM SYS_USER 
+		LEFT JOIN SYS_SEAT_GRID ON SYS_SEAT_GRID.CODE = SYS_USER.GRID_CODE WHERE SYS_USER.FLAG_DEL!=1 AND SYS_SEAT_GRID.FLAG_DEL!=1 AND SYS_SEAT_GRID.FLAG_DEPARTMENT!=1 ORDER BY SYS_USER.GRID_CODE ASC))
+   </select>
+   <!-- 通过gridcode查询通讯相关人员 -->
+   <select id="queryImTechnicalSupport" resultMap="sysSeatAllResult" parameterType="java.util.Map">
+        SELECT SYS_USER.CODE,SYS_USER.LOGIN_NAME||'('||SYS_USER.REAL_NAME||'）' AS NAME,SYS_USER.GRID_CODE AS PARENTCODE,SYS_USER.SORT AS SORT FROM SYS_USER 
+		WHERE SYS_USER.FLAG_DEL!=1 AND SYS_USER.ROLE_CODE = 'E13F0405712C42BC91BB9E659B32D15D'
+   </select>
+   <!-- 根据主键查询四级坐落实体对象  -->
+    <select id="queryByparentCode" parameterType="String" resultMap="sysSeatFourResult">
+        SELECT * FROM SYS_SEAT_FOUR WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+    <update id="updateTotalGridName" parameterType="java.util.Map">
+     <foreach collection="list" open="begin" close=";end;" item="item" index="key" separator=";">
+	        update ${item.tableName} set grid_total_name=
+	        substr(
+replace('-'||grid_total_name||'-','-'||substr(grid_total_name,0,instr(grid_total_name,'-',1,#{level})-1)||'-','-'||#{item.newValue}||'-'),
+2,
+length(replace('-'||grid_total_name||'-','-'||substr(grid_total_name,0,instr(grid_total_name,'-',1,#{level})-1)||'-','-'||#{item.newValue}||'-'))-2
+) where code like #{gridCode}||'%' and flag_del=0
+     </foreach>
+    </update>
+</mapper>

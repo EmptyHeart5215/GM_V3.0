@@ -1,0 +1,262 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BJiGouServiceMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="BJiGouService" id="bJiGouServiceResult">
+       <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CODE_SERVICE_TYPE" property="codeServiceType" jdbcType="VARCHAR" />
+    <result column="JIGOU_CODE" property="jiGouCode" jdbcType="VARCHAR" />
+    <result column="SERVICE_EVENT" property="serviceEvent" jdbcType="VARCHAR" />
+    <result column="SERVICE_DUI_XIANG" property="serviceDuiXiang" jdbcType="VARCHAR" />
+    <result column="SERVICE_NUM" property="serviceNum" jdbcType="VARCHAR" />
+    <result column="SERVICE_TIME" property="serviceTime" jdbcType="VARCHAR" />
+    <result column="SEVIECE_ADDRESS" property="sevieceAddress" jdbcType="VARCHAR" />
+    <result column="SERVICE_DESCRIPTION" property="serviceDescription" jdbcType="VARCHAR" />
+    <result column="PERSON_SCOPE" property="personScope" jdbcType="VARCHAR" />
+    <result column="POSITION" jdbcType="VARCHAR" property="position" />
+    <association property="jiGou" javaType="com.dykj.GSM.model.base.BJiGou">
+    	<result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="JIGOU_NAME" jdbcType="VARCHAR" property="jigouName" />
+        <result column="JIGOU_MANAGER" jdbcType="VARCHAR" property="jigouManager" />
+    	<result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+		<result column="MANAGER_PHONE" jdbcType="VARCHAR" property="managerPhone" />    
+	</association>
+ </resultMap>
+     
+<resultMap id="tempResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <sql id="Base_Column_List" >
+    B_JI_GOU_SERVICE.CODE,B_JI_GOU_SERVICE.CREATE_DATE,B_JI_GOU_SERVICE.JIGOU_CODE,B_JI_GOU_SERVICE.CREATE_BY,B_JI_GOU_SERVICE.FLAG_DEL,B_JI_GOU_SERVICE.FLAG_DISPLAY,B_JI_GOU_SERVICE.SORT,B_JI_GOU_SERVICE.REMARK,B_JI_GOU_SERVICE.CODE_SERVICE_TYPE,
+    B_JI_GOU_SERVICE.SERVICE_EVENT,B_JI_GOU_SERVICE.SERVICE_DUI_XIANG,B_JI_GOU_SERVICE.
+    SERVICE_NUM,B_JI_GOU_SERVICE.SERVICE_TIME,B_JI_GOU_SERVICE.SEVIECE_ADDRESS,B_JI_GOU_SERVICE.SERVICE_DESCRIPTION,B_JI_GOU_SERVICE.PERSON_SCOPE
+  </sql>
+    <insert id="insert" parameterType="BJiGouService">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+           insert into B_JI_GOU_SERVICE (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, CODE_SERVICE_TYPE, 
+      JIGOU_CODE, 
+      SERVICE_EVENT, SERVICE_DUI_XIANG, SERVICE_NUM, 
+      SERVICE_TIME, SEVIECE_ADDRESS, SERVICE_DESCRIPTION, 
+      PERSON_SCOPE, POSITION)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{codeServiceType,jdbcType=VARCHAR}, #{jiGouCode,jdbcType=VARCHAR}, 
+      #{serviceEvent,jdbcType=VARCHAR}, #{serviceDuiXiang,jdbcType=VARCHAR}, #{serviceNum,jdbcType=VARCHAR}, 
+      #{serviceTime,jdbcType=VARCHAR}, #{sevieceAddress,jdbcType=VARCHAR}, #{serviceDescription,jdbcType=VARCHAR}, 
+      #{personScope,jdbcType=VARCHAR}, #{position,jdbcType=CLOB})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="BJiGouService">
+         update B_JI_GOU_SERVICE
+    <set >
+      <if test="codeServiceType != null" >
+        CODE_SERVICE_TYPE = #{codeServiceType,jdbcType=VARCHAR},
+      </if>
+      <if test="jiGouCode != null" >
+        JIGOU_CODE = #{jiGouCode,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceEvent != null" >
+        SERVICE_EVENT = #{serviceEvent,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceDuiXiang != null" >
+        SERVICE_DUI_XIANG = #{serviceDuiXiang,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceNum != null" >
+        SERVICE_NUM = #{serviceNum,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceTime != null" >
+        SERVICE_TIME = #{serviceTime,jdbcType=VARCHAR},
+      </if>
+      <if test="sevieceAddress != null" >
+        SEVIECE_ADDRESS = #{sevieceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceDescription != null" >
+        SERVICE_DESCRIPTION = #{serviceDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="personScope != null" >
+        PERSON_SCOPE = #{personScope,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        POSITION = #{position,jdbcType=CLOB},
+      </if>
+    </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE B_JI_GOU_SERVICE SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE B_JI_GOU_SERVICE SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bJiGouServiceResult">
+        SELECT B_JI_GOU_SERVICE.*,SSG.GRID_TOTAL_NAME ,b_ji_gou.JIGOU_NAME,b_ji_gou.jigou_manager,b_ji_gou.manager_phone 
+		FROM B_JI_GOU_SERVICE
+		join b_ji_gou on b_ji_gou.code=b_ji_gou_service.jigou_code
+		 JOIN SYS_SEAT_GRID SSG ON SSG.CODE = b_ji_gou.GRID_CODE 
+		WHERE B_JI_GOU_SERVICE.FLAG_DEL != 1 AND B_JI_GOU_SERVICE.CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="bJiGouServiceResult">
+        SELECT * FROM B_JI_GOU_SERVICE where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="java.util.Map" resultMap="bJiGouServiceResult">
+	select
+	<include refid="Base_Column_List"></include>,
+	s.jigou_name JIGOU_NAME,
+	s.jigou_manager,
+	s.manager_phone, 
+	SSG.GRID_TOTAL_NAME 
+	from b_ji_gou_service  B_JI_GOU_SERVICE
+	join b_ji_gou s on s.code=B_JI_GOU_SERVICE.jigou_code
+	JOIN SYS_SEAT_GRID SSG ON SSG.CODE = s.GRID_CODE
+        <where>
+            B_JI_GOU_SERVICE.FLAG_DEL != 1
+	            <if test="jigouName != null and jigouName != ''">
+	                AND s.JIGOU_NAME like '%'||#{jigouName,jdbcType=VARCHAR}||'%'
+	            </if>
+	            <if test="jigouManager != null and jigouManager != ''">
+	            	AND s.JIGOU_MANAGER LIKE CONCAT(CONCAT('%', #{jigouManager,jdbcType=VARCHAR}),'%')   	           
+	            </if>
+	            <if test="managerPhone != null and managerPhone != ''">
+	                AND s.MANAGER_PHONE like '%'||#{managerPhone,jdbcType=VARCHAR}||'%'
+	            </if>
+	             <if test="gridCode != null and gridCode != ''">
+	                AND s.GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%') 
+	            </if>
+	            <if test="serviceTime != null and serviceTime != ''">
+	                AND B_JI_GOU_SERVICE.SERVICE_TIME = #{serviceTime,jdbcType=VARCHAR}
+	            </if>
+	           <if test="serviceEvent != null and serviceEvent != ''">
+	            	AND SERVICE_EVENT LIKE CONCAT(CONCAT('%', #{serviceEvent,jdbcType=VARCHAR}),'%')   	           
+	            </if>
+	             <if test="serviceDuiXiang != null and serviceDuiXiang != ''">
+	            	AND SERVICE_DUI_XIANG LIKE CONCAT(CONCAT('%', #{serviceDuiXiang,jdbcType=VARCHAR}),'%')   	           
+	            </if>
+           
+            
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM B_JI_GOU_SERVICE WHERE FLAG_DEL != 1
+    </select>
+
+    <select id="Charts" parameterType="BJiGouService" resultMap="tempResult" >
+	<if test="jiGou.gridCode.length() ==2 ">
+		SELECT COUNT(B_JI_GOU_SERVICE.code) AS COUNTS , sys_seat_second.name AS NAME
+		,sys_seat_second.code FROM B_JI_GOU_SERVICE
+		left join b_ji_gou on b_ji_gou.code=B_JI_GOU_SERVICE.jiGou_code
+		LEFT JOIN sys_seat_grid ON b_ji_gou.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		LEFT JOIN sys_seat_second ON
+		sys_seat_third.parent_code=sys_seat_second.code
+		where 1=1
+		and sys_seat_second.code  LIKE CONCAT(CONCAT('%', #{jiGou.gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="jiGou.gridCode.length() ==5 ">
+		SELECT COUNT(B_JI_GOU_SERVICE.code) AS COUNTS , sys_seat_third.name AS NAME
+		,sys_seat_third.code FROM B_JI_GOU_SERVICE
+		left join b_ji_gou on b_ji_gou.code=B_JI_GOU_SERVICE.jiGou_code
+		LEFT JOIN sys_seat_grid ON b_ji_gou.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		where 1=1
+		and sys_seat_third.code  LIKE CONCAT(CONCAT('%', #{jiGou.gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="jiGou.gridCode.length() ==8 ">
+		SELECT COUNT(B_JI_GOU_SERVICE.code) AS COUNTS , sys_seat_four.name AS NAME
+		,sys_seat_four.code FROM B_JI_GOU_SERVICE
+		left join b_ji_gou on b_ji_gou.code=B_JI_GOU_SERVICE.jiGou_code
+		LEFT JOIN sys_seat_grid ON b_ji_gou.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		where 1=1
+		and sys_seat_four.code LIKE CONCAT(CONCAT('%', #{jiGou.gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="jiGou.gridCode.length() >8 ">
+		SELECT COUNT(B_JI_GOU_SERVICE.code) AS COUNTS , sys_seat_grid.name AS NAME
+		,sys_seat_grid.code FROM B_JI_GOU_SERVICE
+		left join b_ji_gou on b_ji_gou.code=B_JI_GOU_SERVICE.jiGou_code
+		LEFT JOIN sys_seat_grid ON b_ji_gou.grid_code=sys_seat_grid.code
+		where 1=1
+		and sys_seat_grid.code LIKE CONCAT(CONCAT('%', #{jiGou.gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	 <if test="jiGou!=null">
+	            <if test="jiGou.jigouName != null and jiGou.jigouName != ''">
+	                AND b_ji_gou.JIGOU_NAME like '%'||#{jiGou.jigouName,jdbcType=VARCHAR}||'%'
+	            </if>
+            
+            <if test="jiGou.jigouManager != null and jiGou.jigouManager != ''">
+            	AND b_ji_gou.JIGOU_MANAGER LIKE CONCAT(CONCAT('%', #{jiGou.jigouManager,jdbcType=VARCHAR}),'%')   	           
+            </if>
+            <if test="jiGou.managerPhone != null and jiGou.managerPhone != ''">
+                AND B_JI_GOU_SERVICE.MANAGER_PHONE = #{jiGou.managerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="jiGou.gridCode != null and jiGou.gridCode != ''">
+                AND b_ji_gou.GRID_CODE LIKE CONCAT(CONCAT('%', #{jiGou.gridCode,jdbcType=VARCHAR}),'%')
+            </if>
+       </if>
+            <if test="serviceTime != null and serviceTime != ''">
+                AND B_JI_GOU_SERVICE.SERVICE_TIME = #{serviceTime,jdbcType=VARCHAR}
+            </if>
+           
+            
+ AND B_JI_GOU_SERVICE.FLAG_DEL != 1
+	<if test="jiGou.gridCode.length() ==2 ">
+	GROUP BY sys_seat_second.name ,sys_seat_second.code
+	</if>
+	<if test="jiGou.gridCode.length() ==5 ">
+		GROUP BY sys_seat_third.name ,sys_seat_third.code
+	</if>
+	<if test="jiGou.gridCode.length() ==8 ">
+		GROUP BY sys_seat_four.name ,sys_seat_four.code
+	</if>
+	<if test="jiGou.gridCode.length() >8 ">
+		GROUP BY sys_seat_grid.name ,sys_seat_grid.code
+	</if>
+   </select>
+   
+        <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPageByName" parameterType="String" resultMap="bJiGouServiceResult">
+        SELECT * FROM B_JI_GOU_SERVICE where jigou_code=#{code} and FLAG_DEL!=1 ORDER BY SERVICE_TIME DESC
+    </select>
+</mapper>

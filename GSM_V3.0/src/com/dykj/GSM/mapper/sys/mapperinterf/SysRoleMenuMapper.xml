@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysRoleMenuMapper" >
+  <resultMap id="roleMenuResult" type="SysRoleMenu" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="MENU_CODE" property="menuCode" jdbcType="VARCHAR" />
+    <result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, MENU_CODE, ROLE_CODE
+  </sql>
+ 
+  <delete id="deleteByRoleCode" parameterType="String" >
+    delete from SYS_ROLE_MENU
+    where role_CODE = #{roleCode,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insertBatch" parameterType="java.util.List" >
+			    insert into SYS_ROLE_MENU (CODE, CREATE_DATE, CREATE_BY, 
+			      FLAG_DEL, FLAG_DISPLAY, SORT, 
+			      REMARK, MENU_CODE, ROLE_CODE
+			      )
+		<foreach collection="list" item="item" open="(" close=")" separator="union">
+			    select #{item.code,jdbcType=VARCHAR}, #{item.createDate,jdbcType=VARCHAR}, #{item.createBy,jdbcType=VARCHAR}, 
+			      #{item.flagDel,jdbcType=CHAR}, #{item.flagDisplay,jdbcType=CHAR}, #{item.sort,jdbcType=DECIMAL}, 
+			      #{item.remark,jdbcType=VARCHAR}, #{item.menuCode,jdbcType=VARCHAR}, #{item.roleCode,jdbcType=VARCHAR}
+			      from dual
+		</foreach>
+  </insert>
+  
+ 
+   <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryListParam" parameterType="SysRoleMenu" resultMap="roleMenuResult">
+   		   SELECT * FROM  sys_role_menu 
+   		   <where>
+   		      FLAG_DEL != 1
+   		   </where>
+   	</select>
+   	
+   	
+   	 <select id="queryAllRoleAndUrl" parameterType="SysRoleMenu" resultType="java.util.Map">
+   		   <!-- SELECT wm_concat(to_char(sys_ROLE.code)) as role_name ,sys_menu.action_url as url
+   		   FROM  sys_role_menu 
+   		   join sys_role on sys_role.code=sys_role_menu.role_code and sys_role.flag_del=0
+   		   join sys_menu on sys_menu.code=sys_role_menu.menu_code and sys_menu.flag_del=0
+   		   <where>
+   		      sys_role_menu.FLAG_DEL = 0 AND sys_menu.action_url  IS NOT NULL
+   		   </where>
+   		   group by  sys_menu.action_url -->
+   		   SELECT wm_concat(distinct to_char(m.role_code)) as roleCode ,substr(m.url,0,m.i)||'*' as url from
+         (select sys_ROLE.code as role_code,
+         sys_menu.action_url as url,
+         case instr(sys_menu.action_url,'/',1,3) 
+           when 0 then instr(sys_menu.action_url,'/',1,2)
+             else instr(sys_menu.action_url,'/',1,3) end as i
+                FROM  sys_role_menu 
+          join sys_role on sys_role.code=sys_role_menu.role_code and sys_role.flag_del=0
+          join sys_menu on sys_menu.code=sys_role_menu.menu_code and sys_menu.flag_del=0
+         where
+             sys_role_menu.FLAG_DEL = 0 AND sys_menu.action_url  IS NOT NULL and sys_menu.action_url like'%Load' and sys_menu.is_menu=1 
+         ) m
+          group by  substr(m.url,0,m.i)
+   	</select>
+</mapper>

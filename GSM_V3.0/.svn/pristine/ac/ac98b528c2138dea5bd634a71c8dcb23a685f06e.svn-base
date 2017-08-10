@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.event.mapperinterf.EDurationMapper" >
+  <resultMap id="durationResult" type="EDuration" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+      <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="EVENT_CODE" property="eventCode" jdbcType="VARCHAR" />
+    <result column="STEP_ID" property="stepId" jdbcType="DECIMAL" />
+    <result column="ACTION_ID" property="actionId" jdbcType="DECIMAL" />
+    <result column="ENTRY_ID" property="entryId" jdbcType="DECIMAL" />
+    <result column="DURATION" property="duration" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+   CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, EVENT_CODE, STEP_ID, 
+    ACTION_ID, ENTRY_ID, DURATION
+  </sql>
+  
+  <insert id="insert" parameterType="EDuration" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+   insert into E_DURATION (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, EVENT_CODE, STEP_ID, 
+      ACTION_ID, ENTRY_ID, DURATION
+      )
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{eventCode,jdbcType=VARCHAR}, #{stepId,jdbcType=DECIMAL}, 
+      #{actionId,jdbcType=DECIMAL}, #{entryId,jdbcType=DECIMAL}, #{duration,jdbcType=DECIMAL}
+      )
+  </insert>
+  
+  <update id="update" parameterType="EDuration" >
+   update E_DURATION
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="flagDisplay != null" >
+        FLAG_DISPLAY = #{flagDisplay,jdbcType=CHAR},
+      </if>
+     <if test="duration != null" >
+        duration = #{duration,jdbcType=CHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE E_DURATION SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+   
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="durationResult">
+        SELECT h.* FROM E_DURATION h
+                WHERE h.FLAG_DEL != 1 AND h.CODE=#{code}
+    </select>
+    
+  
+
+    <!-- 根据entryid得到一条延迟信息 -->
+    <select id="queryOneByWfEntry" parameterType="Long" resultMap="durationResult">
+    	select * from(select * from e_duration where ENTRY_ID=#{entryId} order by CREATE_DATE desc) where rownum&lt;2
+    </select>
+    
+</mapper>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!-- saved from url=(0106)http://oa.tongda2000.com/general/address/private/address/show_add.php?ADD_ID=52&SHARE_TYPE=0&PUBLIC_FLAG=1 -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>联系人详情</title>
+    
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!--[if lte IE 8]>
+        <script type="text/javascript" src="/static/js/ccorrect_btn.js"></script>
+    <![endif]-->
+    
+<script type="text/javascript">
+   var MYOA_JS_SERVER = "";
+   var MYOA_STATIC_SERVER = "";
+</script>
+<link rel="stylesheet" type="text/css" href="right.css"><link rel="stylesheet" type="text/css" href="bootstrap.css"><script src="jquery.min.js"></script><script>
+$(function(){
+    $('#right').height($(window).height());
+    
+    $(window).resize(function(){
+        $('#right').height($(window).height());
+    });
+})
+function send_email(EMAIL)
+{
+    var URL = "/general/email/new/?TO_WEBMAIL="+EMAIL;
+    var myleft = (screen.availWidth-500)/2;
+    window.open(URL, "send_email", "height=500,width=700,status=0,toolbar=no,menubar=no,location=no,scrollbars=yes,top=150,left="+myleft+",resizable=yes");
+}
+function send_email_oa(TO_NAME,TO_ID)
+{
+    var URL = "/general/email/new/?TO_ID="+TO_ID+"&TO_NAME="+TO_NAME;
+    var myleft = (screen.availWidth-500)/2;
+    window.open(URL, "send_email", "height=500,width=700,status=0,toolbar=no,menubar=no,location=no,scrollbars=yes,top=150,left="+myleft+",resizable=yes");
+}
+function add_edit(add_id)
+{
+    //eval("parent.form1."+NAME+".value=VALUE")
+    parent.document.getElementById('show_add_id').value = add_id;
+    parent.document.getElementById('edit').click();
+}
+function delete_add(ADD_ID,GROUP_ID)
+{
+	msg='确认要删除该联系人吗？';
+	if(window.confirm(msg))
+	{
+		URL="delete.php?SHARE_TYPE=0 & DELETE_SORT=1 & GROUP_ID=" + GROUP_ID + "&ADD_ID=" + ADD_ID;
+		window.location=URL;
+	}
+}
+</script></head>
+
+
+
+
+
+<body topmargin="5" style="overflow-y: auto; height: 100%;">
+<div class="content">
+    <div class="right" id="right" style="height: 810px;">
+        <div class="pic"><a class="thumbnail" style="border-radius:500px; padding:0px;"><img class="img-circle" src="man_big.png" width="120" height="120"></a></div>
+        <div class="jianjie">
+            <p><span id="xm" title="dannycqzhang">dannycqzha...</span><span id="zhiwu" title=""></span></p>
+            <p id="gs" title=""></p>
+            <ul>
+            	                <li style="cursor:pointer;"><img src="A1.png" width="31" height="29" title="发送邮件" onclick="send_email(&#39;dannycqzhang@126.com&#39;);"></li>
+                <li style="cursor:pointer;"><img src="A3.png" width="31" height="29" title="发送短信" onclick="window.open(&#39;../../../mobile_sms/new/index.php?TO_ID1=&#39;,&#39;&#39;,&#39;height=550,width=800,status=1,toolbar=no,menubar=no,location=no,scrollbars=yes,left=110,top=60,resizable=yes&#39;)"></li>
+                                    <li style="cursor:pointer;"><img src="A4.png" width="31" height="29" title="编辑" onclick="add_edit(&#39;52&#39;);"></li>
+                    <li style="cursor:pointer;"><img src="A2.jpg" width="31" height="29" title="删除" onclick="delete_add(&#39;52&#39;,&#39;0&#39;);"></li>
+                            </ul>
+        </div>
+        <div class="address" style="border-top:1px solid #f1f1f1; padding-top:15px;word-break:break-all;">
+            <form>
+                            <div style="width:550px; margin-bottom:20px; float:left; ">
+                            <div style="float: left;width: 500px;">
+                    <label class="lb">电子邮件</label><a href="http://oa.tongda2000.com/general/address/private/address/show_add.php?ADD_ID=52&amp;SHARE_TYPE=0&amp;PUBLIC_FLAG=1#" style="float:left; text-decoration:none;" onclick="send_email(&#39;dannycqzhang@126.com&#39;);">dannycqzhang@126.com</a><br><br>
+                </div>
+                            <div style="float:right; width:420px; height:1px; border-top:1px #f1f1f1 solid;"></div>
+                </div>
+                        </form>
+        </div>
+    </div>
+</div>
+
+</body></html>

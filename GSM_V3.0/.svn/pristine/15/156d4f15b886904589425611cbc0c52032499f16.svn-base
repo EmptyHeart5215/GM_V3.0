@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!-- saved from url=(0112)http://oa.tongda2000.com/general/address/private/address/talklist.php?TYPE=1&SHARE_TYPE=0&arr=9,3,&PUBLIC_FLAG=1 -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>联系人列表</title>
+    
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!--[if lte IE 8]>
+        <script type="text/javascript" src="/static/js/ccorrect_btn.js"></script>
+    <![endif]-->
+    
+<script type="text/javascript">
+   var MYOA_JS_SERVER = "";
+   var MYOA_STATIC_SERVER = "";
+</script>
+<link rel="stylesheet" type="text/css" href="middle.css"><script>
+function show_add(add_id)
+{
+    parent.document.getElementById("show_add").src="address/show_add.php?ADD_ID="+add_id+"&SHARE_TYPE=0&PUBLIC_FLAG=1";
+}
+</script></head>
+
+
+
+<body style="overflow-x: hidden;background:#fafafa" id="show_talklist">
+
+                <div class="zm">
+                    <p id="D" class="zimu" name="D">D</p>
+                    <ul class="namelist">
+                        <li onclick="show_add(52);" title="dannycqzhang">
+                            <a>dannycqzha</a>
+                            <span style="cursor: pointer;">
+                                <img src="man_s.png" height="41px" width="41px">
+                            </span>
+                        </li></ul></div>
+                <div class="zm">
+                    <p id="H" class="zimu" name="H">H</p>
+                    <ul class="namelist">
+                        <li onclick="show_add(401);" title="hmcad">
+                            <a>hmcad</a>
+                            <span style="cursor: pointer;">
+                                <img src="man_s.png" height="41px" width="41px">
+                            </span>
+                        </li></ul></div>
+                <div class="zm">
+                    <p id="L" class="zimu" name="L">L</p>
+                    <ul class="namelist">
+                        <li onclick="show_add(110);" title="李冰">
+                            <a>李冰</a>
+                            <span style="cursor: pointer;">
+                                <img src="man_s.png" height="41px" width="41px">
+                            </span>
+                        </li></ul></div>
+                <div class="zm">
+                    <p id="S" class="zimu" name="S">S</p>
+                    <ul class="namelist">
+                        <li onclick="show_add(32);" title="sadhjks">
+                            <a>sadhjks</a>
+                            <span style="cursor: pointer;">
+                                <img src="man_s.png" height="41px" width="41px">
+                            </span>
+                        </li></ul></div>
+                <div class="zm">
+                    <p id="T" class="zimu" name="T">T</p>
+                    <ul class="namelist">
+                        <li onclick="show_add(50);" title="test">
+                            <a>test</a>
+                            <span style="cursor: pointer;">
+                                <img src="man_s.png" height="41px" width="41px">
+                            </span>
+                        </li></ul></div>
+                <div class="zm">
+                    <p id="W" class="zimu" name="W">W</p>
+                    <ul class="namelist">
+                        <li onclick="show_add(102);" title="王道人">
+                            <a>王道人</a>
+                            <span style="cursor: pointer;">
+                                <img src="man_s.png" height="41px" width="41px">
+                            </span>
+                        </li></ul></div>
+                <div class="zm">
+                    <p id="#" class="zimu" name="#">#</p>
+                    <ul class="namelist">
+                        <li onclick="show_add(18);" title="">
+                            <a></a>
+                            <span style="cursor: pointer;">
+                                <img src="man_s.png" height="41px" width="41px">
+                            </span>
+                        </li><li onclick="show_add(24);" title=""><a></a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(26);" title=""><a></a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(46);" title="123"><a>123</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(59);" title="125857131"><a>125857131</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(48);" title="14593497"><a>14593497</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(29);" title="20115791"><a>20115791</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(21);" title="4324"><a>4324</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(22);" title="4324"><a>4324</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(23);" title="65465"><a>65465</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(51);" title="792818123"><a>792818123</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(405);" title="876828331"><a>876828331</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(25);" title="送水店"><a>送水店</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li><li onclick="show_add(20);" title="淘宝店铺：333baby童装"><a>淘宝店铺：</a><span style="cursor: pointer;"><img src="man_s.png" height="41px" width="41px"></span></li></ul></div><script>
+    parent.document.getElementById("show_add").src="address/show_add.php?ADD_ID=52&SHARE_TYPE=0&PUBLIC_FLAG=1";
+</script>
+</body></html>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysMenuMapper" >
+  <resultMap id="sysMenuResult" type="SysMenu" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="MENU_NAME" property="menuName" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="ACTION_URL" property="actionUrl" jdbcType="VARCHAR" />
+    <result column="HAS_HIDE_MENU" property="hasHideMenu" jdbcType="CHAR" />
+    <result column="IS_MENU" property="isMenu" jdbcType="CHAR" />
+    <result property="parentName" column="PARENT_NAME"/>
+    <result property="roleCode"/>
+	<result property="checked" column="checked"/>
+	<result property="isleaf"/>
+	<result property="level"/>
+	
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, MENU_NAME, PARENT_CODE, 
+    PIC_URL, ACTION_URL, HAS_HIDE_MENU
+  </sql>
+ 
+  <insert id="insert" parameterType="SysMenu" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+    insert into SYS_MENU (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, MENU_NAME, PARENT_CODE, 
+      PIC_URL, ACTION_URL, HAS_HIDE_MENU,IS_MENU
+      )
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, 
+      #{picUrl,jdbcType=VARCHAR}, #{actionUrl,jdbcType=VARCHAR}, #{hasHideMenu,jdbcType=CHAR}, #{isMenu,jdbcType=CHAR}
+      )
+  </insert>
+  
+  <update id="update" parameterType="SysMenu" >
+    update SYS_MENU
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="actionUrl != null" >
+        ACTION_URL = #{actionUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="hasHideMenu != null" >
+        HAS_HIDE_MENU = #{hasHideMenu,jdbcType=CHAR},
+      </if>
+      <if test="isMenu != null" >
+        IS_MENU = #{isMenu,jdbcType=CHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除),一并删除子节点 -->
+    <update id="deletePk" parameterType="String">
+    update SYS_MENU set flag_del=1 where code in (select code from SYS_MENU start with code=#{code} CONNECT by PRIOR code=parent_code)
+    </update>
+    
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE SYS_MENU SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+    <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryList" resultMap="sysMenuResult">
+   		   SELECT * FROM SYS_MENU 
+   		   <where>
+   		      FLAG_DEL != 1 and is_menu=1
+   		   </where>
+   	</select>
+   	
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="sysMenuResult">
+    select m1.*,m2.menu_name as PARENT_NAME from sys_menu m1 left join sys_menu m2 on m1.parent_code=m2.code and m2.flag_del=0 where m1.flag_del=0 and m1.code=#{code}
+    </select>
+   	 <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryTListParam" parameterType="SysMenu" resultMap="sysMenuResult">
+   		   SELECT m.*,r.role_code as roleCode FROM SYS_MENU m
+   		     join sys_role_menu r on r.role_code=#{roleCode}
+   		   <where>
+   		      m.FLAG_DEL != 1  and m.is_menu=1
+   		   </where>
+   		    <if test="parentCode != null and parentCode!=''" >
+        			and m.parent_code = #{parentCode,jdbcType=VARCHAR}
+      		</if>
+   	</select>
+   <!-- 根据条件查询所有实体对象集合 queryRoot调用了它 -->
+   <select id="queryListParam" parameterType="Map" resultMap="sysMenuResult">
+   		   SELECT m.*,rm.role_code as roleCode FROM SYS_MENU m
+   		    join sys_role_menu rm on rm.menu_code=m.code and rm.role_code=#{roleCode}
+   		   <where>
+   		      m.FLAG_DEL != 1 and m.IS_MENU=1
+   		   </where>
+   		    <if test="parentCode != null and parentCode!=''" >
+   		    	<if test="parentCode == '--'" >
+        			and (m.parent_code is null or m.parent_code='--' or m.parent_code='')
+        		</if>
+        		<if test="parentCode != '--'" >
+        			and m.parent_code = #{parentCode,jdbcType=VARCHAR}
+        		</if>
+      		</if>
+      		order by m.sort asc
+   	</select>
+   	<!-- 查询所有实体对象集合  -->
+   	<select id="queryAllList" resultMap="sysMenuResult">
+   		   SELECT m.* FROM SYS_MENU m
+   		   <where>
+   		      m.FLAG_DEL != 1 and m.is_menu=1 ORDER BY m.sort ASC
+   		   </where>
+   	</select>
+   	<!-- 根据父节点查找某父节点下的所有子孙节点，用于首页左侧的菜单展示 -->
+	<select id="queryAllChildMenuByParent" parameterType="java.util.Map" resultMap="sysMenuResult">
+		 select connect_by_isleaf as isleaf,level, m.* from(select m.* from sys_menu m
+		   join sys_role_menu rm on rm.menu_code=m.code and rm.role_code=#{roleCode}
+		  where m.FLAG_DEL=0 and m.IS_MENU=1)m START WITH m.parent_code= #{parentCode,jdbcType=VARCHAR}
+		   connect by prior m.code=m.parent_code order siblings by m.sort 
+   	</select>
+   	 	<!-- 查找整棵树，再根据角色code查看是否拥有某权限，如果有，checked为1 -->
+	<select id="queryAllByRole" parameterType="String" resultMap="sysMenuResult">
+		 SELECT sys_MENU.*,CASE  WHEN sys_ROLE_MENU.CODE is null THEN 0 ELSE 1 END checked FROM SYS_MENU LEFT JOIN 
+(SELECT * FROM sys_ROLE_MENU WHERE sys_ROLE_MENU.role_code =#{roleCode} and flag_del=0) 
+sys_ROLE_MENU ON sys_ROLE_MENU.MENU_CODE=sys_MENU.CODE WHERE sys_MENU.FLAG_DEL=0 and sys_menu.is_menu=1
+   	</select>
+<!-- 同名验证 -->
+   	<select id="queryMenuNameSelect" parameterType="java.util.Map" resultMap="sysMenuResult">
+  	 SELECT * FROM SYS_MENU WHERE FLAG_DEL != 1 AND MENU_NAME=#{name} and parent_code=#{parentCode}
+  </select>
+  
+  <select id="queryByCode" parameterType="String" resultMap="sysMenuResult">
+    SELECT * FROM SYS_MENU WHERE CODE=#{code}
+    </select>
+      <select id="queryAllParentMenuByChild" parameterType="java.util.Map" resultMap="sysMenuResult">
+    select * from SYS_MENU connect by prior PARENT_CODE=CODE start with CODE=#{code} 
+    </select>
+</mapper>

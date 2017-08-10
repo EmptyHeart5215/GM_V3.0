@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysEvaSetMapper">
+   <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+   <resultMap type="SysEvaSet" id="evaSetResult">
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="IS_CONTRADICT" property="isContradict" jdbcType="CHAR" />
+    <result column="IS_EVENT" property="isEvent" jdbcType="CHAR" />
+    <result column="IS_LOG" property="isLog" jdbcType="CHAR" />
+    <result column="IS_XUN_CHA" property="isXunCha" jdbcType="CHAR" />
+    <result column="CONTRADICT_BASE_SCORE" property="contradictBaseScore" jdbcType="DECIMAL" />
+    <result column="EVENT_BASE_SCORE" property="eventBaseScore" jdbcType="DECIMAL" />
+    <result column="LOG_BASE_SCORE" property="logBaseScore" jdbcType="DECIMAL" />
+    <result column="ZOU_FANG_BASE_SCORE" property="zouFangBaseScore" jdbcType="DECIMAL" />
+    <result column="LEAST_CONTRADICT" property="leastContradict" jdbcType="DECIMAL" />
+    <result column="LESS_KOU_FEN_CONTRADICT" property="lessKouFenContradict" jdbcType="DECIMAL" />
+    <result column="LATE_KOU_FEN_CONTRADICT" property="lateKouFenContradict" jdbcType="DECIMAL" />
+    <result column="LEAST_EVENT" property="leastEvent" jdbcType="DECIMAL" />
+    <result column="LESS_KOU_FEN_EVENT" property="lessKouFenEvent" jdbcType="DECIMAL" />
+    <result column="LATE_KOU_FEN_EVENT" property="lateKouFenEvent" jdbcType="DECIMAL" />
+    <result column="LESS_KOU_FEN_LOG" property="lessKouFenLog" jdbcType="DECIMAL" />
+    <result column="LEAST_ZOU_FANG_HU" property="leastZouFangHu" jdbcType="DECIMAL" />
+    <result column="LESS_KOU_FEN_ZOU_FANG_HU" property="lessKouFenZouFangHu" jdbcType="DECIMAL" />
+    <result column="LEAST_ZOU_FANG_AM" property="leastZouFangAm" jdbcType="DECIMAL" />
+    <result column="LEAST_ZOU_FANG_PM" property="leastZouFangPm" jdbcType="DECIMAL" />
+    <result column="LESS_TIME_KOU_FEN" property="lessTimeKouFen" jdbcType="DECIMAL" />
+   </resultMap>
+   <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, IS_CONTRADICT, 
+    IS_EVENT, IS_LOG, IS_XUN_CHA, CONTRADICT_BASE_SCORE, EVENT_BASE_SCORE, LOG_BASE_SCORE, 
+    ZOU_FANG_BASE_SCORE, LEAST_CONTRADICT, LESS_KOU_FEN_CONTRADICT, LATE_KOU_FEN_CONTRADICT, 
+    LEAST_EVENT, LESS_KOU_FEN_EVENT, LATE_KOU_FEN_EVENT,  LESS_KOU_FEN_LOG, 
+    LEAST_ZOU_FANG_HU, LESS_KOU_FEN_ZOU_FANG_HU, LEAST_ZOU_FANG_AM, LEAST_ZOU_FANG_PM, 
+    LESS_TIME_KOU_FEN
+  </sql>
+  <insert id="insert" parameterType="SysEvaSet" >
+  <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+    insert into SYS_EVA_SET (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, IS_CONTRADICT, IS_EVENT, 
+      IS_LOG, IS_XUN_CHA, CONTRADICT_BASE_SCORE, 
+      EVENT_BASE_SCORE, LOG_BASE_SCORE, ZOU_FANG_BASE_SCORE, 
+      LEAST_CONTRADICT, LESS_KOU_FEN_CONTRADICT, 
+      LATE_KOU_FEN_CONTRADICT, LEAST_EVENT, LESS_KOU_FEN_EVENT, 
+      LATE_KOU_FEN_EVENT, LESS_KOU_FEN_LOG, 
+      LEAST_ZOU_FANG_HU, LESS_KOU_FEN_ZOU_FANG_HU, LEAST_ZOU_FANG_AM, 
+      LEAST_ZOU_FANG_PM, LESS_TIME_KOU_FEN)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{isContradict,jdbcType=CHAR}, #{isEvent,jdbcType=CHAR}, 
+      #{isLog,jdbcType=CHAR}, #{isXunCha,jdbcType=CHAR}, #{contradictBaseScore,jdbcType=DECIMAL}, 
+      #{eventBaseScore,jdbcType=DECIMAL}, #{logBaseScore,jdbcType=DECIMAL}, #{zouFangBaseScore,jdbcType=DECIMAL}, 
+      #{leastContradict,jdbcType=DECIMAL}, #{lessKouFenContradict,jdbcType=DECIMAL}, 
+      #{lateKouFenContradict,jdbcType=DECIMAL}, #{leastEvent,jdbcType=DECIMAL}, #{lessKouFenEvent,jdbcType=DECIMAL}, 
+      #{lateKouFenEvent,jdbcType=DECIMAL},  #{lessKouFenLog,jdbcType=DECIMAL}, 
+      #{leastZouFangHu,jdbcType=DECIMAL}, #{lessKouFenZouFangHu,jdbcType=DECIMAL}, #{leastZouFangAm,jdbcType=DECIMAL}, 
+      #{leastZouFangPm,jdbcType=DECIMAL}, #{lessTimeKouFen,jdbcType=DECIMAL})
+  </insert>  
+    <update id="update" parameterType="SysEvaSet" >
+    update SYS_EVA_SET
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isContradict != null" >
+        IS_CONTRADICT = #{isContradict,jdbcType=CHAR},
+      </if>
+      <if test="isEvent != null" >
+        IS_EVENT = #{isEvent,jdbcType=CHAR},
+      </if>
+      <if test="isLog != null" >
+        IS_LOG = #{isLog,jdbcType=CHAR},
+      </if>
+      <if test="isXunCha != null" >
+        IS_XUN_CHA = #{isXunCha,jdbcType=CHAR},
+      </if>
+        CONTRADICT_BASE_SCORE = #{contradictBaseScore,jdbcType=DECIMAL},
+        EVENT_BASE_SCORE = #{eventBaseScore,jdbcType=DECIMAL},
+        LOG_BASE_SCORE = #{logBaseScore,jdbcType=DECIMAL},
+        ZOU_FANG_BASE_SCORE = #{zouFangBaseScore,jdbcType=DECIMAL},
+        LEAST_CONTRADICT = #{leastContradict,jdbcType=DECIMAL},
+        LESS_KOU_FEN_CONTRADICT = #{lessKouFenContradict,jdbcType=DECIMAL},
+        LATE_KOU_FEN_CONTRADICT = #{lateKouFenContradict,jdbcType=DECIMAL},
+        LEAST_EVENT = #{leastEvent,jdbcType=DECIMAL},
+        LESS_KOU_FEN_EVENT = #{lessKouFenEvent,jdbcType=DECIMAL},
+        LATE_KOU_FEN_EVENT = #{lateKouFenEvent,jdbcType=DECIMAL},
+        LESS_KOU_FEN_LOG = #{lessKouFenLog,jdbcType=DECIMAL},
+        LEAST_ZOU_FANG_HU = #{leastZouFangHu,jdbcType=DECIMAL},
+        LESS_KOU_FEN_ZOU_FANG_HU = #{lessKouFenZouFangHu,jdbcType=DECIMAL},
+        LEAST_ZOU_FANG_AM = #{leastZouFangAm,jdbcType=DECIMAL},
+        LEAST_ZOU_FANG_PM = #{leastZouFangPm,jdbcType=DECIMAL},
+        LESS_TIME_KOU_FEN = #{lessTimeKouFen,jdbcType=DECIMAL},
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="deleteAll">
+    update SYS_EVA_SET set flag_del=1
+  </update>
+    
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryOne"  resultMap="evaSetResult">
+        SELECT <include refid="Base_Column_List"></include> FROM SYS_EVA_SET where flag_del=0
+    </select>
+   </mapper>
+ 

@@ -1,0 +1,362 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BRoadConvenientMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="BRoadConvenient" id="bRoadConvenientResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="CODE_LINE_TYPE" jdbcType="VARCHAR" property="codeLineType" />
+        <result column="UNIT_NAME" jdbcType="VARCHAR" property="unitName" />
+        <result column="UNIT_ADDRESS" jdbcType="VARCHAR" property="unitAddress" />
+        <result column="UNIT_PHONE" jdbcType="VARCHAR" property="unitPhone" />
+        <result column="UNIT_MANAGER" jdbcType="VARCHAR" property="unitManager" />
+        <result column="UNIT_MANAGER_PHONE" jdbcType="VARCHAR" property="unitManagerPhone" />
+        <result column="CONTROL_UNIT_NAME" jdbcType="VARCHAR" property="controlUnitName" />
+        <result column="CONTROL_UNIT_ADDRESS" jdbcType="VARCHAR" property="controlUnitAddress" />
+        <result column="CONTROL_UNIT_PHONE" jdbcType="VARCHAR" property="controlUnitPhone" />
+        <result column="CHARGE_MANAGER" jdbcType="VARCHAR" property="chargeManager" />
+        <result column="CHARGE_MANAGER_PHONE" jdbcType="VARCHAR" property="chargeManagerPhone" />
+        <result column="SECURITY_DANGER" jdbcType="VARCHAR" property="securityDanger" />
+        <result column="CODE_SECURITY_LEVEL" jdbcType="VARCHAR" property="codeSecurityLevel" />
+    	<association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>	       
+   </resultMap>
+    <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="BRoadConvenient">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO B_ROAD_CONVENIENT
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    GRID_CODE,NAME,CODE_LINE_TYPE,UNIT_NAME,
+                    UNIT_ADDRESS,UNIT_PHONE,UNIT_MANAGER,UNIT_MANAGER_PHONE,
+                    CONTROL_UNIT_NAME,CONTROL_UNIT_ADDRESS,CONTROL_UNIT_PHONE,CHARGE_MANAGER,
+                    CHARGE_MANAGER_PHONE,SECURITY_DANGER,CODE_SECURITY_LEVEL)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},
+                     #{name,jdbcType=VARCHAR},#{codeLineType,jdbcType=VARCHAR},#{unitName,jdbcType=VARCHAR},
+                     #{unitAddress,jdbcType=VARCHAR},#{unitPhone,jdbcType=VARCHAR},#{unitManager,jdbcType=VARCHAR},
+                     #{unitManagerPhone,jdbcType=VARCHAR},#{controlUnitName,jdbcType=VARCHAR},#{controlUnitAddress,jdbcType=VARCHAR},
+                     #{controlUnitPhone,jdbcType=VARCHAR},#{chargeManager,jdbcType=VARCHAR},#{chargeManagerPhone,jdbcType=VARCHAR},
+                     #{securityDanger,jdbcType=VARCHAR},#{codeSecurityLevel,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="BRoadConvenient">
+        UPDATE B_ROAD_CONVENIENT
+        <set>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="codeLineType != null and codeLineType != ''">
+                CODE_LINE_TYPE = #{codeLineType,jdbcType=VARCHAR},
+            </if>
+            <if test="unitName != null and unitName != ''">
+                UNIT_NAME = #{unitName,jdbcType=VARCHAR},
+            </if>
+            <if test="unitAddress != null and unitAddress != ''">
+                UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="unitPhone != null and unitPhone != ''">
+                UNIT_PHONE = #{unitPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="unitManager != null and unitManager != ''">
+                UNIT_MANAGER = #{unitManager,jdbcType=VARCHAR},
+            </if>
+            <if test="unitManagerPhone != null and unitManagerPhone != ''">
+                UNIT_MANAGER_PHONE = #{unitManagerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="controlUnitName != null and controlUnitName != ''">
+                CONTROL_UNIT_NAME = #{controlUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="controlUnitAddress != null and controlUnitAddress != ''">
+                CONTROL_UNIT_ADDRESS = #{controlUnitAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="controlUnitPhone != null and controlUnitPhone != ''">
+                CONTROL_UNIT_PHONE = #{controlUnitPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeManager != null and chargeManager != ''">
+                CHARGE_MANAGER = #{chargeManager,jdbcType=VARCHAR},
+            </if>
+            <if test="chargeManagerPhone != null and chargeManagerPhone != ''">
+                CHARGE_MANAGER_PHONE = #{chargeManagerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="securityDanger != null and securityDanger != ''">
+                SECURITY_DANGER = #{securityDanger,jdbcType=VARCHAR},
+            </if>
+            <if test="codeSecurityLevel != null and codeSecurityLevel != ''">
+                CODE_SECURITY_LEVEL = #{codeSecurityLevel,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE B_ROAD_CONVENIENT SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE B_ROAD_CONVENIENT SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bRoadConvenientResult">
+        SELECT B_ROAD_CONVENIENT.*,SSG.GRID_TOTAL_NAME 
+		FROM B_ROAD_CONVENIENT LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_ROAD_CONVENIENT.GRID_CODE
+		WHERE B_ROAD_CONVENIENT.FLAG_DEL != 1 AND B_ROAD_CONVENIENT.CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="bRoadConvenientResult">
+        SELECT * FROM B_ROAD_CONVENIENT where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="BRoadConvenient" resultMap="bRoadConvenientResult">
+        SELECT * FROM B_ROAD_CONVENIENT 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="codeLineType != null and codeLineType != ''">
+                AND CODE_LINE_TYPE = #{codeLineType,jdbcType=VARCHAR}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+            </if>
+            <if test="unitAddress != null and unitAddress != ''">
+                AND UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="unitPhone != null and unitPhone != ''">
+                AND UNIT_PHONE = #{unitPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="unitManager != null and unitManager != ''">
+                AND UNIT_MANAGER = #{unitManager,jdbcType=VARCHAR}
+            </if>
+            <if test="unitManagerPhone != null and unitManagerPhone != ''">
+                AND UNIT_MANAGER_PHONE = #{unitManagerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitName != null and controlUnitName != ''">
+                AND CONTROL_UNIT_NAME = #{controlUnitName,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitAddress != null and controlUnitAddress != ''">
+                AND CONTROL_UNIT_ADDRESS = #{controlUnitAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitPhone != null and controlUnitPhone != ''">
+                AND CONTROL_UNIT_PHONE = #{controlUnitPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="chargeManager != null and chargeManager != ''">
+                AND CHARGE_MANAGER = #{chargeManager,jdbcType=VARCHAR}
+            </if>
+            <if test="chargeManagerPhone != null and chargeManagerPhone != ''">
+                AND CHARGE_MANAGER_PHONE = #{chargeManagerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="securityDanger != null and securityDanger != ''">
+                AND SECURITY_DANGER = #{securityDanger,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSecurityLevel != null and codeSecurityLevel != ''">
+                AND CODE_SECURITY_LEVEL = #{codeSecurityLevel,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="BRoadConvenient" resultMap="bRoadConvenientResult">
+        SELECT B_ROAD_CONVENIENT.*,SSG.GRID_TOTAL_NAME 
+		FROM B_ROAD_CONVENIENT LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_ROAD_CONVENIENT.GRID_CODE
+        <where>
+            B_ROAD_CONVENIENT.FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                B_ROAD_CONVENIENT.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND B_ROAD_CONVENIENT.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND B_ROAD_CONVENIENT.FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND B_ROAD_CONVENIENT.FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND B_ROAD_CONVENIENT.SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND B_ROAD_CONVENIENT.REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+            	AND B_ROAD_CONVENIENT.GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="name != null and name != ''">
+                AND B_ROAD_CONVENIENT.NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="codeLineType != null and codeLineType != ''">
+                AND B_ROAD_CONVENIENT.CODE_LINE_TYPE LIKE CONCAT(CONCAT('%', #{codeLineType,jdbcType=VARCHAR}),'%')            
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND B_ROAD_CONVENIENT.UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+            </if>
+            <if test="unitAddress != null and unitAddress != ''">
+                AND B_ROAD_CONVENIENT.UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="unitPhone != null and unitPhone != ''">
+                AND B_ROAD_CONVENIENT.UNIT_PHONE = #{unitPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="unitManager != null and unitManager != ''">
+                AND B_ROAD_CONVENIENT.UNIT_MANAGER = #{unitManager,jdbcType=VARCHAR}
+            </if>
+            <if test="unitManagerPhone != null and unitManagerPhone != ''">
+                AND B_ROAD_CONVENIENT.UNIT_MANAGER_PHONE = #{unitManagerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitName != null and controlUnitName != ''">
+                AND B_ROAD_CONVENIENT.CONTROL_UNIT_NAME = #{controlUnitName,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitAddress != null and controlUnitAddress != ''">
+                AND B_ROAD_CONVENIENT.CONTROL_UNIT_ADDRESS = #{controlUnitAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitPhone != null and controlUnitPhone != ''">
+                AND B_ROAD_CONVENIENT.CONTROL_UNIT_PHONE = #{controlUnitPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="chargeManager != null and chargeManager != ''">
+                AND B_ROAD_CONVENIENT.CHARGE_MANAGER = #{chargeManager,jdbcType=VARCHAR}
+            </if>
+            <if test="chargeManagerPhone != null and chargeManagerPhone != ''">
+                AND B_ROAD_CONVENIENT.CHARGE_MANAGER_PHONE = #{chargeManagerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="securityDanger != null and securityDanger != ''">
+                AND B_ROAD_CONVENIENT.SECURITY_DANGER = #{securityDanger,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSecurityLevel != null and codeSecurityLevel != ''">
+                AND B_ROAD_CONVENIENT.CODE_SECURITY_LEVEL LIKE CONCAT(CONCAT('%', #{codeSecurityLevel,jdbcType=VARCHAR}),'%')            
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM B_ROAD_CONVENIENT WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="BRoadConvenient" resultType="Integer">
+        SELECT COUNT(*) C FROM B_ROAD_CONVENIENT 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="codeLineType != null and codeLineType != ''">
+                AND CODE_LINE_TYPE = #{codeLineType,jdbcType=VARCHAR}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+            </if>
+            <if test="unitAddress != null and unitAddress != ''">
+                AND UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="unitPhone != null and unitPhone != ''">
+                AND UNIT_PHONE = #{unitPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="unitManager != null and unitManager != ''">
+                AND UNIT_MANAGER = #{unitManager,jdbcType=VARCHAR}
+            </if>
+            <if test="unitManagerPhone != null and unitManagerPhone != ''">
+                AND UNIT_MANAGER_PHONE = #{unitManagerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitName != null and controlUnitName != ''">
+                AND CONTROL_UNIT_NAME = #{controlUnitName,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitAddress != null and controlUnitAddress != ''">
+                AND CONTROL_UNIT_ADDRESS = #{controlUnitAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="controlUnitPhone != null and controlUnitPhone != ''">
+                AND CONTROL_UNIT_PHONE = #{controlUnitPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="chargeManager != null and chargeManager != ''">
+                AND CHARGE_MANAGER = #{chargeManager,jdbcType=VARCHAR}
+            </if>
+            <if test="chargeManagerPhone != null and chargeManagerPhone != ''">
+                AND CHARGE_MANAGER_PHONE = #{chargeManagerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="securityDanger != null and securityDanger != ''">
+                AND SECURITY_DANGER = #{securityDanger,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSecurityLevel != null and codeSecurityLevel != ''">
+                AND CODE_SECURITY_LEVEL = #{codeSecurityLevel,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

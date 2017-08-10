@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>电子地图</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+        }
+
+        .map {
+            width: 500px;
+            height: 400px;
+        }
+    </style>
+    <link rel="stylesheet" href="theme/default/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/nmap.css" type="text/css" />
+    <script src="jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="OpenLayers.js"></script>
+    <script type="text/javascript" src="ArcGISCache.js"></script>
+    <script type="text/javascript" src="nmap.js"></script>
+    <script type="text/javascript">
+        //添加地图及图形
+        var getPointXY = function (htmlobj) {
+            $("#mapadd").remove();
+            $("body").append("<div id='mapadd' style='width:500px;height:500px;'></div>");
+            NMaps({
+                id: "mapadd",
+                points: $("#" + htmlobj.id).val(),
+                getResult: function (graphicJSON) {
+                    $("#" + htmlobj.id).val(graphicJSON);
+                    $("#mapadd").hide();
+                }
+            });
+        }
+        //添加地图的基础上画区域
+        var showmap = function () {
+            NMapsShow({
+                id: "map"
+            });
+        }
+        //地图基础上画点或面
+        var oneshow = function () {
+            var points1 = "[{\"NAME\":\"点点点点点点点点点点点点点\",\"POSITION\":\"118.34986187171613,39.80428141222516\",\"IMG\":\"img/marker-green.png\",\"HTML\":\"<div style='height:500px;width:400px;background-color:yellow;'></div>\"}]";
+            var points2 = "[{\"NAME\":\"面\",\"POSITION\":\"119.24986187171613,38.70428141222516;119.46066204261203,38.680505078789324;119.32470623206836,38.64667574479655\",\"HTML\":\"<div style='height:200px;width:200px;padding-top:30px; background-color:#5a92c7;'><iframe width='100%' height='100%' marginheight='0' marginwidth='0' scrolling='no' frameborder='0' src='popup.html'></iframe></div>\"}]";
+            drawmapshow(points1, true, true);
+        }
+        //地图基础上多个点或面，没泡泡
+        var moreshow = function () {
+            var points = "[{\"NAME\":\"面1\",\"POSITION\":\"118.24986187171613,39.70428141222516;118.46066204261203,39.680505078789324;118.32470623206836,39.64667574479655\",\"HTML\":\"<div style='height:200px;width:200px;padding-top:30px; background-color:#5a92c7;'><iframe width='100%' height='100%' marginheight='0' marginwidth='0' scrolling='no' frameborder='0' src='popup.html'></iframe></div>\"}," +
+                         "{\"NAME\":\"面2\",\"POSITION\":\"119.24986187171613,38.70428141222516;119.46066204261203,38.680505078789324;119.32470623206836,38.64667574479655\",\"HTML\":\"<div style='height:200px;width:200px;padding-top:30px; background-color:#5a92c7;'><iframe width='100%' height='100%' marginheight='0' marginwidth='0' scrolling='no' frameborder='0' src='popup.html'></iframe></div>\"}," +
+                         "{\"NAME\":\"点\",\"POSITION\":\"118.34986187171613,39.80428141222516\",\"IMG\":\"img/marker-green.png\",\"HTML\":\"<div style='height:200px;width:200px;padding-top:30px; background-color:#5a92c7;'><iframe width='100%' height='100%' marginheight='0' marginwidth='0' scrolling='no' frameborder='0' src='popup.html'></iframe></div>\"}]";
+            drawmapshow(points, false, false,false);
+        }
+        //地图基础上多个点或面，没泡泡
+        var loudongshow = function () {
+            var points = "[{\"NAME\":\"面1\",\"POSITION\":\"118.24986187171613,39.70428141222516;118.46066204261203,39.680505078789324;118.32470623206836,39.64667574479655\",\"HTML\":\"<div style='height:200px;width:200px;padding-top:30px; background-color:#5a92c7;'><iframe width='100%' height='100%' marginheight='0' marginwidth='0' scrolling='no' frameborder='0' src='popup.html'></iframe></div>\"}," +
+                         "{\"NAME\":\"面2\",\"POSITION\":\"119.24986187171613,38.70428141222516;119.46066204261203,38.680505078789324;119.32470623206836,38.64667574479655\",\"HTML\":\"<div style='height:200px;width:200px;padding-top:30px; background-color:#5a92c7;'><iframe width='100%' height='100%' marginheight='0' marginwidth='0' scrolling='no' frameborder='0' src='popup.html'></iframe></div>\"}," +
+                         "{\"NAME\":\"点\",\"POSITION\":\"118.34986187171613,39.80428141222516\",\"IMG\":\"img/marker-green.png\",\"HTML\":\"<div style='height:200px;width:200px;padding-top:30px; background-color:#5a92c7;'><iframe width='100%' height='100%' marginheight='0' marginwidth='0' scrolling='no' frameborder='0' src='popup.html'></iframe></div>\"}]";
+            drawmapshow(points, true, false, true);
+        }
+        //楼栋内的人
+        var ldrenshow = function () {
+            var points = "{\"NAME\":\"点\",\"POSITION\":\"118.24986187171613,39.70428141222516;118.46066204261203,39.680505078789324;118.32470623206836,39.64667574479655\",\"IMG\":\"img/marker-green.png\",\"HTML\":\"<div style='height:200px;width:200px;padding-top:30px; background-color:#5a92c7;'><iframe width='100%' height='100%' marginheight='0' marginwidth='0' scrolling='no' frameborder='0' src='popup.html'></iframe></div>\"}";
+            drawmapshowperson(points, true);
+        }
+        //历史轨迹
+        var historyTrack = function () {
+        	var Track = [{ "POSITION": "118.177744081662,39.6959428433002", "HTML": "2015/7/3 11:36:14", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177744081662,39.6959428433002", "HTML": "2015/7/3 11:36:14", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177796994593,39.6958554211639", "HTML": "2015/7/3 11:36:06", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177796994593,39.6958554211639", "HTML": "2015/7/3 11:36:06", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177898685619,39.6957858501845", "HTML": "2015/7/3 11:35:53", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177898685619,39.6957858501845", "HTML": "2015/7/3 11:35:53", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177974991766,39.6957173169576", "HTML": "2015/7/3 11:35:17", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177974991766,39.6957173169576", "HTML": "2015/7/3 11:35:17", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.178049160828,39.6956211236436", "HTML": "2015/7/3 11:35:12", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.178049160828,39.6956211236436", "HTML": "2015/7/3 11:35:12", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177833302727,39.6955740814897", "HTML": "2015/7/3 11:35:05", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177833302727,39.6955740814897", "HTML": "2015/7/3 11:35:04", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177759859622,39.6954921971016", "HTML": "2015/7/3 11:34:53", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177759859622,39.6954921971016", "HTML": "2015/7/3 11:34:53", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177459737306,39.6948504747698", "HTML": "2015/7/3 10:47:19", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177459737306,39.6948504747698", "HTML": "2015/7/3 10:47:19", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177935263744,39.6954295989007", "HTML": "2015/7/3 11:43:20", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177935263744,39.6954295989007", "HTML": "2015/7/3 11:43:20", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177814410421,39.6954267751201", "HTML": "2015/7/3 11:43:19", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177814410421,39.6954267751201", "HTML": "2015/7/3 11:43:19", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177675957587,39.6954930145608", "HTML": "2015/7/3 11:43:16", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177675957587,39.6954930145608", "HTML": "2015/7/3 11:43:16", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.1776440254,39.6956025906523", "HTML": "2015/7/3 11:43:14", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.1776440254,39.6956025906523", "HTML": "2015/7/3 11:43:14", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177831015463,39.6956226929688", "HTML": "2015/7/3 11:43:08", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177831015463,39.6956226929688", "HTML": "2015/7/3 11:43:08", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177508775485,39.6956881869299", "HTML": "2015/7/3 11:43:08", "NAME": "01005001000100000001" },
+        	                { "POSITION": "118.177508775485,39.6956881869299", "HTML": "2015/7/3 11:43:08", "NAME": "01005001000100000001" }];
+        	            pointdata(Track);
+        }
+        //实时轨迹
+        var actualTrack = function () {
+            var Track =[{ "POSITION": "118.949861871716,38.2042814122252", "HTML": "2015/5/12 10:14:00", "NAME": "01" },
+                        { "POSITION": "118.649861871716,38.7042814122252", "HTML": "2015/5/12 10:12:49", "NAME": "01" },
+                        { "POSITION": "117.649861871716,38.7042814122252", "HTML": "2015/5/12 10:12:49", "NAME": "02" },
+                        { "POSITION": "117.349861871716,38.3042814122252", "HTML": "2015/5/12 10:12:22", "NAME": "02" },
+                        { "POSITION": "118.349861871716,38.3042814122252", "HTML": "2015/5/12 10:12:22", "NAME": "01" },
+                        { "POSITION": "118.149861871716,38.8042814122252", "HTML": "2015/5/12 9:50:26", "NAME": "01" },
+                        { "POSITION": "118.249861871716,38.7042814122252", "HTML": "2015/5/12 9:50:03", "NAME": "01" },
+                        { "POSITION": "117.949861871716,38.2042814122252", "HTML": "2015/5/12 10:14:00", "NAME": "02" },
+                        { "POSITION": "117.149861871716,38.8042814122252", "HTML": "2015/5/12 9:50:26", "NAME": "02" },
+                        { "POSITION": "117.249861871716,38.7042814122252", "HTML": "2015/5/12 9:50:03", "NAME": "02" }];
+            for (var i = 0; i < Track.length; i++) {
+                alert(Track[i].NAME);
+                drawMapTrack(Track[i]);
+            }
+        }
+    </script>
+</head>
+<body onload="showmap()">
+    <input type="text" id="Text0" style="width: 800px;" ondblclick="getPointXY(this)" />
+    <input type="text" id="Text1" style="width: 800px;" ondblclick="getPointXY(this)" /><br />
+    <input type="button" value="一个点或面" id="Button3" onclick="oneshow()" />
+    <input type="button" value="多个点面" id="Button4" onclick="moreshow()" />
+    <input type="button" value="楼栋" id="Button2" onclick="loudongshow()" />
+    <input type="button" value="楼栋人" id="Button6" onclick="ldrenshow()" /><br />
+    历史轨迹：
+    <input type="button" value="轨迹" id="Button0" onclick="historyTrack()" />
+    <input type="button" value="开始" id="Button7" onclick="guijistart()" />
+    <input type="button" value="暂停" id="Button8" onclick="guijistop()" />
+    <input type="button" value="加快" id="Button9" onclick="guijifast()" />
+    <input type="button" value="减慢" id="Button10" onclick="guijislow()" />
+    <input type="text" id="trackPersont" />
+    实时轨迹：
+    <input type="button" value="轨迹" id="Button11" onclick="actualTrack()" />
+    <input type="button" value="清除轨迹" id="Button1" onclick="clearMapTrack()" />
+    <br /><input type="button" value="清空" id="Button5" onclick="clearMap()" />
+    <div id="map" style="width:1000px;height:500px;"></div>
+</body>
+</html>
+<!--drawmapshow四个参数意思分别是：
+    数据集合、是否删除地图原有数据，是否直接显示泡泡（只有一条数据的时候才能是true），是否是楼栋的数据
+    drawMapTrack两个参数意思分别是：
+    数据集合、是否是第一个点-->

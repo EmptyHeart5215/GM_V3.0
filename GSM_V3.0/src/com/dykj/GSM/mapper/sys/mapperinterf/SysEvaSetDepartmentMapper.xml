@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysEvaSetDepartmentMapper">
+   <resultMap type="SysEvaSetDepartment" id="evaSetDepartmentResult">
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+     <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+      <result column="BASESCORE_CONTRADICT" property="basescoreContradict" jdbcType="DECIMAL" />
+    <result column="BASESCORE_EVENT" property="basescoreEvent" jdbcType="DECIMAL" />
+    <result column="LATE_KOUFEN_CONTRADICT" property="lateKoufenContradict" jdbcType="DECIMAL" />
+    <result column="LATE_KOUFEN_EVENT" property="lateKoufenEvent" jdbcType="DECIMAL" />
+    <result column="DUBAN_KOUFEN_CONTRADICT" property="dubanKoufenContradict" jdbcType="DECIMAL" />
+    <result column="DUBAN_KOUFEN_EVENT" property="dubanKoufenEvent" jdbcType="DECIMAL" />
+    <result column="MANYI_KOUFEN_CONTRADICT" property="manyiKoufenContradict" jdbcType="DECIMAL" />
+    <result column="MANYI_KOUFEN_EVENT" property="manyiKoufenEvent" jdbcType="DECIMAL" />
+   </resultMap>
+   <sql id="Base_Column_List" >
+     CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, BASESCORE_CONTRADICT, 
+    BASESCORE_EVENT, LATE_KOUFEN_CONTRADICT, LATE_KOUFEN_EVENT, DUBAN_KOUFEN_CONTRADICT, 
+    DUBAN_KOUFEN_EVENT, MANYI_KOUFEN_CONTRADICT, MANYI_KOUFEN_EVENT
+  </sql>
+  <insert id="insert" parameterType="SysEvaSetDepartment" >
+  <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+    insert into SYS_EVA_SET_DEPARTMENT (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, BASESCORE_CONTRADICT, BASESCORE_EVENT, 
+      LATE_KOUFEN_CONTRADICT, LATE_KOUFEN_EVENT, 
+      DUBAN_KOUFEN_CONTRADICT, DUBAN_KOUFEN_EVENT, 
+      MANYI_KOUFEN_CONTRADICT, MANYI_KOUFEN_EVENT
+      )
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{basescoreContradict,jdbcType=DECIMAL}, #{basescoreEvent,jdbcType=DECIMAL}, 
+      #{lateKoufenContradict,jdbcType=DECIMAL}, #{lateKoufenEvent,jdbcType=DECIMAL}, 
+      #{dubanKoufenContradict,jdbcType=DECIMAL}, #{dubanKoufenEvent,jdbcType=DECIMAL}, 
+      #{manyiKoufenContradict,jdbcType=DECIMAL}, #{manyiKoufenEvent,jdbcType=DECIMAL}
+      )
+  </insert>  
+  
+  <update id="deleteAll">
+    update SYS_EVA_SET_DEPARTMENT set flag_del=1
+  </update>
+    
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryOne"  resultMap="evaSetDepartmentResult">
+       SELECT <include refid="Base_Column_List"></include> FROM SYS_EVA_SET_DEPARTMENT where flag_del=0
+    </select>
+   </mapper>
+ 

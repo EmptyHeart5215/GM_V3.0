@@ -1,0 +1,205 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BJiGouPeopleMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="BJiGouPeople" id="bJiGouPeopleResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="SEX" jdbcType="VARCHAR" property="sex" />
+        <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+        <result column="PERSON_CODE" jdbcType="VARCHAR" property="personCode" />
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="BJiGouPeople">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO B_JI_GOU_PEOPLE
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    NAME,SEX,PHONE,ADDRESS,
+                    PERSON_CODE)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},
+                     #{sex,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},
+                     #{personCode,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="BJiGouPeople">
+        UPDATE B_JI_GOU_PEOPLE
+        <set>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null and sex != ''">
+                SEX = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null and phone != ''">
+                PHONE = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null and address != ''">
+                ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="personCode != null and personCode != ''">
+                PERSON_CODE = #{personCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE B_JI_GOU_PEOPLE SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE B_JI_GOU_PEOPLE SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bJiGouPeopleResult">
+        SELECT * FROM B_JI_GOU_PEOPLE WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="bJiGouPeopleResult">
+        SELECT * FROM B_JI_GOU_PEOPLE where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="BJiGouPeople" resultMap="bJiGouPeopleResult">
+        SELECT * FROM B_JI_GOU_PEOPLE 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null and sex != ''">
+                AND SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND PHONE = #{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="personCode != null and personCode != ''">
+                AND PERSON_CODE = #{personCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="java.util.Map" resultMap="bJiGouPeopleResult">
+         SELECT B_JI_GOU_PEOPLE.* FROM B_JI_GOU_PEOPLE 
+		 LEFT JOIN B_JI_GOU ji on ji.code=B_JI_GOU_PEOPLE.PERSON_CODE
+        <where>
+            B_JI_GOU_PEOPLE.FLAG_DEL != 1
+  			and ji.CODE_JIGOU_STATE LIKE CONCAT(CONCAT('%', #{guanLian,jdbcType=VARCHAR}),'%')
+            <if test="personCode != null and personCode != ''">
+                AND B_JI_GOU_PEOPLE.PERSON_CODE LIKE CONCAT(CONCAT('%', #{personCode,jdbcType=VARCHAR}),'%')
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM B_JI_GOU_PEOPLE WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="BJiGouPeople" resultType="Integer">
+        SELECT COUNT(*) C FROM B_JI_GOU_PEOPLE 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="sex != null and sex != ''">
+                AND SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND PHONE = #{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="personCode != null and personCode != ''">
+                AND PERSON_CODE = #{personCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    
+     <!-- 根据条件分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPageByCode" parameterType="String" resultMap="bJiGouPeopleResult">
+        Select b.* from B_JI_GOU_PEOPLE b where b.FLAG_DEL != 1 and b.PERSON_CODE=#{code}
+    </select>
+    
+    <!-- 批量修改(为假删，规定：0为显示，1为删除) -->
+    <update id="updateBatch">
+        Update B_JI_GOU_PEOPLE Set FLAG_DEL = '1'
+		Where PERSON_CODE in 
+		(
+    		 Select PERSON_CODE from B_JI_GOU_PEOPLE where FLAG_DEL = '0' and PERSON_CODE=#{personCode}
+  		)
+    </update>
+</mapper>

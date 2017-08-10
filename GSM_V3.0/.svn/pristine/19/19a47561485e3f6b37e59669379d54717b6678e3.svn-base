@@ -1,0 +1,648 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BFieldsMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="BFields" id="bFieldsResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="CODE_BELONG_TYPE" jdbcType="VARCHAR" property="codeBelongType" />
+        <result column="FIELDS_CODE" jdbcType="VARCHAR" property="fieldsCode" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+        <result column="AREA" jdbcType="VARCHAR" property="area" />
+        <result column="RANGE" jdbcType="VARCHAR" property="range" />
+        <result column="BELONG" jdbcType="VARCHAR" property="belong" />
+        <result column="BELONG_MAN" jdbcType="VARCHAR" property="belongMan" />
+        <result column="BELONG_DUTY" jdbcType="VARCHAR" property="belongDuty" />
+        <result column="BELONG_PHONE" jdbcType="VARCHAR" property="belongPhone" />
+        <result column="MANAGE_MAN" jdbcType="VARCHAR" property="manageMan" />
+        <result column="MANAGE_DUTY" jdbcType="VARCHAR" property="manageDuty" />
+        <result column="MANAGE_PHONE" jdbcType="VARCHAR" property="managePhone" />
+        <result column="MANAGE_MAN_NUM" jdbcType="VARCHAR" property="manageManNum" />
+        <result column="OTHER_BELONG" jdbcType="VARCHAR" property="otherBelong" />
+        <result column="GRID_NAME" jdbcType="VARCHAR" property="gridName" />
+        <result column="GRID_DUTY" jdbcType="VARCHAR" property="gridDuty" />
+        <result column="GRID_PHONE" jdbcType="VARCHAR" property="gridPhone" />
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+        <result column="POSITION" jdbcType="VARCHAR" property="position" />
+        <association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>	     
+    </resultMap>
+    <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+ <resultMap id="tempResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="BFields">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+  INSERT INTO B_FIELDS
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    GRID_CODE,NAME,CODE_BELONG_TYPE,FIECODE_BELONG_TYPE                    ADDRESS,AREA,RANGE,BELONG,
+                    BELONG_MAN,BELONG_DUTY,BELONG_PHONE,MANAGE_MAN,
+                    MANAGE_DUTY,MANAGE_PHONE,MANAGE_MAN_NUM,OTHER_BELONG,
+                    GRID_NAME,GRID_DUTY,GRID_PHONE,DESCRIPTION,
+                    POSITION)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},
+                     #{name,jdbcType=VARCHAR},#{codeBelongType,jdbcType=VARCHAR},#{fieldsCode,jdbcType=VARCHAR},
+                     #{address,jdbcType=VARCHAR},#{area,jdbcType=VARCHAR},#{range,jdbcType=VARCHAR},
+                     #{belong,jdbcType=VARCHAR},#{belongMan,jdbcType=VARCHAR},#{belongDuty,jdbcType=VARCHAR},
+                     #{belongPhone,jdbcType=VARCHAR},#{manageMan,jdbcType=VARCHAR},#{manageDuty,jdbcType=VARCHAR},
+                     #{managePhone,jdbcType=VARCHAR},#{manageManNum,jdbcType=VARCHAR},#{otherBelong,jdbcType=VARCHAR},
+                     #{gridName,jdbcType=VARCHAR},#{gridDuty,jdbcType=VARCHAR},#{gridPhone,jdbcType=VARCHAR},
+                     #{description,jdbcType=VARCHAR},#{position,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="BFields">
+        UPDATE B_FIELDS
+        <set>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="codeBelongType != null and codeBelongType != ''">
+                CODE_BELONG_TYPE = #{codeBelongType,jdbcType=VARCHAR},
+            </if>
+            <if test="fieldsCode != null and fieldsCode != ''">
+                FIELDS_CODE = #{fieldsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null and address != ''">
+                ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null and area != ''">
+                AREA = #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="range != null and range != ''">
+                RANGE = #{range,jdbcType=VARCHAR},
+            </if>
+            <if test="belong != null and belong != ''">
+                BELONG = #{belong,jdbcType=VARCHAR},
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+                BELONG_MAN = #{belongMan,jdbcType=VARCHAR},
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="manageMan != null and manageMan != ''">
+                MANAGE_MAN = #{manageMan,jdbcType=VARCHAR},
+            </if>
+            <if test="manageDuty != null and manageDuty != ''">
+                MANAGE_DUTY = #{manageDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="managePhone != null and managePhone != ''">
+                MANAGE_PHONE = #{managePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="manageManNum != null and manageManNum != ''">
+                MANAGE_MAN_NUM = #{manageManNum,jdbcType=VARCHAR},
+            </if>
+            <if test="otherBelong != null and otherBelong != ''">
+                OTHER_BELONG = #{otherBelong,jdbcType=VARCHAR},
+            </if>
+            <if test="gridName != null and gridName != ''">
+                GRID_NAME = #{gridName,jdbcType=VARCHAR},
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                GRID_DUTY = #{gridDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                GRID_PHONE = #{gridPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE B_FIELDS SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE B_FIELDS SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bFieldsResult">
+        SELECT B_FIELDS.*,SSG.GRID_TOTAL_NAME 
+		FROM B_FIELDS LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_FIELDS.GRID_CODE 
+		WHERE B_FIELDS.FLAG_DEL != 1 AND B_FIELDS.CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="bFieldsResult">
+        SELECT * FROM B_FIELDS where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="BFields" resultMap="bFieldsResult">
+        SELECT * FROM B_FIELDS 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="codeBelongType != null and codeBelongType != ''">
+                AND CODE_BELONG_TYPE = #{codeBelongType,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldsCode != null and fieldsCode != ''">
+                AND FIELDS_CODE = #{fieldsCode,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="area != null and area != ''">
+                AND AREA = #{area,jdbcType=VARCHAR}
+            </if>
+            <if test="range != null and range != ''">
+                AND RANGE = #{range,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND BELONG = #{belong,jdbcType=VARCHAR}
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+                AND BELONG_MAN = #{belongMan,jdbcType=VARCHAR}
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageMan != null and manageMan != ''">
+                AND MANAGE_MAN = #{manageMan,jdbcType=VARCHAR}
+            </if>
+            <if test="manageDuty != null and manageDuty != ''">
+                AND MANAGE_DUTY = #{manageDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="managePhone != null and managePhone != ''">
+                AND MANAGE_PHONE = #{managePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageManNum != null and manageManNum != ''">
+                AND MANAGE_MAN_NUM = #{manageManNum,jdbcType=VARCHAR}
+            </if>
+            <if test="otherBelong != null and otherBelong != ''">
+                AND OTHER_BELONG = #{otherBelong,jdbcType=VARCHAR}
+            </if>
+            <if test="gridName != null and gridName != ''">
+                AND GRID_NAME = #{gridName,jdbcType=VARCHAR}
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                AND GRID_DUTY = #{gridDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="BFields" resultMap="bFieldsResult">
+        SELECT B_FIELDS.*,SSG.GRID_TOTAL_NAME 
+        FROM B_FIELDS LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_FIELDS.GRID_CODE
+        <where>
+            B_FIELDS.FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                B_FIELDS.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND B_FIELDS.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND B_FIELDS.SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND B_FIELDS.REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+            	AND B_FIELDS.GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="name != null and name != ''">
+            	AND B_FIELDS.NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codeBelongType != null and codeBelongType != ''">
+                AND B_FIELDS.CODE_BELONG_TYPE = #{codeBelongType,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldsCode != null and fieldsCode != ''">
+           	    AND B_FIELDS.FIELDS_CODE LIKE CONCAT(CONCAT('%', #{fieldsCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="address != null and address != ''">
+                AND B_FIELDS.ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="area != null and area != ''">
+                AND B_FIELDS.AREA = #{area,jdbcType=VARCHAR}
+            </if>
+            <if test="range != null and range != ''">
+                AND B_FIELDS.RANGE = #{range,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND B_FIELDS.BELONG LIKE CONCAT(CONCAT('%', #{belong,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+            	AND B_FIELDS.BELONG_MAN LIKE CONCAT(CONCAT('%', #{belongMan,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND B_FIELDS.BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND B_FIELDS.BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageMan != null and manageMan != ''">
+            	AND B_FIELDS.MANAGE_MAN LIKE CONCAT(CONCAT('%', #{manageMan,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="manageDuty != null and manageDuty != ''">
+                AND B_FIELDS.MANAGE_DUTY = #{manageDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="managePhone != null and managePhone != ''">
+                AND B_FIELDS.MANAGE_PHONE = #{managePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageManNum != null and manageManNum != ''">
+                AND B_FIELDS.MANAGE_MAN_NUM = #{manageManNum,jdbcType=VARCHAR}
+            </if>
+            <if test="otherBelong != null and otherBelong != ''">
+                AND B_FIELDS.OTHER_BELONG = #{otherBelong,jdbcType=VARCHAR}
+            </if>
+            <if test="gridName != null and gridName != ''">
+            	AND B_FIELDS.GRID_NAME LIKE CONCAT(CONCAT('%', #{gridName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                AND B_FIELDS.GRID_DUTY = #{gridDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND B_FIELDS.GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                AND B_FIELDS.DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND B_FIELDS.POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM B_FIELDS WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="BFields" resultType="Integer">
+        SELECT COUNT(*) C FROM B_FIELDS 
+        <where>
+            FLAG_DEL != 1
+             <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+            	AND GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="name != null and name != ''">
+            	AND NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codeBelongType != null and codeBelongType != ''">
+                AND CODE_BELONG_TYPE = #{codeBelongType,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldsCode != null and fieldsCode != ''">
+           	    AND FIELDS_CODE LIKE CONCAT(CONCAT('%', #{fieldsCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="area != null and area != ''">
+                AND AREA = #{area,jdbcType=VARCHAR}
+            </if>
+            <if test="range != null and range != ''">
+                AND RANGE = #{range,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND BELONG LIKE CONCAT(CONCAT('%', #{belong,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+            	AND BELONG_MAN LIKE CONCAT(CONCAT('%', #{belongMan,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageMan != null and manageMan != ''">
+            	AND MANAGE_MAN LIKE CONCAT(CONCAT('%', #{manageMan,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="manageDuty != null and manageDuty != ''">
+                AND MANAGE_DUTY = #{manageDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="managePhone != null and managePhone != ''">
+                AND MANAGE_PHONE = #{managePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageManNum != null and manageManNum != ''">
+                AND MANAGE_MAN_NUM = #{manageManNum,jdbcType=VARCHAR}
+            </if>
+            <if test="otherBelong != null and otherBelong != ''">
+                AND OTHER_BELONG = #{otherBelong,jdbcType=VARCHAR}
+            </if>
+            <if test="gridName != null and gridName != ''">
+            	AND GRID_NAME LIKE CONCAT(CONCAT('%', #{gridName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                AND GRID_DUTY = #{gridDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+        <select id="Charts" parameterType="BParts" resultMap="tempResult" >
+	<if test="gridCode.length() ==2 ">
+		SELECT COUNT(B_FIELDS.code) AS COUNTS , sys_seat_second.name AS NAME
+		,sys_seat_second.code FROM B_FIELDS
+		LEFT JOIN sys_seat_grid ON B_FIELDS.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		LEFT JOIN sys_seat_second ON
+		sys_seat_third.parent_code=sys_seat_second.code
+		where 1=1
+		and sys_seat_second.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==5 ">
+		SELECT COUNT(B_FIELDS.code) AS COUNTS , sys_seat_third.name AS NAME
+		,sys_seat_third.code FROM B_FIELDS
+		LEFT JOIN sys_seat_grid ON B_FIELDS.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		where 1=1
+		and sys_seat_third.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==8 ">
+		SELECT COUNT(B_FIELDS.code) AS COUNTS , sys_seat_four.name AS NAME
+		,sys_seat_four.code FROM B_FIELDS
+		LEFT JOIN sys_seat_grid ON B_FIELDS.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		where 1=1
+		and sys_seat_four.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() >8 ">
+		SELECT COUNT(B_FIELDS.code) AS COUNTS , sys_seat_grid.name AS NAME
+		,sys_seat_grid.code FROM B_FIELDS
+		LEFT JOIN sys_seat_grid ON B_FIELDS.grid_code=sys_seat_grid.code
+		where 1=1
+		and sys_seat_grid.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+            	AND B_FIELDS.NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codeBelongType != null and codeBelongType != ''">
+                AND CODE_BELONG_TYPE = #{codeBelongType,jdbcType=VARCHAR}
+            </if>
+            <if test="fieldsCode != null and fieldsCode != ''">
+           	    AND FIELDS_CODE LIKE CONCAT(CONCAT('%', #{fieldsCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="area != null and area != ''">
+                AND AREA = #{area,jdbcType=VARCHAR}
+            </if>
+            <if test="range != null and range != ''">
+                AND RANGE = #{range,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND BELONG LIKE CONCAT(CONCAT('%', #{belong,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+            	AND BELONG_MAN LIKE CONCAT(CONCAT('%', #{belongMan,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageMan != null and manageMan != ''">
+            	AND MANAGE_MAN LIKE CONCAT(CONCAT('%', #{manageMan,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="manageDuty != null and manageDuty != ''">
+                AND MANAGE_DUTY = #{manageDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="managePhone != null and managePhone != ''">
+                AND MANAGE_PHONE = #{managePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageManNum != null and manageManNum != ''">
+                AND MANAGE_MAN_NUM = #{manageManNum,jdbcType=VARCHAR}
+            </if>
+            <if test="otherBelong != null and otherBelong != ''">
+                AND OTHER_BELONG = #{otherBelong,jdbcType=VARCHAR}
+            </if>
+            <if test="gridName != null and gridName != ''">
+            	AND GRID_NAME LIKE CONCAT(CONCAT('%', #{gridName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                AND GRID_DUTY = #{gridDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+
+
+ AND B_FIELDS.FLAG_DEL != 1
+	<if test="gridCode.length() ==2 ">
+	GROUP BY sys_seat_second.name ,sys_seat_second.code
+	</if>
+	<if test="gridCode.length() ==5 ">
+		GROUP BY sys_seat_third.name ,sys_seat_third.code
+	</if>
+	<if test="gridCode.length() ==8 ">
+		GROUP BY sys_seat_four.name ,sys_seat_four.code
+	</if>
+	<if test="gridCode.length() >8 ">
+		GROUP BY sys_seat_grid.name ,sys_seat_grid.code
+	</if>
+   </select>
+   
+   <select id="queryZongHePage" parameterType="java.util.Map" resultMap="bFieldsResult">
+   		    SELECT B_FIELDS.*,SSG.GRID_TOTAL_NAME 
+            FROM B_FIELDS LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_FIELDS.GRID_CODE
+   		   <where>
+            B_FIELDS.FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                B_FIELDS.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND B_FIELDS.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND B_FIELDS.SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND B_FIELDS.REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+            	AND B_FIELDS.GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="name != null and name != ''">
+            	AND B_FIELDS.NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codeBelongType != null and codeBelongType != ''">
+                and (
+				<foreach collection="codeBelongType" item="s" index="index" separator=" or ">
+				   B_FIELDS.CODE_BELONG_TYPE =#{s,jdbcType=VARCHAR}
+				</foreach>
+				)
+            </if>
+            <if test="fieldsCode != null and fieldsCode != ''">
+           	    AND B_FIELDS.FIELDS_CODE LIKE CONCAT(CONCAT('%', #{fieldsCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="address != null and address != ''">
+                AND B_FIELDS.ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="area != null and area != ''">
+                AND B_FIELDS.AREA = #{area,jdbcType=VARCHAR}
+            </if>
+            <if test="range != null and range != ''">
+                AND B_FIELDS.RANGE = #{range,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND B_FIELDS.BELONG LIKE CONCAT(CONCAT('%', #{belong,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+            	AND B_FIELDS.BELONG_MAN LIKE CONCAT(CONCAT('%', #{belongMan,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND B_FIELDS.BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND B_FIELDS.BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageMan != null and manageMan != ''">
+            	AND B_FIELDS.MANAGE_MAN LIKE CONCAT(CONCAT('%', #{manageMan,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="manageDuty != null and manageDuty != ''">
+                AND B_FIELDS.MANAGE_DUTY = #{manageDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="managePhone != null and managePhone != ''">
+                AND B_FIELDS.MANAGE_PHONE = #{managePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="manageManNum != null and manageManNum != ''">
+                AND B_FIELDS.MANAGE_MAN_NUM = #{manageManNum,jdbcType=VARCHAR}
+            </if>
+            <if test="otherBelong != null and otherBelong != ''">
+                AND B_FIELDS.OTHER_BELONG = #{otherBelong,jdbcType=VARCHAR}
+            </if>
+            <if test="gridName != null and gridName != ''">
+            	AND B_FIELDS.GRID_NAME LIKE CONCAT(CONCAT('%', #{gridName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="gridDuty != null and gridDuty != ''">
+                AND B_FIELDS.GRID_DUTY = #{gridDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridPhone != null and gridPhone != ''">
+                AND B_FIELDS.GRID_PHONE = #{gridPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                AND B_FIELDS.DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND B_FIELDS.POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+        </where>
+   </select>
+</mapper>

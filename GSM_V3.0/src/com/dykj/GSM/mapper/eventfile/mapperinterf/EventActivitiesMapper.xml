@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.eventfile.mapperinterf.EventActivitiesMapper">
+   <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+   <resultMap type="EventActivities" id="eventActivities">
+           <id column="CODE" property="code" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="GRID_CODE" property="gridCode" jdbcType="VARCHAR" />
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GRID_NUM" property="gridNum" jdbcType="VARCHAR" />
+    <result column="TITLE_NAME" property="titleName" jdbcType="VARCHAR" />
+    <result column="CONTENTS" property="contents" jdbcType="VARCHAR" />
+    <result column="RESPONSIBLE_NAME" property="responsibleName" jdbcType="VARCHAR" />
+    <result column="RESPONSIBLE_RANGE" property="responsibleRange" jdbcType="VARCHAR" />
+    <result column="RESPONSIBLE_LOCATION" property="responsibleLocation" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" jdbcType="VARCHAR" />
+    <result column="ORG_PERSONS" property="orgPersons" jdbcType="VARCHAR" />
+    <result column="MASSES_PERSONS" property="massesPersons" jdbcType="VARCHAR" />
+    <result column="RESPONSIBLE_SITUATION" property="responsibleSituation" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="REGISTER_DATE" property="registerDate" jdbcType="VARCHAR" />
+    <result column="MRMARK" property="mrmark" jdbcType="VARCHAR" />
+    <result column="MANAGER_NAME" property="managerName" jdbcType="VARCHAR" />
+    <result column="MANAGER_PHONE" property="managerPhone" jdbcType="VARCHAR" />
+    <result column="ACTIVITIES_PHOTO" property="activitiesPhoto" jdbcType="VARCHAR" />
+    <association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>	       
+   </resultMap>
+   <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+   <resultMap id="tempResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+   <!-- <parameterMap type="map" id="paramMap">
+      <parameter property="param" javaType="com.dykj.GSM.model.User" jdbcType="OTHER"/>
+   </parameterMap> -->
+   <!-- 保存实体对象  -->
+   <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+   <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+   <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+   如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+   <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement 和CallableStatement 类型。 -->
+   <insert id="insert" parameterType="EventActivities">
+      <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+        INSERT INTO EVENT_ACTIVITIES
+               (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,GRID_CODE,ID,GRID_NUM,TITLE_NAME,CONTENTS,
+               RESPONSIBLE_NAME,RESPONSIBLE_RANGE,RESPONSIBLE_LOCATION,BEGIN_TIME,ORG_PERSONS,MASSES_PERSONS,
+               RESPONSIBLE_SITUATION,END_TIME,POSITION,REGISTER_DATE,MRMARK,MANAGER_NAME,MANAGER_PHONE,ACTIVITIES_PHOTO) 
+        VALUES (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR}, #{gridCode,jdbcType=VARCHAR}, 
+                #{id,jdbcType=VARCHAR}, #{gridNum,jdbcType=VARCHAR}, #{titleName,jdbcType=VARCHAR}, #{contents,jdbcType=VARCHAR},
+                #{responsibleName,jdbcType=VARCHAR}, #{responsibleRange,jdbcType=VARCHAR}, #{responsibleLocation,jdbcType=VARCHAR}, 
+                #{beginTime,jdbcType=VARCHAR},#{orgPersons,jdbcType=VARCHAR},#{massesPersons,jdbcType=VARCHAR},             
+                #{responsibleSituation,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{registerDate,jdbcType=VARCHAR},
+                #{mrmark,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, #{managerPhone,jdbcType=VARCHAR}, #{activitiesPhoto,jdbcType=VARCHAR})
+   </insert>
+    
+      <!-- 更新实体对象   -->
+    <update id="update" parameterType="EventActivities">
+        UPDATE EVENT_ACTIVITIES
+        <set>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="id != null and id != ''">
+                ID = #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="gridNum != null and gridNum != ''">
+                GRID_NUM = #{gridNum,jdbcType=VARCHAR},
+            </if>
+            <if test="titleName != null and titleName != ''">
+                TITLE_NAME = #{titleName,jdbcType=VARCHAR},
+            </if>
+            <if test="contents != null and contents != ''">
+                CONTENTS = #{contents,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleName != null and responsibleName != ''">
+                RESPONSIBLE_NAME = #{responsibleName,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleRange != null and responsibleRange != ''">
+                RESPONSIBLE_RANGE = #{responsibleRange,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleLocation != null and responsibleLocation != ''">
+                RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR},
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                BEGIN_TIME = #{beginTime,jdbcType=VARCHAR},
+            </if>
+            <if test="orgPersons != null and orgPersons != ''">
+                ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR},
+            </if>
+            <if test="massesPersons != null and massesPersons != ''">
+                MASSES_PERSONS = #{massesPersons,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleSituation != null and responsibleSituation != ''">
+                RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null and endTime != ''">
+                END_TIME = #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="registerDate != null and registerDate != ''">
+                REGISTER_DATE = #{registerDate,jdbcType=VARCHAR},
+            </if>
+            <if test="mrmark != null and mrmark != ''">
+                MRMARK = #{mrmark,jdbcType=VARCHAR},
+            </if>
+            <if test="managerName != null and managerName != ''">
+                MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+            </if>
+            <if test="managerPhone != null and managerPhone != ''">
+                MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="activitiesPhoto != null and activitiesPhoto != ''">
+                ACTIVITIES_PHOTO = #{activitiesPhoto,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+     <!-- 更新实体对象 (参数)  -->
+    <update id="updateParam" parameterType="java.util.Map">
+       UPDATE EVENT_ACTIVITIES 
+         <set>
+             <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        SORT = #{sort,jdbcType=DECIMAL},
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        REMARK = #{remark,jdbcType=VARCHAR},
+		      </if>
+		      <if test="gridCode != null and gridCode != ''">
+		        GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+		      </if>
+		      <if test="id != null and id != ''">
+		        ID = #{id,jdbcType=VARCHAR},
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		        GRID_NUM = #{gridNum,jdbcType=VARCHAR},
+		      </if>
+		      <if test="titleName != null and titleName != ''">
+		        TITLE_NAME = #{titleName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="contents != null and contents != ''">
+		        CONTENTS = #{contents,jdbcType=VARCHAR},
+		      </if>
+		      <if test="responsibleName != null and responsibleName != ''">
+		        RESPONSIBLE_NAME = #{responsibleName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="responsibleRange != null and responsibleRange != ''">
+		        RESPONSIBLE_RANGE = #{responsibleRange,jdbcType=CHAR},
+		      </if>
+		      <if test="responsibleLocation != null and responsibleLocation != ''">
+		        RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR},
+		      </if>
+		      <if test="beginTime != null and beginTime != ''">
+		        BEGIN_TIME = #{beginTime,jdbcType=VARCHAR},
+		      </if>
+		      <if test="orgPersons != null and orgPersons != ''">
+		        ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR},
+		      </if>
+		      <if test="massesPersons != null and massesPersons != ''">
+		        MASSES_PERSONS = #{massesPersons,jdbcType=VARCHAR},
+		      </if>
+		      <if test="responsibleSituation != null and responsibleSituation != ''">
+		        RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR},
+		      </if>
+		      <if test="endTime != null and endTime != ''">
+		        END_TIME = #{endTime,jdbcType=VARCHAR},
+		      </if>
+		      <if test="position != null and position != ''">
+		        POSITION = #{position,jdbcType=VARCHAR},
+		      </if>
+		      <if test="managerName != null and managerName != ''">
+		        REGISTER_DATE = #{managerName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		        MRMARK = #{mrmark,jdbcType=VARCHAR},
+		      </if>
+		      <if test="managerName != null and managerName != ''">
+		        MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="managerPhone != null and managerPhone != ''">
+		        MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+		      </if>
+		      <if test="activitiesPhoto != null and activitiesPhoto != ''">
+		        ACTIVITIES_PHOTO = #{activitiesPhoto,jdbcType=VARCHAR},
+		      </if>
+        </set>
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+     <!-- 批量更新 (注：由于业务上暂时没有要求，
+     所以预留批量更新的接口，但没有具体实现功能)-->  
+   <update id="updateBatch" parameterType="EventActivities"></update>
+    
+    <!-- 根据主键删除实体对象 -->
+    <!-- <delete id="deletePk" parameterType="int">
+        DELETE FROM R_USERS WHERE CODE=#{code}
+    </delete> -->
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+    <update id="deletePk" parameterType="String">
+       UPDATE EVENT_ACTIVITIES SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+    
+    <!-- 根据参数删除实体对象(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteParam" parameterType="int">
+    </update>
+    
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE EVENT_ACTIVITIES SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+    
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="eventActivities">
+        SELECT EVENT_ACTIVITIES.*,SSG.GRID_TOTAL_NAME 
+		FROM EVENT_ACTIVITIES LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = EVENT_ACTIVITIES.GRID_CODE
+		WHERE EVENT_ACTIVITIES.FLAG_DEL != 1 AND EVENT_ACTIVITIES.CODE=#{code}
+    </select>
+    
+     <!-- 查询所有实体对象集合  -->
+   <select id="queryList" resultMap="eventActivities">
+   		SELECT * FROM EVENT_ACTIVITIES where FLAG_DEL !=1 ORDER BY CODE ASC 
+   </select>
+    
+   <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryListParam" parameterType="EventActivities" resultMap="eventActivities">
+   		   SELECT * FROM EVENT_ACTIVITIES 
+   		   <where>
+   		      FLAG_DEL != 1
+		     <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        AND SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        AND REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridCode != null and gridCode != ''">
+		        AND GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="id != null and id != ''">
+		        AND ID = #{id,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		        AND GRID_NUM = #{gridNum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="titleName != null and titleName != ''">
+		        AND TITLE_NAME LIKE CONCAT(CONCAT('%', #{titleName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="contents != null and contents != ''">
+		        AND CONTENTS = #{contents,jdbcType=VARCHAR}
+		      </if>
+		      <if test="responsibleName != null and responsibleName != ''">
+		        AND RESPONSIBLE_NAME LIKE CONCAT(CONCAT('%', #{responsibleName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleRange != null and responsibleRange != ''">
+		        AND RESPONSIBLE_RANGE LIKE CONCAT(CONCAT('%', #{responsibleRange,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleLocation != null and responsibleLocation != ''">
+		        AND RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="beginTime != null and beginTime != ''">
+		        AND BEGIN_TIME LIKE CONCAT(CONCAT('%', #{beginTime,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="orgPersons != null and orgPersons != ''">
+		        AND ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR}
+		      </if>
+		      <if test="massesPersons != null and massesPersons != ''">
+		        AND MASSES_PERSONS LIKE CONCAT(CONCAT('%', #{massesPersons,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleSituation != null and responsibleSituation != ''">
+		        AND RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="endTime != null and endTime != ''">
+		        AND END_TIME = #{endTime,jdbcType=VARCHAR}
+		      </if>
+		      <if test="position != null and position != ''">
+		        AND POSITION = #{position,jdbcType=VARCHAR}
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		        AND REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		        AND MRMARK = #{mrmark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="managerName != null and managerName != ''">
+		        AND MANAGER_NAME = #{managerName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="managerPhone != null and managerPhone != ''">
+		        AND MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR}
+		      </if>
+		      <if test="activitiesPhoto != null and activitiesPhoto != ''">
+		        AND ACTIVITIES_PHOTO = #{activitiesPhoto,jdbcType=VARCHAR}
+		      </if>
+   		   </where>
+   </select>
+   
+    <!-- 分页查询,所有实体对象集合  -->
+   <select id="queryParamPage" parameterType="EventActivities" resultMap="eventActivities">
+   		   SELECT EVENT_ACTIVITIES.*,SSG.GRID_TOTAL_NAME  FROM EVENT_ACTIVITIES 
+   		   LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = EVENT_ACTIVITIES.GRID_CODE
+   		   <where>
+   		      EVENT_ACTIVITIES.FLAG_DEL != 1
+		      <if test="createDate != null and createDate != ''">
+		        EVENT_ACTIVITIES.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        AND EVENT_ACTIVITIES.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        AND EVENT_ACTIVITIES.SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        AND EVENT_ACTIVITIES.REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridCode != null and gridCode != ''">
+		        AND EVENT_ACTIVITIES.GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="id != null and id != ''">
+		        AND EVENT_ACTIVITIES.ID = #{id,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		        AND EVENT_ACTIVITIES.GRID_NUM = #{gridNum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="titleName != null and titleName != ''">
+		        AND EVENT_ACTIVITIES.TITLE_NAME LIKE CONCAT(CONCAT('%', #{titleName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="contents != null and contents != ''">
+		        AND EVENT_ACTIVITIES.CONTENTS = #{contents,jdbcType=VARCHAR}
+		      </if>
+		      <if test="responsibleName != null and responsibleName != ''">
+		        AND EVENT_ACTIVITIES.RESPONSIBLE_NAME LIKE CONCAT(CONCAT('%', #{responsibleName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleRange != null and responsibleRange != ''">
+		        AND EVENT_ACTIVITIES.RESPONSIBLE_RANGE LIKE CONCAT(CONCAT('%', #{responsibleRange,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleLocation != null and responsibleLocation != ''">
+		        AND EVENT_ACTIVITIES.RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="beginTime != null and beginTime != ''">
+		        AND EVENT_ACTIVITIES.BEGIN_TIME LIKE CONCAT(CONCAT('%', #{beginTime,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="orgPersons != null and orgPersons != ''">
+		        AND EVENT_ACTIVITIES.ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR}
+		      </if>
+		      <if test="massesPersons != null and massesPersons != ''">
+		        AND EVENT_ACTIVITIES.MASSES_PERSONS LIKE CONCAT(CONCAT('%', #{massesPersons,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleSituation != null and responsibleSituation != ''">
+		        AND EVENT_ACTIVITIES.RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="endTime != null and endTime != ''">
+		        AND EVENT_ACTIVITIES.END_TIME = #{endTime,jdbcType=VARCHAR}
+		      </if>
+		      <if test="position != null and position != ''">
+		        AND EVENT_ACTIVITIES.POSITION = #{position,jdbcType=VARCHAR}
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		        AND EVENT_ACTIVITIES.REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		        AND EVENT_ACTIVITIES.MRMARK = #{mrmark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="managerName != null and managerName != ''">
+		        AND EVENT_ACTIVITIES.MANAGER_NAME = #{managerName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="managerPhone != null and managerPhone != ''">
+		        AND EVENT_ACTIVITIES.MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR}
+		      </if>
+		      <if test="activitiesPhoto != null and activitiesPhoto != ''">
+		        AND EVENT_ACTIVITIES.ACTIVITIES_PHOTO = #{activitiesPhoto,jdbcType=VARCHAR}
+		      </if>
+   		   </where>
+   </select>
+    
+   <!--  查询总记录数据  -->
+   <select id="queryAllCount"  resultType="Integer">
+   		SELECT COUNT(*) C FROM EVENT_ACTIVITIES WHERE FLAG_DEL != 1
+   </select>
+   
+    <!--  查询总记录数据  -->
+   <select id="queryAllCountParam" parameterType="EventActivities" resultType="Integer">
+   		<!-- <bind name="loginName" value="'%'+_parameter.loginName+'%'"/> -->
+   		   SELECT COUNT(*) C FROM EVENT_ACTIVITIES  
+   		   <where>
+   		      FLAG_DEL != 1
+		     <if test="createDate != null and createDate != ''">
+		        CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        AND SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        AND REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridCode != null and gridCode != ''">
+		        AND GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="id != null and id != ''">
+		        AND ID = #{id,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		        AND GRID_NUM = #{gridNum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="titleName != null and titleName != ''">
+		        AND TITLE_NAME LIKE CONCAT(CONCAT('%', #{titleName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="contents != null and contents != ''">
+		        AND CONTENTS = #{contents,jdbcType=VARCHAR}
+		      </if>
+		      <if test="responsibleName != null and responsibleName != ''">
+		        AND RESPONSIBLE_NAME LIKE CONCAT(CONCAT('%', #{responsibleName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleRange != null and responsibleRange != ''">
+		        AND RESPONSIBLE_RANGE LIKE CONCAT(CONCAT('%', #{responsibleRange,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleLocation != null and responsibleLocation != ''">
+		        AND RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="beginTime != null and beginTime != ''">
+		        AND BEGIN_TIME LIKE CONCAT(CONCAT('%', #{beginTime,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="orgPersons != null and orgPersons != ''">
+		        AND ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR}
+		      </if>
+		      <if test="massesPersons != null and massesPersons != ''">
+		        AND MASSES_PERSONS LIKE CONCAT(CONCAT('%', #{massesPersons,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleSituation != null and responsibleSituation != ''">
+		        AND RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="endTime != null and endTime != ''">
+		        AND END_TIME = #{endTime,jdbcType=VARCHAR}
+		      </if>
+		      <if test="position != null and position != ''">
+		        AND POSITION = #{position,jdbcType=VARCHAR}
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		        AND REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		        AND MRMARK = #{mrmark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="managerName != null and managerName != ''">
+		        AND MANAGER_NAME = #{managerName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="managerPhone != null and managerPhone != ''">
+		        AND MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR}
+		      </if>
+		      <if test="activitiesPhoto != null and activitiesPhoto != ''">
+		        AND ACTIVITIES_PHOTO = #{activitiesPhoto,jdbcType=VARCHAR}
+		      </if>
+   		   </where>
+   </select>
+   
+<select id="Charts" parameterType="BParts" resultMap="tempResult" >
+	<if test="gridCode.length() ==2 ">
+		SELECT COUNT(EVENT_ACTIVITIES.code) AS COUNTS , sys_seat_second.name AS NAME
+		,sys_seat_second.code FROM EVENT_ACTIVITIES
+		LEFT JOIN sys_seat_grid ON EVENT_ACTIVITIES.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		LEFT JOIN sys_seat_second ON
+		sys_seat_third.parent_code=sys_seat_second.code
+		where 1=1
+		and sys_seat_second.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==5 ">
+		SELECT COUNT(EVENT_ACTIVITIES.code) AS COUNTS , sys_seat_third.name AS NAME
+		,sys_seat_third.code FROM EVENT_ACTIVITIES
+		LEFT JOIN sys_seat_grid ON EVENT_ACTIVITIES.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		where 1=1
+		and sys_seat_third.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==8 ">
+		SELECT COUNT(EVENT_ACTIVITIES.code) AS COUNTS , sys_seat_four.name AS NAME
+		,sys_seat_four.code FROM EVENT_ACTIVITIES
+		LEFT JOIN sys_seat_grid ON EVENT_ACTIVITIES.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		where 1=1
+		and sys_seat_four.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() >8 ">
+		SELECT COUNT(EVENT_ACTIVITIES.code) AS COUNTS , sys_seat_grid.name AS NAME
+		,sys_seat_grid.code FROM EVENT_ACTIVITIES
+		LEFT JOIN sys_seat_grid ON EVENT_ACTIVITIES.grid_code=sys_seat_grid.code
+		where 1=1
+		and sys_seat_grid.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+
+		     <if test="createDate != null and createDate != ''">
+		        AND CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="createBy != null and createBy != ''">
+		        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+		      </if>
+		      <if test="sort != null and sort != ''">
+		        AND SORT = #{sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="remark != null and remark != ''">
+		        AND REMARK = #{remark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="id != null and id != ''">
+		        AND ID = #{id,jdbcType=VARCHAR}
+		      </if>
+		      <if test="gridNum != null and gridNum != ''">
+		        AND GRID_NUM = #{gridNum,jdbcType=VARCHAR}
+		      </if>
+		      <if test="titleName != null and titleName != ''">
+		        AND TITLE_NAME LIKE CONCAT(CONCAT('%', #{titleName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="contents != null and contents != ''">
+		        AND CONTENTS = #{contents,jdbcType=VARCHAR}
+		      </if>
+		      <if test="responsibleName != null and responsibleName != ''">
+		        AND RESPONSIBLE_NAME LIKE CONCAT(CONCAT('%', #{responsibleName,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleRange != null and responsibleRange != ''">
+		        AND RESPONSIBLE_RANGE LIKE CONCAT(CONCAT('%', #{responsibleRange,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleLocation != null and responsibleLocation != ''">
+		        AND RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="beginTime != null and beginTime != ''">
+		        AND BEGIN_TIME LIKE CONCAT(CONCAT('%', #{beginTime,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="orgPersons != null and orgPersons != ''">
+		        AND ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR}
+		      </if>
+		      <if test="massesPersons != null and massesPersons != ''">
+		        AND MASSES_PERSONS LIKE CONCAT(CONCAT('%', #{massesPersons,jdbcType=VARCHAR}),'%')
+		      </if>
+		      <if test="responsibleSituation != null and responsibleSituation != ''">
+		        AND RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR}
+		      </if>
+		      <if test="endTime != null and endTime != ''">
+		        AND END_TIME = #{endTime,jdbcType=VARCHAR}
+		      </if>
+		      <if test="position != null and position != ''">
+		        AND POSITION = #{position,jdbcType=VARCHAR}
+		      </if>
+		      <if test="registerDate != null and registerDate != ''">
+		        AND REGISTER_DATE = #{registerDate,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mrmark != null and mrmark != ''">
+		        AND MRMARK = #{mrmark,jdbcType=VARCHAR}
+		      </if>
+		      <if test="managerName != null and managerName != ''">
+		        AND MANAGER_NAME = #{managerName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="managerPhone != null and managerPhone != ''">
+		        AND MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR}
+		      </if>
+		      <if test="activitiesPhoto != null and activitiesPhoto != ''">
+		        AND ACTIVITIES_PHOTO = #{activitiesPhoto,jdbcType=VARCHAR}
+		      </if>
+
+
+ AND EVENT_ACTIVITIES.FLAG_DEL != 1
+	<if test="gridCode.length() ==2 ">
+	GROUP BY sys_seat_second.name ,sys_seat_second.code
+	</if>
+	<if test="gridCode.length() ==5 ">
+		GROUP BY sys_seat_third.name ,sys_seat_third.code
+	</if>
+	<if test="gridCode.length() ==8 ">
+		GROUP BY sys_seat_four.name ,sys_seat_four.code
+	</if>
+	<if test="gridCode.length() >8 ">
+		GROUP BY sys_seat_grid.name ,sys_seat_grid.code
+	</if>
+   </select>
+</mapper>
+ 

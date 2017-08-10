@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BBuildingMapper" >
+  <resultMap id="bBuildingResult" type="BBuilding" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="GRID_CODE" property="gridCode" jdbcType="VARCHAR" />
+    <result column="BUILD_NAME" property="buildName" jdbcType="VARCHAR" />
+    <result column="BUILD_NUM" property="buildNum" jdbcType="VARCHAR" />
+    <result column="BUILD_MANAGER" property="buildManager" jdbcType="VARCHAR" />
+    <result column="BUILD_MANAGER_PHONE" property="buildManagerPhone" jdbcType="VARCHAR" />
+    <result column="BUILD_MANAGER_PHOTO" property="buildManagerPhoto" jdbcType="VARCHAR" />
+    <result column="CODE_BUILD_NATURE" property="codeBuildNature" jdbcType="VARCHAR" />
+    <result column="CODE_BUILD_TYPE" property="codeBuildType" jdbcType="VARCHAR" />
+    <result column="BUILD_PICTURE" property="buildPicture" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result property="gridTotalName"/>
+	<result property="houseUseString"/>
+  </resultMap>
+  <resultMap id="tempResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+  <resultMap id="bpCharts" type="BuildPersonCharts" >
+	    <result column="MAX" jdbcType="VARCHAR" property="MAX" />
+	    <result column="MAN" jdbcType="VARCHAR" property="MAN" />
+	    <result column="WOMEN" jdbcType="VARCHAR" property="WOMEN" />
+  </resultMap>
+   <resultMap id="lpb" type="queryLpbmodel" >
+	    <result column="DY" jdbcType="VARCHAR" property="DY" />
+	    <result column="DYPX" jdbcType="VARCHAR" property="DYPX" />
+	    <result column="PX" jdbcType="VARCHAR" property="PX" />
+	    <result column="LC" jdbcType="VARCHAR" property="LC" />
+	    <result column="YC" jdbcType="VARCHAR" property="YC" />
+	    <result column="YF" jdbcType="VARCHAR" property="YF" />
+	    <result column="NAME" jdbcType="VARCHAR" property="NAME" />
+	    <result column="CODE_COLOR" jdbcType="VARCHAR" property="CODE_COLOR" />
+	    <result column="HOUSECODE" jdbcType="VARCHAR" property="HOUSECODE" />
+	    <result column="REN" jdbcType="VARCHAR" property="REN" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, GRID_CODE, BUILD_NAME, 
+    BUILD_NUM, BUILD_MANAGER, BUILD_MANAGER_PHONE, BUILD_MANAGER_PHOTO, CODE_BUILD_NATURE, 
+    CODE_BUILD_TYPE, BUILD_PICTURE, POSITION, DESCRIPTION
+  </sql>
+  <insert id="insert" parameterType="BBuilding" >
+  <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+    insert into B_BUILDING (CODE, CREATE_DATE, CREATE_BY, 
+       SORT, 
+      REMARK, GRID_CODE, BUILD_NAME, 
+      BUILD_NUM, BUILD_MANAGER, BUILD_MANAGER_PHONE, 
+      BUILD_MANAGER_PHOTO, CODE_BUILD_NATURE, CODE_BUILD_TYPE, 
+      BUILD_PICTURE, POSITION, DESCRIPTION
+      )
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{gridCode,jdbcType=VARCHAR}, #{buildName,jdbcType=VARCHAR}, 
+      #{buildNum,jdbcType=VARCHAR}, #{buildManager,jdbcType=VARCHAR}, #{buildManagerPhone,jdbcType=VARCHAR}, 
+      #{buildManagerPhoto,jdbcType=VARCHAR}, #{codeBuildNature,jdbcType=VARCHAR}, #{codeBuildType,jdbcType=VARCHAR}, 
+      #{buildPicture,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <update id="update" parameterType="BBuilding" >
+    update B_BUILDING set
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+        SORT = #{sort,jdbcType=DECIMAL},
+        REMARK = #{remark,jdbcType=VARCHAR},
+        GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+        BUILD_NAME = #{buildName,jdbcType=VARCHAR},
+        BUILD_NUM = #{buildNum,jdbcType=VARCHAR},
+        BUILD_MANAGER = #{buildManager,jdbcType=VARCHAR},
+        BUILD_MANAGER_PHONE = #{buildManagerPhone,jdbcType=VARCHAR},
+        BUILD_MANAGER_PHOTO = #{buildManagerPhoto,jdbcType=VARCHAR},
+        CODE_BUILD_NATURE = #{codeBuildNature,jdbcType=VARCHAR},
+        CODE_BUILD_TYPE = #{codeBuildType,jdbcType=VARCHAR},
+        BUILD_PICTURE = #{buildPicture,jdbcType=VARCHAR},
+        POSITION = #{position,jdbcType=VARCHAR},
+        DESCRIPTION = #{description,jdbcType=VARCHAR} 
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_Building SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bBuildingResult">
+        SELECT b.*,grid.grid_total_name as gridTotalName FROM B_Building b join sys_seat_grid grid
+        on grid.code=b.grid_Code and b.flag_del=0  WHERE b.FLAG_DEL != 1 AND b.CODE=#{code}
+    </select>
+     <!-- 分页查询,所有实体对象集合  -->
+   <select id="queryParamPage" parameterType="BBuilding" resultMap="bBuildingResult">
+   SELECT * FROM B_Building
+   <where>
+      FLAG_DEL != 1
+		 <if test="gridCode != null and gridCode != ''">
+		    AND GRID_CODE like CONCAT(#{gridCode,jdbcType=VARCHAR},'%') 
+		 </if>
+		 <if test="buildName != null and buildName != ''">
+		 	AND BUILD_NAME like CONCAT(#{buildName,jdbcType=VARCHAR},'%') 
+		 </if>
+		 <if test="buildNum != null and buildNum != ''">
+		 	AND BUILD_NAME like CONCAT(#{buildNum,jdbcType=VARCHAR},'%') 
+		 </if>
+   </where>
+</select>
+ <select id="queryMapParamPage" parameterType="java.util.Map" resultMap="bBuildingResult">
+   SELECT B_Building.*,grid.grid_total_name gridTotalName FROM B_Building 
+   join sys_seat_grid grid on grid.code=B_Building.grid_code and grid.flag_del=0
+   <where>
+      B_Building.FLAG_DEL=0
+		 <if test="gridCode != null and gridCode != ''">
+		    AND GRID_CODE like CONCAT(#{gridCode,jdbcType=VARCHAR},'%') 
+		 </if>
+		 <if test="buildName != null and buildName != ''">
+		 	AND BUILD_NAME like '%'||#{buildName,jdbcType=VARCHAR}||'%' 
+		 </if>
+		 <if test="buildNum != null and buildNum != ''">
+		 	AND BUILD_NUM like '%'||#{buildNum,jdbcType=VARCHAR}||'%' 
+		 </if>
+		  <if test="buildManager != null and buildManager != ''">
+		 	AND BUILD_MANAGER like '%'||#{buildManager,jdbcType=VARCHAR}||'%'
+		 </if>
+		 
+   </where>
+</select>
+   <select id="Charts" parameterType="BBuilding" resultMap="tempResult" >
+	<if test="gridCode.length() ==2 ">
+		SELECT COUNT(B_BUILDING.code) AS COUNTS , sys_seat_second.name AS NAME
+		,sys_seat_second.code FROM B_BUILDING
+		LEFT JOIN sys_seat_grid ON B_BUILDING.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		LEFT JOIN sys_seat_second ON
+		sys_seat_third.parent_code=sys_seat_second.code
+		where 1=1
+		and sys_seat_second.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==5 ">
+		SELECT COUNT(B_BUILDING.code) AS COUNTS , sys_seat_third.name AS NAME
+		,sys_seat_third.code FROM B_BUILDING
+		LEFT JOIN sys_seat_grid ON B_BUILDING.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		where 1=1
+		and sys_seat_third.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==8 ">
+		SELECT COUNT(B_BUILDING.code) AS COUNTS , sys_seat_four.name AS NAME
+		,sys_seat_four.code FROM B_BUILDING
+		LEFT JOIN sys_seat_grid ON B_BUILDING.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		where 1=1
+		and sys_seat_four.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() >8 ">
+		SELECT COUNT(B_BUILDING.code) AS COUNTS , sys_seat_grid.name AS NAME
+		,sys_seat_grid.code FROM B_BUILDING
+		LEFT JOIN sys_seat_grid ON B_BUILDING.grid_code=sys_seat_grid.code
+		where 1=1
+		and sys_seat_grid.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+
+
+       
+            <if test="buildName != null and buildName != ''">
+                AND BUILD_NAME like '%'||#{buildName,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="buildNum != null and buildNum != ''">
+                AND BUILD_NUM like '%'||#{buildNum,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="buildManager != null and buildManager != ''">
+                AND BUILD_MANAGER like '%'||#{buildManager,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="buildManagerPhone != null and buildManagerPhone != ''">
+                AND BUILD_MANAGER_PHONE = #{buildManagerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="buildManagerPhoto != null and buildManagerPhoto != ''">
+                AND BUILD_MANAGER_PHOTO = #{buildManagerPhoto,jdbcType=VARCHAR}
+            </if>
+            <if test="codeBuildNature != null and codeBuildNature != ''">
+                AND CODE_BUILD_NATURE = #{codeBuildNature,jdbcType=VARCHAR}
+            </if>
+            <if test="codeBuildType != null and codeBuildType != ''">
+                AND CODE_BUILD_TYPE = #{codeBuildType,jdbcType=VARCHAR}
+            </if>
+          
+           
+            <if test="description != null and description != ''">
+                AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+
+ AND B_BUILDING.FLAG_DEL != 1
+	<if test="gridCode.length() ==2 ">
+	GROUP BY sys_seat_second.name ,sys_seat_second.code
+	</if>
+	<if test="gridCode.length() ==5 ">
+		GROUP BY sys_seat_third.name ,sys_seat_third.code
+	</if>
+	<if test="gridCode.length() ==8 ">
+		GROUP BY sys_seat_four.name ,sys_seat_four.code
+	</if>
+	<if test="gridCode.length() >8 ">
+		GROUP BY sys_seat_grid.name ,sys_seat_grid.code
+	</if>
+   </select>
+   
+   <select id="queryNameTreeBy" parameterType="String" resultMap="bBuildingResult">
+  	SELECT BUILD_NAME ,code FROM  B_Building WHERE flag_del=0 and GRID_CODE=#{gridCode} 
+  </select>
+
+   
+   <select id="mapbpersonCharts" parameterType="String" resultMap="bpCharts" >
+select count(b_person.sex) as max, 
+sum(case when b_person.sex='男' then 1 else 0 end) man, 
+sum(case when b_person.sex='女' then 1 else 0 end) women 
+from b_person 
+left join b_house on b_person.house_code=b_house.code  
+left join b_unit on b_house.unit_code=b_unit.code 
+left join b_building on b_unit.build_code=b_building.code 
+where code_manage_type='AD678A7353B24B9B80E6BB23E2ECE6BE' and b_person.flag_del=0 and  b_building.code = #{code}
+union all select   count(b_person.sex) as max, 
+sum(case when b_person.sex='男' then 1 else 0 end) man,
+sum(case when b_person.sex='女' then 1 else 0 end) women
+from b_person 
+left join b_house on b_person.house_code=b_house.code  
+left join b_unit on b_house.unit_code=b_unit.code  
+left join b_building on b_unit.build_code=b_building.code 
+where code_manage_type='72B44C290C62476AA65CB4936EB83004' and b_person.flag_del=0 and  b_building.code = #{code}
+   </select>
+   <select id="queryLpb" parameterType="String" resultMap="lpb" >
+	SELECT B_UNIT.NAME AS DY,B_UNIT.SORT AS DYPX,B_HOUSE.SORT AS PX, 
+B_HOUSE.CURRENT_LAYER AS LC,B_HOUSE.UBIETY_LAYER AS YC, '0' AS YF, 
+B_HOUSE.HOUSE_NUM AS NAME,B_HOUSE.CODE_HOUSE_NATURE AS CODE_COLOR ,B_HOUSE.CODE AS HOUSECODE,
+( select  to_char(wm_concat(to_char(b_person.name)))  from b_person where rownum &lt; 2 and  b_person.house_code=B_HOUSE.Code and b_person.flag_del=0) AS REN 
+FROM B_BUILDING 
+LEFT JOIN B_UNIT ON B_BUILDING.CODE= B_UNIT.BUILD_CODE 
+LEFT JOIN B_HOUSE ON B_UNIT.CODE=B_HOUSE.UNIT_CODE 
+WHERE B_BUILDING.CODE=#{code}
+	 and B_BUILDING.Flag_Del=0 and b_house.flag_del=0
+ </select>
+
+</mapper>

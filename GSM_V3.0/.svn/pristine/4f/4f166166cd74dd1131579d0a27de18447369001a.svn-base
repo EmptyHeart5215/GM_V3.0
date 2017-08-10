@@ -1,0 +1,652 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BPartsMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="BParts" id="bPartsResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+        <result column="CODE_BIG_TYPE" jdbcType="VARCHAR" property="codeBigType" />
+        <result column="BELONG" jdbcType="VARCHAR" property="belong" />
+        <result column="BELONG_MAN" jdbcType="VARCHAR" property="belongMan" />
+        <result column="BELONG_DUTY" jdbcType="VARCHAR" property="belongDuty" />
+        <result column="BELONG_PHONE" jdbcType="VARCHAR" property="belongPhone" />
+        <result column="CARE" jdbcType="VARCHAR" property="care" />
+        <result column="CARE_DUTY" jdbcType="VARCHAR" property="careDuty" />
+        <result column="CARE_MAN" jdbcType="VARCHAR" property="careMan" />
+        <result column="CARE_PHONE" jdbcType="VARCHAR" property="carePhone" />
+        <result column="CODE_PARTS_STATUS" jdbcType="VARCHAR" property="codePartsStatus" />
+        <result column="ENTERPRISE_DUTY" jdbcType="VARCHAR" property="enterpriseDuty" />
+        <result column="ENTERPRISE_MAN" jdbcType="VARCHAR" property="enterpriseMan" />
+        <result column="ENTERPRISE_MANAGE" jdbcType="VARCHAR" property="enterpriseManage" />
+        <result column="ENTERPRISE_PHONE" jdbcType="VARCHAR" property="enterprisePhone" />
+        <result column="GRID_CONTACTS" jdbcType="VARCHAR" property="gridContacts" />
+        <result column="GRID_CONTACTS_DUTY" jdbcType="VARCHAR" property="gridContactsDuty" />
+        <result column="GRID_CONTACTS_PHONE" jdbcType="VARCHAR" property="gridContactsPhone" />
+        <result column="PARTS_CODE" jdbcType="VARCHAR" property="partsCode" />
+        <result column="PICTURE" jdbcType="VARCHAR" property="picture" />
+        <result column="POSITION" jdbcType="VARCHAR" property="position" />
+        <result column="CODE_SMALL_TYPE" jdbcType="VARCHAR" property="codeSmallType" />
+        <association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>	       
+    </resultMap>
+    <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+<resultMap id="tempResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="BParts">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO B_PARTS
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    GRID_CODE,NAME,ADDRESS,CODE_BIG_TYPE,
+                    BELONG,BELONG_MAN,BELONG_DUTY,BELONG_PHONE,
+                    CARE,CARE_DUTY,CARE_MAN,CARE_PHONE,
+                    CODE_PARTS_STATUS,ENTERPRISE_DUTY,ENTERPRISE_MAN,ENTERPRISE_MANAGE,
+                    ENTERPRISE_PHONE,GRID_CONTACTS,GRID_CONTACTS_DUTY,GRID_CONTACTS_PHONE,
+                    PARTS_CODE,PICTURE,POSITION,CODE_SMALL_TYPE
+)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},
+                     #{name,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},#{codeBigType,jdbcType=VARCHAR},
+                     #{belong,jdbcType=VARCHAR},#{belongMan,jdbcType=VARCHAR},#{belongDuty,jdbcType=VARCHAR},
+                     #{belongPhone,jdbcType=VARCHAR},#{care,jdbcType=VARCHAR},#{careDuty,jdbcType=VARCHAR},
+                     #{careMan,jdbcType=VARCHAR},#{carePhone,jdbcType=VARCHAR},#{codePartsStatus,jdbcType=VARCHAR},
+                     #{enterpriseDuty,jdbcType=VARCHAR},#{enterpriseMan,jdbcType=VARCHAR},#{enterpriseManage,jdbcType=VARCHAR},
+                     #{enterprisePhone,jdbcType=VARCHAR},#{gridContacts,jdbcType=VARCHAR},#{gridContactsDuty,jdbcType=VARCHAR},
+                     #{gridContactsPhone,jdbcType=VARCHAR},#{partsCode,jdbcType=VARCHAR},#{picture,jdbcType=VARCHAR},
+                     #{position,jdbcType=VARCHAR},#{codeSmallType,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="BParts">
+        UPDATE B_PARTS
+        <set>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null and address != ''">
+                ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="codeBigType != null and codeBigType != ''">
+                CODE_BIG_TYPE = #{codeBigType,jdbcType=VARCHAR},
+            </if>
+            <if test="belong != null and belong != ''">
+                BELONG = #{belong,jdbcType=VARCHAR},
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+                BELONG_MAN = #{belongMan,jdbcType=VARCHAR},
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="care != null and care != ''">
+                CARE = #{care,jdbcType=VARCHAR},
+            </if>
+            <if test="careDuty != null and careDuty != ''">
+                CARE_DUTY = #{careDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="careMan != null and careMan != ''">
+                CARE_MAN = #{careMan,jdbcType=VARCHAR},
+            </if>
+            <if test="carePhone != null and carePhone != ''">
+                CARE_PHONE = #{carePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="codePartsStatus != null and codePartsStatus != ''">
+                CODE_PARTS_STATUS = #{codePartsStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="enterpriseDuty != null and enterpriseDuty != ''">
+                ENTERPRISE_DUTY = #{enterpriseDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="enterpriseMan != null and enterpriseMan != ''">
+                ENTERPRISE_MAN = #{enterpriseMan,jdbcType=VARCHAR},
+            </if>
+            <if test="enterpriseManage != null and enterpriseManage != ''">
+                ENTERPRISE_MANAGE = #{enterpriseManage,jdbcType=VARCHAR},
+            </if>
+            <if test="enterprisePhone != null and enterprisePhone != ''">
+                ENTERPRISE_PHONE = #{enterprisePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="gridContacts != null and gridContacts != ''">
+                GRID_CONTACTS = #{gridContacts,jdbcType=VARCHAR},
+            </if>
+            <if test="gridContactsDuty != null and gridContactsDuty != ''">
+                GRID_CONTACTS_DUTY = #{gridContactsDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="gridContactsPhone != null and gridContactsPhone != ''">
+                GRID_CONTACTS_PHONE = #{gridContactsPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="partsCode != null and partsCode != ''">
+                PARTS_CODE = #{partsCode,jdbcType=VARCHAR},
+            </if>
+            <if test="picture != null and picture != ''">
+                PICTURE = #{picture,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="codeSmallType != null and codeSmallType != ''">
+                CODE_SMALL_TYPE = #{codeSmallType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE B_PARTS SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE B_PARTS SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bPartsResult">
+        SELECT B_PARTS.*,SSG.GRID_TOTAL_NAME  FROM B_PARTS
+        LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_PARTS.GRID_CODE
+        WHERE B_PARTS.FLAG_DEL != 1 AND B_PARTS.CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="bPartsResult">
+        SELECT * FROM B_PARTS where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="BParts" resultMap="bPartsResult">
+        SELECT * FROM B_PARTS 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="codeBigType != null and codeBigType != ''">
+                AND CODE_BIG_TYPE = #{codeBigType,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND BELONG = #{belong,jdbcType=VARCHAR}
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+                AND BELONG_MAN = #{belongMan,jdbcType=VARCHAR}
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="care != null and care != ''">
+                AND CARE = #{care,jdbcType=VARCHAR}
+            </if>
+            <if test="careDuty != null and careDuty != ''">
+                AND CARE_DUTY = #{careDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="careMan != null and careMan != ''">
+                AND CARE_MAN = #{careMan,jdbcType=VARCHAR}
+            </if>
+            <if test="carePhone != null and carePhone != ''">
+                AND CARE_PHONE = #{carePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="codePartsStatus != null and codePartsStatus != ''">
+                AND CODE_PARTS_STATUS = #{codePartsStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseDuty != null and enterpriseDuty != ''">
+                AND ENTERPRISE_DUTY = #{enterpriseDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseMan != null and enterpriseMan != ''">
+                AND ENTERPRISE_MAN = #{enterpriseMan,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseManage != null and enterpriseManage != ''">
+                AND ENTERPRISE_MANAGE = #{enterpriseManage,jdbcType=VARCHAR}
+            </if>
+            <if test="enterprisePhone != null and enterprisePhone != ''">
+                AND ENTERPRISE_PHONE = #{enterprisePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContacts != null and gridContacts != ''">
+                AND GRID_CONTACTS = #{gridContacts,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContactsDuty != null and gridContactsDuty != ''">
+                AND GRID_CONTACTS_DUTY = #{gridContactsDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContactsPhone != null and gridContactsPhone != ''">
+                AND GRID_CONTACTS_PHONE = #{gridContactsPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="partsCode != null and partsCode != ''">
+                AND PARTS_CODE = #{partsCode,jdbcType=VARCHAR}
+            </if>
+            <if test="picture != null and picture != ''">
+                AND PICTURE = #{picture,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSmallType != null and codeSmallType != ''">
+                AND CODE_SMALL_TYPE = #{codeSmallType,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="BParts" resultMap="bPartsResult">
+        SELECT B_PARTS.*,SSG.GRID_TOTAL_NAME  FROM B_PARTS
+        LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_PARTS.GRID_CODE
+        <where>
+            B_PARTS.FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                B_PARTS.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND B_PARTS.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND B_PARTS.FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND B_PARTS.FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND B_PARTS.SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND B_PARTS.REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND B_PARTS.GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="name != null and name != ''">
+                AND B_PARTS.NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="address != null and address != ''">
+                AND B_PARTS.ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="codeBigType != null and codeBigType != ''">
+                AND B_PARTS.CODE_BIG_TYPE = #{codeBigType,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND B_PARTS.BELONG = #{belong,jdbcType=VARCHAR}
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+                AND B_PARTS.BELONG_MAN = #{belongMan,jdbcType=VARCHAR}
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND B_PARTS.BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND B_PARTS.BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="care != null and care != ''">
+                AND B_PARTS.CARE = #{care,jdbcType=VARCHAR}
+            </if>
+            <if test="careDuty != null and careDuty != ''">
+                AND B_PARTS.CARE_DUTY = #{careDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="careMan != null and careMan != ''">
+                AND B_PARTS.CARE_MAN = #{careMan,jdbcType=VARCHAR}
+            </if>
+            <if test="carePhone != null and carePhone != ''">
+                AND B_PARTS.CARE_PHONE = #{carePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="codePartsStatus != null and codePartsStatus != ''">
+                AND B_PARTS.CODE_PARTS_STATUS = #{codePartsStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseDuty != null and enterpriseDuty != ''">
+                AND B_PARTS.ENTERPRISE_DUTY = #{enterpriseDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseMan != null and enterpriseMan != ''">
+                AND B_PARTS.ENTERPRISE_MAN = #{enterpriseMan,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseManage != null and enterpriseManage != ''">
+                AND B_PARTS.ENTERPRISE_MANAGE LIKE CONCAT(CONCAT('%', #{enterpriseManage,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="enterprisePhone != null and enterprisePhone != ''">
+                AND B_PARTS.ENTERPRISE_PHONE = #{enterprisePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContacts != null and gridContacts != ''">
+                AND B_PARTS.GRID_CONTACTS = #{gridContacts,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContactsDuty != null and gridContactsDuty != ''">
+                AND B_PARTS.GRID_CONTACTS_DUTY = #{gridContactsDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContactsPhone != null and gridContactsPhone != ''">
+                AND B_PARTS.GRID_CONTACTS_PHONE = #{gridContactsPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="partsCode != null and partsCode != ''">
+                AND B_PARTS.PARTS_CODE LIKE CONCAT(CONCAT('%', #{partsCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="picture != null and picture != ''">
+                AND B_PARTS.PICTURE = #{picture,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND B_PARTS.POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSmallType != null and codeSmallType != ''">
+                AND B_PARTS.CODE_SMALL_TYPE LIKE CONCAT(CONCAT('%', #{codeSmallType,jdbcType=VARCHAR}),'%')
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM B_PARTS WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="BParts" resultType="Integer">
+        SELECT COUNT(*) C FROM B_PARTS 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="codeBigType != null and codeBigType != ''">
+                AND CODE_BIG_TYPE = #{codeBigType,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND BELONG = #{belong,jdbcType=VARCHAR}
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+                AND BELONG_MAN = #{belongMan,jdbcType=VARCHAR}
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="care != null and care != ''">
+                AND CARE = #{care,jdbcType=VARCHAR}
+            </if>
+            <if test="careDuty != null and careDuty != ''">
+                AND CARE_DUTY = #{careDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="careMan != null and careMan != ''">
+                AND CARE_MAN = #{careMan,jdbcType=VARCHAR}
+            </if>
+            <if test="carePhone != null and carePhone != ''">
+                AND CARE_PHONE = #{carePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="codePartsStatus != null and codePartsStatus != ''">
+                AND CODE_PARTS_STATUS = #{codePartsStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseDuty != null and enterpriseDuty != ''">
+                AND ENTERPRISE_DUTY = #{enterpriseDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseMan != null and enterpriseMan != ''">
+                AND ENTERPRISE_MAN = #{enterpriseMan,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseManage != null and enterpriseManage != ''">
+                AND ENTERPRISE_MANAGE LIKE CONCAT(CONCAT('%', #{enterpriseManage,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="enterprisePhone != null and enterprisePhone != ''">
+                AND ENTERPRISE_PHONE = #{enterprisePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContacts != null and gridContacts != ''">
+                AND GRID_CONTACTS = #{gridContacts,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContactsDuty != null and gridContactsDuty != ''">
+                AND GRID_CONTACTS_DUTY = #{gridContactsDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContactsPhone != null and gridContactsPhone != ''">
+                AND GRID_CONTACTS_PHONE = #{gridContactsPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="partsCode != null and partsCode != ''">
+                AND PARTS_CODE LIKE CONCAT(CONCAT('%', #{partsCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="picture != null and picture != ''">
+                AND PICTURE = #{picture,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSmallType != null and codeSmallType != ''">
+            	AND CODE_SMALL_TYPE LIKE CONCAT(CONCAT('%', #{codeSmallType,jdbcType=VARCHAR}),'%')
+            </if>
+        </where>
+    </select>
+    <select id="Charts" parameterType="BParts" resultMap="tempResult" >
+	<if test="gridCode.length() ==2 ">
+		SELECT COUNT(b_parts.code) AS COUNTS , sys_seat_second.name AS NAME
+		,sys_seat_second.code FROM b_parts
+		LEFT JOIN sys_seat_grid ON b_parts.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		LEFT JOIN sys_seat_second ON
+		sys_seat_third.parent_code=sys_seat_second.code
+		where 1=1
+		and sys_seat_second.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==5 ">
+		SELECT COUNT(b_parts.code) AS COUNTS , sys_seat_third.name AS NAME
+		,sys_seat_third.code FROM b_parts
+		LEFT JOIN sys_seat_grid ON b_parts.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		LEFT JOIN sys_seat_third ON
+		sys_seat_four.parent_code=sys_seat_third.code
+		where 1=1
+		and sys_seat_third.code  LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==8 ">
+		SELECT COUNT(b_parts.code) AS COUNTS , sys_seat_four.name AS NAME
+		,sys_seat_four.code FROM b_parts
+		LEFT JOIN sys_seat_grid ON b_parts.grid_code=sys_seat_grid.code
+		LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+		where 1=1
+		and sys_seat_four.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() >8 ">
+		SELECT COUNT(b_parts.code) AS COUNTS , sys_seat_grid.name AS NAME
+		,sys_seat_grid.code FROM b_parts
+		LEFT JOIN sys_seat_grid ON b_parts.grid_code=sys_seat_grid.code
+		where 1=1
+		and sys_seat_grid.code LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+
+
+
+<if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name != ''">
+                AND B_PARTS.NAME LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="address != null and address != ''">
+                AND ADDRESS = #{address,jdbcType=VARCHAR}
+            </if>
+            <if test="codeBigType != null and codeBigType != ''">
+                AND CODE_BIG_TYPE = #{codeBigType,jdbcType=VARCHAR}
+            </if>
+            <if test="belong != null and belong != ''">
+                AND BELONG = #{belong,jdbcType=VARCHAR}
+            </if>
+            <if test="belongMan != null and belongMan != ''">
+                AND BELONG_MAN = #{belongMan,jdbcType=VARCHAR}
+            </if>
+            <if test="belongDuty != null and belongDuty != ''">
+                AND BELONG_DUTY = #{belongDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="belongPhone != null and belongPhone != ''">
+                AND BELONG_PHONE = #{belongPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="care != null and care != ''">
+                AND CARE = #{care,jdbcType=VARCHAR}
+            </if>
+            <if test="careDuty != null and careDuty != ''">
+                AND CARE_DUTY = #{careDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="careMan != null and careMan != ''">
+                AND CARE_MAN = #{careMan,jdbcType=VARCHAR}
+            </if>
+            <if test="carePhone != null and carePhone != ''">
+                AND CARE_PHONE = #{carePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="codePartsStatus != null and codePartsStatus != ''">
+                AND CODE_PARTS_STATUS = #{codePartsStatus,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseDuty != null and enterpriseDuty != ''">
+                AND ENTERPRISE_DUTY = #{enterpriseDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseMan != null and enterpriseMan != ''">
+                AND ENTERPRISE_MAN = #{enterpriseMan,jdbcType=VARCHAR}
+            </if>
+            <if test="enterpriseManage != null and enterpriseManage != ''">
+                AND ENTERPRISE_MANAGE LIKE CONCAT(CONCAT('%', #{enterpriseManage,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="enterprisePhone != null and enterprisePhone != ''">
+                AND ENTERPRISE_PHONE = #{enterprisePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContacts != null and gridContacts != ''">
+                AND GRID_CONTACTS = #{gridContacts,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContactsDuty != null and gridContactsDuty != ''">
+                AND GRID_CONTACTS_DUTY = #{gridContactsDuty,jdbcType=VARCHAR}
+            </if>
+            <if test="gridContactsPhone != null and gridContactsPhone != ''">
+                AND GRID_CONTACTS_PHONE = #{gridContactsPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="partsCode != null and partsCode != ''">
+                AND PARTS_CODE LIKE CONCAT(CONCAT('%', #{partsCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="picture != null and picture != ''">
+                AND PICTURE = #{picture,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSmallType != null and codeSmallType != ''">
+            	AND CODE_SMALL_TYPE LIKE CONCAT(CONCAT('%', #{codeSmallType,jdbcType=VARCHAR}),'%')
+            </if>
+
+ AND B_PARTS.FLAG_DEL != 1
+	<if test="gridCode.length() ==2 ">
+	GROUP BY sys_seat_second.name ,sys_seat_second.code
+	</if>
+	<if test="gridCode.length() ==5 ">
+		GROUP BY sys_seat_third.name ,sys_seat_third.code
+	</if>
+	<if test="gridCode.length() ==8 ">
+		GROUP BY sys_seat_four.name ,sys_seat_four.code
+	</if>
+	<if test="gridCode.length() >8 ">
+		GROUP BY sys_seat_grid.name ,sys_seat_grid.code
+	</if>
+
+	
+		   
+		 
+   		   
+   </select>
+   <select id="queryZongHePage" parameterType="java.util.Map" resultMap="bPartsResult">
+ 		 SELECT B_PARTS.*,SSG.GRID_TOTAL_NAME
+        FROM B_PARTS LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_PARTS.GRID_CODE 
+        WHERE B_PARTS.FLAG_DEL != 1
+        <if test="gridCode != null and gridCode != ''">
+	  and B_PARTS.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	    </if> 
+		<if test="name != null and name != ''">
+      AND B_PARTS.NAME like '%'||#{name,jdbcType=VARCHAR}||'%'
+        </if>
+		<if test="enterpriseManage != null and enterpriseManage != ''">
+      AND B_PARTS.ENTERPRISE_MANAGE like '%'||#{enterpriseManage,jdbcType=VARCHAR}||'%'
+        </if>
+        <if test="partsCode != null and partsCode != ''">
+      AND B_PARTS.PARTS_CODE like '%'||#{partsCode,jdbcType=VARCHAR}||'%'
+        </if>        
+	 <if test="codeSmallType != null and codeSmallType != ''">
+	 and  
+	 (
+		<foreach collection="codeSmallType" item="s" index="index" separator=" or ">
+		    B_PARTS.CODE_SMALL_TYPE =#{s,jdbcType=VARCHAR}
+		</foreach>
+		)
+	 </if>	 	 
+</select>
+</mapper>

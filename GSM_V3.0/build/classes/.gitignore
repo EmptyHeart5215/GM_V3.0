@@ -1,0 +1,13 @@
+/beans-security.xml
+/beans_datasource.xml
+/beans_mapper.xml
+/beans_security.xml
+/com
+/ehcache.xml
+/jdbc.properties
+/log4j.properties
+/mybatis.xml
+/validator
+/workflowProperties.properties
+/workflowProperties_event.properties
+/相关文件配置说明

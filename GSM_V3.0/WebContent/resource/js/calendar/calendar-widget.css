@@ -1,0 +1,58 @@
+.tab-main th {
+    border-right:4px solid #5a92c7;
+	width: 105px;
+	padding: 15px 0;
+	text-align: center;
+    margin:1px;
+ }
+.tab-main td {
+    border-top:4px solid #ffffff;
+    border-right:2px solid #ffffff;
+    border-left:2px solid #ffffff;
+	width: 105px;
+	padding: 15px 0;
+	text-align: center;
+    font-family:"微软雅黑",Arial;
+    font-size:14px;
+}
+.tab-main table {
+    margin-top:5px;
+}
+.other-month {
+	background-color: #e5e5e5;
+    color:#aaaaaa;
+}
+.current-month
+    {
+    background-color: #e5e5e5; 
+    cursor:pointer; 
+    }
+.legaldate
+    {
+    background-color:#FF9900;
+    color: #fff;
+    }
+.weekday
+    {
+    background-color: #5a92c7;
+	color: #fff;
+    }
+.btn {
+    margin:0px;
+    padding:5px 15px;
+    height:30px;
+    }
+.tab-main {
+    margin: 30px auto 0;
+    width:730px;
+    }
+
+.tab-main select {
+    margin-right: 5px;
+    padding: 5px;
+    width:16.6666%;
+    display:inline;
+}
+.weekend{
+	font-weight: bold;
+}

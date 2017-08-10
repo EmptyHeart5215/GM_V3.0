@@ -1,0 +1,231 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.emergencyscheduling.mapperinterf.EmergencyPlanMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="EmergencyPlan" id="emergencyPlanResult">
+        <id column="CODE" property="code"/>
+        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="VARCHAR" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="EMERGENCY_NAME" jdbcType="VARCHAR" property="emergencyName" />
+        <result column="CODE_PLAN_TYPE" jdbcType="VARCHAR" property="codePlanType" />
+        <result column="EMERGENCY_CONTENT" jdbcType="VARCHAR" property="emergencyContent" />
+        <result column="MATERIAL_FILE" property="materialFile" jdbcType="VARCHAR" />
+        <result column="MATERIAL_CONTENT" property="materialContent" jdbcType="VARCHAR" />
+        <result column="CODE_MATERIAL_TYPE" property="codeMaterialType" jdbcType="VARCHAR" />
+        <result property="gridTotalName" />
+        <result column="TEAM_CODE" jdbcType="VARCHAR" property="teamCode" />
+        <result column="PLACE_CODE" jdbcType="VARCHAR" property="placeCode" />
+        <result column="SUPPLIES_CODE" jdbcType="VARCHAR" property="suppliesCode" />
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="EmergencyPlan">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO EMERGENCY_PLAN
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,GRID_CODE,EMERGENCY_NAME,CODE_PLAN_TYPE,EMERGENCY_CONTENT,MATERIAL_FILE,MATERIAL_CONTENT,CODE_MATERIAL_TYPE,
+                   TEAM_CODE,PLACE_CODE,SUPPLIES_CODE)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+            #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},#{emergencyName,jdbcType=VARCHAR},
+            #{codePlanType,jdbcType=VARCHAR},#{emergencyContent,jdbcType=VARCHAR},#{materialFile,jdbcType=VARCHAR},#{materialContent,jdbcType=VARCHAR},#{codeMaterialType,jdbcType=VARCHAR},
+            #{teamCode,jdbcType=VARCHAR},#{placeCode,jdbcType=VARCHAR},#{suppliesCode,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="EmergencyPlan">
+        UPDATE EMERGENCY_PLAN
+        <set>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="emergencyName != null and emergencyName != ''">
+                EMERGENCY_NAME = #{emergencyName,jdbcType=VARCHAR},
+            </if>
+            <if test="codePlanType != null and codePlanType != ''">
+                CODE_PLAN_TYPE = #{codePlanType,jdbcType=VARCHAR},
+            </if>
+            <if test="emergencyContent != null and emergencyContent != ''">
+                EMERGENCY_CONTENT = #{emergencyContent,jdbcType=VARCHAR},
+            </if>
+           
+                MATERIAL_FILE = #{materialFile,jdbcType=VARCHAR},
+            
+            <if test="materialContent != null and materialContent != ''">
+                MATERIAL_CONTENT = #{materialContent,jdbcType=VARCHAR},
+            </if>
+            <if test="codeMaterialType != null and codeMaterialType != ''">
+                CODE_MATERIAL_TYPE = #{codeMaterialType,jdbcType=VARCHAR},
+            </if>
+                TEAM_CODE = #{teamCode,jdbcType=VARCHAR},
+                PLACE_CODE = #{placeCode,jdbcType=VARCHAR},
+                SUPPLIES_CODE = #{suppliesCode,jdbcType=VARCHAR},
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE EMERGENCY_PLAN SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE EMERGENCY_PLAN SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="emergencyPlanResult">
+        SELECT EMERGENCY_PLAN.*,grid.gridTotalName as gridTotalName FROM EMERGENCY_PLAN
+        join
+        (select to_char(sss.code) as code,to_char(sss.grid_total_name) as gridTotalName from sys_seat_second sss where sss.flag_del!=1
+		union all 
+		select to_char(sst.code) as code,to_char(sst.grid_total_name) as gridTotalName from sys_seat_third sst where sst.flag_del!=1
+		union all 
+		select to_char(ssf.code) as code,to_char(ssf.grid_total_name) as gridTotalName from sys_seat_four ssf where ssf.flag_del!=1
+		union all 
+		select to_char(ssg.code) as code,to_char(ssg.grid_total_name) as gridTotalName from sys_seat_grid ssg where ssg.flag_del!=1
+		union all
+		select '01' as code,'唐山市' as gridTotalName from dual
+		) grid on grid.code=EMERGENCY_PLAN.grid_code  WHERE FLAG_DEL != 1 AND EMERGENCY_PLAN.CODE=#{code}  
+        
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="emergencyPlanResult">
+        SELECT * FROM EMERGENCY_PLAN where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="EmergencyPlan" resultMap="emergencyPlanResult">
+        SELECT * FROM EMERGENCY_PLAN 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="emergencyName != null and emergencyName != ''">
+                AND EMERGENCY_NAME LIKE CONCAT(CONCAT('%', #{emergencyName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codePlanType != null and codePlanType != ''">
+               AND CODE_PLAN_TYPE LIKE CONCAT(CONCAT('%', #{codePlanType,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="teamCode != null and teamCode != ''">
+               AND TEAM_CODE = #{teamCode,jdbcType=VARCHAR},
+            </if>
+            <if test="placeCode != null and placeCode != ''">
+               AND PLACE_CODE = #{placeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="suppliesCode != null and suppliesCode != ''">
+               AND SUPPLIES_CODE = #{suppliesCode,jdbcType=VARCHAR},
+            </if>
+            <if test="uuid != null and uuid != ''">
+               AND UUID = #{uuid,jdbcType=VARCHAR},
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="java.util.Map" resultMap="emergencyPlanResult">
+        SELECT EMERGENCY_PLAN.*,grid.gridTotalName as gridTotalName FROM EMERGENCY_PLAN
+        join
+        (select to_char(sss.code) as code,to_char(sss.grid_total_name) as gridTotalName from sys_seat_second sss where sss.flag_del!=1
+		union all 
+		select to_char(sst.code) as code,to_char(sst.grid_total_name) as gridTotalName from sys_seat_third sst where sst.flag_del!=1
+		union all 
+		select to_char(ssf.code) as code,to_char(ssf.grid_total_name) as gridTotalName from sys_seat_four ssf where ssf.flag_del!=1
+		union all 
+		select to_char(ssg.code) as code,to_char(ssg.grid_total_name) as gridTotalName from sys_seat_grid ssg where ssg.flag_del!=1
+		union all
+		select '01' as code,'唐山市' as gridTotalName from dual
+		) grid on grid.code=EMERGENCY_PLAN.grid_code
+	
+        <where>
+            EMERGENCY_PLAN.FLAG_DEL != 1
+            <if test="gridCode != null and gridCode != ''">
+               and EMERGENCY_PLAN.GRID_CODE like #{gridCode,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="emergencyName != null and emergencyName != ''">
+                AND EMERGENCY_NAME LIKE CONCAT(CONCAT('%', #{emergencyName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codePlanType != null and codePlanType.size()>0 ">
+				and (
+				<foreach collection="codePlanType" item="s" index="index" separator=" or ">
+				   EMERGENCY_PLAN.CODE_PLAN_TYPE =#{s,jdbcType=VARCHAR}
+				</foreach>
+				)
+			</if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM EMERGENCY_PLAN WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="EmergencyPlan" resultType="Integer">
+        SELECT COUNT(*) C FROM EMERGENCY_PLAN 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="emergencyName != null and emergencyName != ''">
+               AND EMERGENCY_NAME LIKE CONCAT(CONCAT('%', #{emergencyName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codePlanType != null and codePlanType != ''">
+                AND CODE_PLAN_TYPE LIKE CONCAT(CONCAT('%', #{codePlanType,jdbcType=VARCHAR}),'%')
+            </if>
+        </where>
+    </select>
+</mapper>

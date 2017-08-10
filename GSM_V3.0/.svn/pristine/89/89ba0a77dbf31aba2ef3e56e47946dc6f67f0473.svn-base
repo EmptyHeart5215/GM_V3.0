@@ -1,0 +1,320 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>流程图DEMO</title>
+<!--[if lt IE 9]>
+<?import namespace="v" implementation="#default#VML" ?>
+<![endif]-->
+<!--<link rel="stylesheet" type="text/css" href="codebase/GooFlow2.css"/>-->
+<link rel="stylesheet" type="text/css" href="codebase/GooFlow.css" />
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="../GooFunc.js"></script>
+<link rel="stylesheet" type="text/css" href="../default.css" />
+<script type="text/javascript" src="codebase/GooFlow.js"></script>
+<script type="text/javascript">
+	var property = {
+		width : 1200,
+		height : 600,
+		toolBtns : [ "start round", "end", "task", "node", "chat", "state",
+				"plug", "join", "fork", "complex mix" ],
+		haveHead : false,
+		headBtns : [ "new", "open", "save", "undo", "redo", "reload" ],//如果haveHead=true，则定义HEAD区的按钮
+		haveTool : false,
+		haveGroup : false,
+		useOperStack : true,
+		tuli : true
+	};
+	$(document).ready(function() {
+		var demo = $.createGooFlow($("#demo"), property);
+		jsondata = {
+			    "title": "dsdfsdf", 
+			    "nodes": {
+			        "0": {
+			            "name": "开始", 
+			            "left": 400, 
+			            "top": 5, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "start yiban"
+			        }, 
+			        "1": {
+			            "name": "办理", 
+			            "left": 400, 
+			            "top": 75, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "3": {
+			            "name": "中心派遣", 
+			            "left": 400, 
+			            "top": 145, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "4": {
+			            "name": "办结", 
+			            "left": 400, 
+			            "top": 565, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "end weiban"
+			        }, 
+			        "5": {
+			            "name": "部门签收", 
+			            "left": 400, 
+			            "top": 215, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "6": {
+			            "name": "部门办理", 
+			            "left": 400, 
+			            "top": 285, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "8": {
+			            "name": "退办审批", 
+			            "left": 240, 
+			            "top": 355, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "9": {
+			            "name": "延时审批", 
+			            "left": 560, 
+			            "top": 355, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "11": {
+			            "name": "中心审查", 
+			            "left": 400, 
+			            "top": 355, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "12": {
+			            "name": "上报人审查", 
+			            "left": 400, 
+			            "top": 425, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "13": {
+			            "name": "批准结案", 
+			            "left": 400, 
+			            "top": 495, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }, 
+			        "44": {
+			            "name": "取消受理", 
+			            "left": 240, 
+			            "top": 565, 
+			            "width": 90, 
+			            "height": 24, 
+			            "type": "task weiban"
+			        }
+			    }, 
+			    "lines": {
+			        "100": {
+			            "type": "sl", 
+			            "from": "0", 
+			            "to": "1", 
+			            "name": "受理", 
+			            "marked": false, 
+			            "dash": false, 
+			            "M": null
+			        }, 
+			        "110": {
+			            "type": "sl", 
+			            "from": "1", 
+			            "to": "3", 
+			            "name": "上报指挥中心", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "120": {
+			            "type": "lr", 
+			            "from": "1", 
+			            "to": "4", 
+			            "name": "自办自结", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 800
+			        }, 
+			        "140": {
+			            "type": "sl", 
+			            "from": "3", 
+			            "to": "5", 
+			            "name": "立案派遣", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "150": {
+			            "type": "sl", 
+			            "from": "5", 
+			            "to": "6", 
+			            "name": "签收", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "160": {
+			            "type": "sl", 
+			            "from": "3", 
+			            "to": "4", 
+			            "name": "注销", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "170": {
+			            "type": "sl", 
+			            "from": "3", 
+			            "to": "4", 
+			            "name": "中心办结", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 700
+			        }, 
+			        "180": {
+			            "type": "lr", 
+			            "from": "3", 
+			            "to": "3", 
+			            "name": "上报市指挥中心", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 100
+			        }, 
+			        "190": {
+			            "type": "sl", 
+			            "from": "6", 
+			            "to": "11", 
+			            "name": "申请结案", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "210": {
+			            "type": "sl", 
+			            "from": "6", 
+			            "to": "9", 
+			            "name": "申请延时", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "220": {
+			            "type": "lr", 
+			            "from": "9", 
+			            "to": "6", 
+			            "name": "同意延时", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 600
+			        }, 
+			        "230": {
+			            "type": "lr", 
+			            "from": "9", 
+			            "to": "6", 
+			            "name": "按原时间办理", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 690
+			        }, 
+			        "240": {
+			            "type": "sl", 
+			            "from": "6", 
+			            "to": "8", 
+			            "name": "申请退办", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "250": {
+			            "type": "lr", 
+			            "from": "8", 
+			            "to": "3", 
+			            "name": "同意退办", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 200
+			        }, 
+			        "260": {
+			            "type": "lr", 
+			            "from": "8", 
+			            "to": "6", 
+			            "name": "返回重新办理", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 280
+			        }, 
+			        "280": {
+			            "type": "lr", 
+			            "from": "1", 
+			            "to": "44", 
+			            "name": "取消受理", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 100
+			        }, 
+			        "350": {
+			            "type": "sl", 
+			            "from": "13", 
+			            "to": "4", 
+			            "name": "办理办结", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "360": {
+			            "type": "lr", 
+			            "from": "13", 
+			            "to": "6", 
+			            "name": "督办", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": 360
+			        }, 
+			        "370": {
+			            "type": "sl", 
+			            "from": "11", 
+			            "to": "12", 
+			            "name": "发送到上报人", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }, 
+			        "380": {
+			            "type": "sl", 
+			            "from": "12", 
+			            "to": "13", 
+			            "name": "验收", 
+			            "marked": false, 
+			            "dash": true, 
+			            "M": null
+			        }
+			    }
+			}
+		demo.loadData(jsondata);
+	});
+</script>
+</head>
+<body>
+	<div id="demo" style="margin: 10px"></div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>街景-Hello world</title>
+<script charset="utf-8" src="http://map.soso.com/api/v2/main.js?key=YourKey"></script>
+<script type="text/javascript">
+var init = function(){
+    //街景容器
+    var pano_container=document.getElementById('PanoCtn');
+    //创建街景对象，并传入街景容器 及 设置
+    pano = new soso.maps.Panorama(pano_container, {
+        pano: '10011501120802180635300', //初始场景ID，请问这个ID从哪来？ 见下文
+        pov:{
+            heading:1,  //偏航角
+            pitch:0     //俯仰角
+        },
+        zoom:1  //缩放
+    })
+}
+</script>
+</head>
+<body onload="init()">
+    <!-- 街景将显示在以下 div 中 -->
+    <div id="PanoCtn" style="width:500px;height:300px"></div>
+</body>
+</html>

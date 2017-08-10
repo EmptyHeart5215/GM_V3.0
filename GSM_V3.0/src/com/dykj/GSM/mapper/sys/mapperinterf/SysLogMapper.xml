@@ -1,0 +1,227 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysLogMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="Log" id="logResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="BEFOR_LOG" jdbcType="VARCHAR" property="beforLog" />
+        <result column="AFTER_LOG" jdbcType="VARCHAR" property="afterLog" />
+        <result column="OPERATION" jdbcType="VARCHAR" property="operation" />
+        <result column="SHU_JU" jdbcType="VARCHAR" property="shuJu" />
+        <result column="SHU_JU_TYPE" jdbcType="VARCHAR" property="shuJuType" />
+        <result column="USER_IP" jdbcType="VARCHAR" property="userIp" />
+        <result column="USER_ADDRESS" jdbcType="VARCHAR" property="userAddress" />
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="Log">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO LOG
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    BEFOR_LOG,AFTER_LOG,OPERATION,SHU_JU,SHU_JU_TYPE,
+                    USER_IP,USER_ADDRESS)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{beforLog,jdbcType=VARCHAR},
+                     #{afterLog,jdbcType=VARCHAR},#{operation,jdbcType=VARCHAR},#{shuJu,jdbcType=VARCHAR},#{shuJuType,jdbcType=VARCHAR},
+                     #{userIp,jdbcType=VARCHAR},#{userAddress,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="Log">
+        UPDATE LOG
+        <set>
+            <if test="beforLog != null and beforLog != ''">
+                BEFOR_LOG = #{beforLog,jdbcType=VARCHAR},
+            </if>
+            <if test="afterLog != null and afterLog != ''">
+                AFTER_LOG = #{afterLog,jdbcType=VARCHAR},
+            </if>
+            <if test="operation != null and operation != ''">
+                OPERATION = #{operation,jdbcType=VARCHAR},
+            </if>
+            <if test="shuJu != null and shuJu != ''">
+                SHU_JU = #{shuJu,jdbcType=VARCHAR},
+            </if>
+            <if test="shuJuType != null and shuJuType != ''">
+                SHU_JU_TYPE = #{shuJuType,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE LOG SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE LOG SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="logResult">
+        SELECT * FROM LOG WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+    
+    <!-- 根据主键查询实体String  -->
+    <select id="queryByCode" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT * FROM ${name} WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="logResult">
+        SELECT * FROM LOG where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="Log" resultMap="logResult">
+        SELECT * FROM LOG 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="beforLog != null and beforLog != ''">
+                AND BEFOR_LOG = #{beforLog,jdbcType=VARCHAR}
+            </if>
+            <if test="afterLog != null and afterLog != ''">
+                AND AFTER_LOG = #{afterLog,jdbcType=VARCHAR}
+            </if>
+            <if test="operation != null and operation != ''">
+                AND OPERATION = #{operation,jdbcType=VARCHAR}
+            </if>
+            <if test="shuJu != null and shuJu != ''">
+                AND SHU_JU = #{shuJu,jdbcType=VARCHAR}
+            </if>
+            <if test="shuJuType != null and shuJuType != ''">
+                AND SHU_JU_TYPE = #{shuJuType,jdbcType=VARCHAR},
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="Log" resultMap="logResult">
+        SELECT * FROM LOG
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="beforLog != null and beforLog != ''">
+                AND BEFOR_LOG = #{beforLog,jdbcType=VARCHAR}
+            </if>
+            <if test="afterLog != null and afterLog != ''">
+                AND AFTER_LOG = #{afterLog,jdbcType=VARCHAR}
+            </if>
+            <if test="operation != null and operation != ''">
+                AND OPERATION = #{operation,jdbcType=VARCHAR}
+            </if>
+            <if test="shuJu != null and shuJu != ''">
+                AND SHU_JU = #{shuJu,jdbcType=VARCHAR}
+            </if>
+            <if test="shuJuType != null and shuJuType != ''">
+                AND SHU_JU_TYPE = #{shuJuType,jdbcType=VARCHAR},
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM LOG WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="Log" resultType="Integer">
+        SELECT COUNT(*) C FROM LOG 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="beforLog != null and beforLog != ''">
+                AND BEFOR_LOG = #{beforLog,jdbcType=VARCHAR}
+            </if>
+            <if test="afterLog != null and afterLog != ''">
+                AND AFTER_LOG = #{afterLog,jdbcType=VARCHAR}
+            </if>
+            <if test="operation != null and operation != ''">
+                AND OPERATION = #{operation,jdbcType=VARCHAR}
+            </if>
+            <if test="shuJu != null and shuJu != ''">
+                AND SHU_JU = #{shuJu,jdbcType=VARCHAR}
+            </if>
+            <if test="shuJuType != null and shuJuType != ''">
+                AND SHU_JU_TYPE = #{shuJuType,jdbcType=VARCHAR},
+            </if>
+        </where>
+    </select>
+</mapper>
+     

@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BHouseMapper" >
+  <resultMap id="houseResult" type="BHouse" >
+     <id column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+    <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+    <result column="SORT" jdbcType="DECIMAL" property="sort" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="UNIT_CODE" jdbcType="VARCHAR" property="unitCode" />
+    <result column="HOUSE_NUM" jdbcType="VARCHAR" property="houseNum" />
+    <result column="HOUSE_AREA" jdbcType="VARCHAR" property="houseArea" />
+    <result column="CODE_HOUSE_LAYOUT" jdbcType="VARCHAR" property="codeHouseLayout" />
+    <result column="BUILD_YEAR" jdbcType="DECIMAL" property="buildYear" />
+    <result column="HOUSE_PROPERTY_NUM" jdbcType="VARCHAR" property="housePropertyNum" />
+    <result column="HOUSE_PROPERTY_DATE" jdbcType="VARCHAR" property="housePropertyDate" />
+    <result column="HOUSE_LAND_DATE" jdbcType="VARCHAR" property="houseLandDate" />
+    <result column="HOUSE_LAND_NUM" jdbcType="VARCHAR" property="houseLandNum" />
+    <result column="CODE_HOUSE_SOURCE" jdbcType="VARCHAR" property="codeHouseSource" />
+    <result column="CODE_HOUSE_NATURE" jdbcType="VARCHAR" property="codeHouseNature" />
+    <result column="CODE_HOUSE_USE" jdbcType="VARCHAR" property="codeHouseUse" />
+    <result column="CURRENT_LAYER" jdbcType="DECIMAL" property="currentLayer" />
+    <result column="UBIETY_LAYER" jdbcType="VARCHAR" property="ubietyLayer" />
+    <result column="HOUSE_OWNER_NAME" jdbcType="VARCHAR" property="houseOwnerName" />
+    <result column="SEX" jdbcType="VARCHAR" property="sex" />
+    <result column="CODE_HOUSE_OWNER_CARD" jdbcType="VARCHAR" property="codeHouseOwnerCard" />
+    <result column="HOUSE_OWNER_CARD_NUM" jdbcType="VARCHAR" property="houseOwnerCardNum" />
+    <result column="IS_HOUSEHOLD" jdbcType="CHAR" property="isHousehold" />
+    <result column="HOUSE_OWNER_ADDRESS" jdbcType="VARCHAR" property="houseOwnerAddress" />
+    <result column="HOUSE_OWNER_NOW_ADDRESS" jdbcType="VARCHAR" property="houseOwnerNowAddress" />
+    <result column="HOUSE_OWNER_COMPANY" jdbcType="VARCHAR" property="houseOwnerCompany" />
+    <result column="HOUSE_OWNER_PHONE" jdbcType="VARCHAR" property="houseOwnerPhone" />
+    <result column="HOUSE_COMMON_NAME" jdbcType="VARCHAR" property="houseCommonName" />
+    <result column="COMMON_OWNER_RELATION" jdbcType="VARCHAR" property="commonOwnerRelation" />
+    <result column="HOUSE_PERSON" jdbcType="DECIMAL" property="housePerson" />
+    <result column="USE_NAME" jdbcType="VARCHAR" property="useName" />
+    <result column="USE_OWNER_RELATION" jdbcType="VARCHAR" property="useOwnerRelation" />
+    <result column="USE_SEX" jdbcType="VARCHAR" property="useSex" />
+    <result column="LEGAL_PERSON" jdbcType="VARCHAR" property="legalPerson" />
+    <result column="CODE_USE_PROPERTY" jdbcType="VARCHAR" property="codeUseProperty" />
+    <result column="CODE_USE_CARD" jdbcType="VARCHAR" property="codeUseCard" />
+    <result column="USE_CARD_NUMBER" jdbcType="VARCHAR" property="useCardNumber" />
+    <result column="USE_PHONE" jdbcType="VARCHAR" property="usePhone" />
+    <result column="USE_ADDRESS" jdbcType="VARCHAR" property="useAddress" />
+    <result column="USE_CURRENT_ADDRESS" jdbcType="VARCHAR" property="useCurrentAddress" />
+    <result column="IS_USER_FLOW" jdbcType="CHAR" property="isUserFlow" />
+    <result column="USE_WORK" jdbcType="VARCHAR" property="useWork" />
+    <result column="USE_LIVE_NUMBER" jdbcType="VARCHAR" property="useLiveNumber" />
+    <result column="USE_TOGETHER_NAME" jdbcType="VARCHAR" property="useTogetherName" />
+    <result column="USE_TOGETHER_RELATION" jdbcType="VARCHAR" property="useTogetherRelation" />
+    <result column="RENT_DATE" jdbcType="VARCHAR" property="rentDate" />
+    <result column="RENT_TERM" jdbcType="VARCHAR" property="rentTerm" />
+    <result column="IS_RENT_WHOLE" jdbcType="CHAR" property="isRentWhole" />
+    <result column="RENT_FUND" jdbcType="DECIMAL" property="rentFund" />
+    <result column="RENT_ROOM_COUNT" jdbcType="DECIMAL" property="rentRoomCount" />
+    <result column="RENT_AREA" jdbcType="DECIMAL" property="rentArea" />
+    <result column="HAVE_RENT_CONTRACT" jdbcType="CHAR" property="haveRentContract" />
+    <result column="IS_REGISTRATION" jdbcType="CHAR" property="isRegistration" />
+    <result column="EXPIRY_DATE" jdbcType="VARCHAR" property="expiryDate" />
+    <result column="CODE_HOUSE_HOUSING" jdbcType="VARCHAR" property="codeHouseHousing" />
+    <result column="IS_SIGN_BIRTH" jdbcType="CHAR" property="isSignBirth" />
+    <result column="IS_SIGN_ORDER" jdbcType="CHAR" property="isSignOrder" />
+    <result property="gridCode" column="GRID_CODE" jdbcType="VARCHAR"/>
+     <result column="POSITION" property="position" jdbcType="VARCHAR" />
+	<result property="buildCode"/>
+	<result property="buildName"/>
+	 <result property="unitName" />
+	<result property="houseUseString"/>
+  </resultMap>
+   <resultMap id="tempResult" type="ChartsTemp" >
+	    <result column="NAME" jdbcType="VARCHAR" property="name" />
+	    <result column="COUNTS" jdbcType="VARCHAR" property="counts" />
+  </resultMap>
+ <sql id="Base_Column_List">
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, UNIT_CODE,
+    HOUSE_NUM, HOUSE_AREA, CODE_HOUSE_LAYOUT, BUILD_YEAR, HOUSE_PROPERTY_NUM, HOUSE_PROPERTY_DATE, 
+    HOUSE_LAND_DATE, HOUSE_LAND_NUM, CODE_HOUSE_SOURCE, CODE_HOUSE_NATURE, CODE_HOUSE_USE, 
+    CURRENT_LAYER, UBIETY_LAYER, HOUSE_OWNER_NAME, SEX, CODE_HOUSE_OWNER_CARD, HOUSE_OWNER_CARD_NUM, 
+    IS_HOUSEHOLD, HOUSE_OWNER_ADDRESS, HOUSE_OWNER_NOW_ADDRESS, HOUSE_OWNER_COMPANY, 
+    HOUSE_OWNER_PHONE, HOUSE_COMMON_NAME, COMMON_OWNER_RELATION, HOUSE_PERSON, USE_NAME, 
+    USE_OWNER_RELATION, USE_SEX, LEGAL_PERSON, CODE_USE_PROPERTY, CODE_USE_CARD, 
+    USE_CARD_NUMBER, USE_PHONE, USE_ADDRESS, USE_CURRENT_ADDRESS, IS_USER_FLOW, USE_WORK, 
+    USE_LIVE_NUMBER, USE_TOGETHER_NAME, USE_TOGETHER_RELATION, RENT_DATE, RENT_TERM, 
+    IS_RENT_WHOLE, RENT_FUND, RENT_ROOM_COUNT, RENT_AREA, HAVE_RENT_CONTRACT, IS_REGISTRATION, 
+    EXPIRY_DATE, CODE_HOUSE_HOUSING, IS_SIGN_BIRTH, IS_SIGN_ORDER,GRID_CODE
+  </sql>
+  <insert id="insert" parameterType="BHouse" >
+    <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+    insert into B_HOUSE (CODE, CREATE_DATE, CREATE_BY, 
+      SORT, GRID_CODE,
+      REMARK, UNIT_CODE, 
+      HOUSE_NUM, HOUSE_AREA, CODE_HOUSE_LAYOUT, 
+      BUILD_YEAR, HOUSE_PROPERTY_NUM, HOUSE_PROPERTY_DATE, 
+      HOUSE_LAND_DATE, HOUSE_LAND_NUM, CODE_HOUSE_SOURCE, 
+      CODE_HOUSE_NATURE, CODE_HOUSE_USE, CURRENT_LAYER, 
+      UBIETY_LAYER, HOUSE_OWNER_NAME, SEX, 
+      CODE_HOUSE_OWNER_CARD, HOUSE_OWNER_CARD_NUM, IS_HOUSEHOLD, 
+      HOUSE_OWNER_ADDRESS, HOUSE_OWNER_NOW_ADDRESS, HOUSE_OWNER_COMPANY, 
+      HOUSE_OWNER_PHONE, HOUSE_COMMON_NAME, COMMON_OWNER_RELATION, 
+      HOUSE_PERSON, USE_NAME, USE_OWNER_RELATION, 
+      USE_SEX, LEGAL_PERSON, CODE_USE_PROPERTY, 
+      CODE_USE_CARD, USE_CARD_NUMBER, USE_PHONE, 
+      USE_ADDRESS, USE_CURRENT_ADDRESS, IS_USER_FLOW, 
+      USE_WORK, USE_LIVE_NUMBER, USE_TOGETHER_NAME, 
+      USE_TOGETHER_RELATION, RENT_DATE, RENT_TERM, 
+      IS_RENT_WHOLE, RENT_FUND, RENT_ROOM_COUNT, 
+      RENT_AREA, HAVE_RENT_CONTRACT, IS_REGISTRATION, 
+      EXPIRY_DATE, CODE_HOUSE_HOUSING, IS_SIGN_BIRTH, 
+      IS_SIGN_ORDER)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=DECIMAL},   #{gridCode,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{unitCode,jdbcType=VARCHAR}, 
+      #{houseNum,jdbcType=VARCHAR}, #{houseArea,jdbcType=VARCHAR}, #{codeHouseLayout,jdbcType=VARCHAR}, 
+      #{buildYear,jdbcType=DECIMAL}, #{housePropertyNum,jdbcType=VARCHAR}, #{housePropertyDate,jdbcType=VARCHAR}, 
+      #{houseLandDate,jdbcType=VARCHAR}, #{houseLandNum,jdbcType=VARCHAR}, #{codeHouseSource,jdbcType=VARCHAR}, 
+      #{codeHouseNature,jdbcType=VARCHAR}, #{codeHouseUse,jdbcType=VARCHAR}, #{currentLayer,jdbcType=DECIMAL}, 
+      #{ubietyLayer,jdbcType=VARCHAR}, #{houseOwnerName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{codeHouseOwnerCard,jdbcType=VARCHAR}, #{houseOwnerCardNum,jdbcType=VARCHAR}, #{isHousehold,jdbcType=CHAR}, 
+      #{houseOwnerAddress,jdbcType=VARCHAR}, #{houseOwnerNowAddress,jdbcType=VARCHAR}, #{houseOwnerCompany,jdbcType=VARCHAR}, 
+      #{houseOwnerPhone,jdbcType=VARCHAR}, #{houseCommonName,jdbcType=VARCHAR}, #{commonOwnerRelation,jdbcType=VARCHAR}, 
+      #{housePerson,jdbcType=DECIMAL}, #{useName,jdbcType=VARCHAR}, #{useOwnerRelation,jdbcType=VARCHAR}, 
+      #{useSex,jdbcType=VARCHAR}, #{legalPerson,jdbcType=VARCHAR}, #{codeUseProperty,jdbcType=VARCHAR}, 
+      #{codeUseCard,jdbcType=VARCHAR}, #{useCardNumber,jdbcType=VARCHAR}, #{usePhone,jdbcType=VARCHAR}, 
+      #{useAddress,jdbcType=VARCHAR}, #{useCurrentAddress,jdbcType=VARCHAR}, #{isUserFlow,jdbcType=CHAR}, 
+      #{useWork,jdbcType=VARCHAR}, #{useLiveNumber,jdbcType=VARCHAR}, #{useTogetherName,jdbcType=VARCHAR}, 
+      #{useTogetherRelation,jdbcType=VARCHAR}, #{rentDate,jdbcType=VARCHAR}, #{rentTerm,jdbcType=VARCHAR}, 
+      #{isRentWhole,jdbcType=CHAR}, #{rentFund,jdbcType=DECIMAL}, #{rentRoomCount,jdbcType=DECIMAL}, 
+      #{rentArea,jdbcType=DECIMAL}, #{haveRentContract,jdbcType=CHAR}, #{isRegistration,jdbcType=CHAR}, 
+      #{expiryDate,jdbcType=VARCHAR}, #{codeHouseHousing,jdbcType=VARCHAR}, #{isSignBirth,jdbcType=CHAR}, 
+      #{isSignOrder,jdbcType=CHAR})
+  </insert>
+  
+  <update id="update" parameterType="BHouse" >
+   update B_HOUSE
+    set CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      SORT = #{sort,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      UNIT_CODE = #{unitCode,jdbcType=VARCHAR},
+      HOUSE_NUM = #{houseNum,jdbcType=VARCHAR},
+      HOUSE_AREA = #{houseArea,jdbcType=VARCHAR},
+      CODE_HOUSE_LAYOUT = #{codeHouseLayout,jdbcType=VARCHAR},
+      BUILD_YEAR = #{buildYear,jdbcType=DECIMAL},
+      HOUSE_PROPERTY_NUM = #{housePropertyNum,jdbcType=VARCHAR},
+      HOUSE_PROPERTY_DATE = #{housePropertyDate,jdbcType=VARCHAR},
+      HOUSE_LAND_DATE = #{houseLandDate,jdbcType=VARCHAR},
+      HOUSE_LAND_NUM = #{houseLandNum,jdbcType=VARCHAR},
+      CODE_HOUSE_SOURCE = #{codeHouseSource,jdbcType=VARCHAR},
+      CODE_HOUSE_NATURE = #{codeHouseNature,jdbcType=VARCHAR},
+      CODE_HOUSE_USE = #{codeHouseUse,jdbcType=VARCHAR},
+      CURRENT_LAYER = #{currentLayer,jdbcType=DECIMAL},
+      UBIETY_LAYER = #{ubietyLayer,jdbcType=VARCHAR},
+      HOUSE_OWNER_NAME = #{houseOwnerName,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      CODE_HOUSE_OWNER_CARD = #{codeHouseOwnerCard,jdbcType=VARCHAR},
+      HOUSE_OWNER_CARD_NUM = #{houseOwnerCardNum,jdbcType=VARCHAR},
+      IS_HOUSEHOLD = #{isHousehold,jdbcType=CHAR},
+      HOUSE_OWNER_ADDRESS = #{houseOwnerAddress,jdbcType=VARCHAR},
+      HOUSE_OWNER_NOW_ADDRESS = #{houseOwnerNowAddress,jdbcType=VARCHAR},
+      HOUSE_OWNER_COMPANY = #{houseOwnerCompany,jdbcType=VARCHAR},
+      HOUSE_OWNER_PHONE = #{houseOwnerPhone,jdbcType=VARCHAR},
+      HOUSE_COMMON_NAME = #{houseCommonName,jdbcType=VARCHAR},
+      COMMON_OWNER_RELATION = #{commonOwnerRelation,jdbcType=VARCHAR},
+      HOUSE_PERSON = #{housePerson,jdbcType=DECIMAL},
+      USE_NAME = #{useName,jdbcType=VARCHAR},
+      USE_OWNER_RELATION = #{useOwnerRelation,jdbcType=VARCHAR},
+      USE_SEX = #{useSex,jdbcType=VARCHAR},
+      LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR},
+      CODE_USE_PROPERTY = #{codeUseProperty,jdbcType=VARCHAR},
+      CODE_USE_CARD = #{codeUseCard,jdbcType=VARCHAR},
+      USE_CARD_NUMBER = #{useCardNumber,jdbcType=VARCHAR},
+      USE_PHONE = #{usePhone,jdbcType=VARCHAR},
+      USE_ADDRESS = #{useAddress,jdbcType=VARCHAR},
+      USE_CURRENT_ADDRESS = #{useCurrentAddress,jdbcType=VARCHAR},
+      IS_USER_FLOW = #{isUserFlow,jdbcType=CHAR},
+      USE_WORK = #{useWork,jdbcType=VARCHAR},
+      USE_LIVE_NUMBER = #{useLiveNumber,jdbcType=VARCHAR},
+      USE_TOGETHER_NAME = #{useTogetherName,jdbcType=VARCHAR},
+      USE_TOGETHER_RELATION = #{useTogetherRelation,jdbcType=VARCHAR},
+      RENT_DATE = #{rentDate,jdbcType=VARCHAR},
+      RENT_TERM = #{rentTerm,jdbcType=VARCHAR},
+      IS_RENT_WHOLE = #{isRentWhole,jdbcType=CHAR},
+      RENT_FUND = #{rentFund,jdbcType=DECIMAL},
+      RENT_ROOM_COUNT = #{rentRoomCount,jdbcType=DECIMAL},
+      RENT_AREA = #{rentArea,jdbcType=DECIMAL},
+      HAVE_RENT_CONTRACT = #{haveRentContract,jdbcType=CHAR},
+      IS_REGISTRATION = #{isRegistration,jdbcType=CHAR},
+      EXPIRY_DATE = #{expiryDate,jdbcType=VARCHAR},
+      CODE_HOUSE_HOUSING = #{codeHouseHousing,jdbcType=VARCHAR},
+      IS_SIGN_BIRTH = #{isSignBirth,jdbcType=CHAR},
+      IS_SIGN_ORDER = #{isSignOrder,jdbcType=CHAR}
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_House SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="houseResult">
+        SELECT h.*,u.name as unitName,b.build_name as buildName,g.grid_total_name as gridTotalName FROM B_House h join b_unit u on u.code=h.unit_code and u.flag_del=0
+         join b_building b on b.code=u.build_code and b.flag_del=0 
+         join sys_seat_grid g on g.code=b.grid_code and g.flag_del=0
+           WHERE h.FLAG_DEL != 1 AND h.CODE=#{code}
+    </select>
+     <!-- 分页查询,所有实体对象集合  -->
+   <select id="queryParamPage" parameterType="BHouse" resultMap="houseResult">
+  SELECT * FROM B_House
+    <where>
+      FLAG_DEL != 1
+		 <if test="unitCode != null and unitCode != ''">
+		    AND unit_CODE  LIKE CONCAT(CONCAT('%', #{unitCode,jdbcType=VARCHAR}),'%')
+		 </if>
+		 <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE   LIKE CONCAT(CONCAT('%', #{gridCode,jdbcType=VARCHAR}),'%')
+            </if>
+		    <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            
+            <if test="buildCode != null and buildCode != ''">
+                AND BUILD_CODE   LIKE CONCAT(CONCAT('%', #{buildCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="buildName != null and buildName != ''">
+                AND BUILD_NAME = #{buildName,jdbcType=VARCHAR}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+            </if>
+            <if test="houseNum != null and houseNum != ''">
+                AND HOUSE_NUM  LIKE CONCAT(CONCAT('%', #{houseNum,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="houseArea != null and houseArea != ''">
+                AND HOUSE_AREA = #{houseArea,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseLayout != null and codeHouseLayout != ''">
+                AND CODE_HOUSE_LAYOUT = #{codeHouseLayout,jdbcType=VARCHAR}
+            </if>
+            <if test="buildYear != null and buildYear != ''">
+                AND BUILD_YEAR = #{buildYear,jdbcType=VARCHAR}
+            </if>
+            <if test="housePropertyNum != null and housePropertyNum != ''">
+                AND HOUSE_PROPERTY_NUM  LIKE CONCAT(CONCAT('%', #{housePropertyNum,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="housePropertyDate != null and housePropertyDate != ''">
+                AND HOUSE_PROPERTY_DATE = #{housePropertyDate,jdbcType=VARCHAR}
+            </if>
+            <if test="houseLandDate != null and houseLandDate != ''">
+                AND HOUSE_LAND_DATE = #{houseLandDate,jdbcType=VARCHAR}
+            </if>
+            <if test="houseLandNum != null and houseLandNum != ''">
+                AND HOUSE_LAND_NUM   LIKE CONCAT(CONCAT('%', #{houseLandNum,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codeHouseSource != null and codeHouseSource != ''">
+                AND CODE_HOUSE_SOURCE = #{codeHouseSource,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseNature != null and codeHouseNature != ''">
+                AND CODE_HOUSE_NATURE = #{codeHouseNature,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseUse != null and codeHouseUse != ''">
+                AND CODE_HOUSE_USE = #{codeHouseUse,jdbcType=VARCHAR}
+            </if>
+            <if test="houseUseString != null and houseUseString != ''">
+                AND HOUSE_USE_STRING = #{houseUseString,jdbcType=VARCHAR}
+            </if>
+            <if test="currentLayer != null and currentLayer != ''">
+                AND CURRENT_LAYER = #{currentLayer,jdbcType=VARCHAR}
+            </if>
+            <if test="ubietyLayer != null and ubietyLayer != ''">
+                AND UBIETY_LAYER = #{ubietyLayer,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerName != null and houseOwnerName != ''">
+                AND HOUSE_OWNER_NAME   LIKE CONCAT(CONCAT('%', #{houseOwnerName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="sex != null and sex != ''">
+                AND SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseOwnerCard != null and codeHouseOwnerCard != ''">
+                AND CODE_HOUSE_OWNER_CARD = #{codeHouseOwnerCard,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerCardNum != null and houseOwnerCardNum != ''">
+                AND HOUSE_OWNER_CARD_NUM = #{houseOwnerCardNum,jdbcType=VARCHAR}
+            </if>
+            <if test="isHousehold != null and isHousehold != ''">
+                AND IS_HOUSEHOLD = #{isHousehold,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerAddress != null and houseOwnerAddress != ''">
+                AND HOUSE_OWNER_ADDRESS = #{houseOwnerAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerNowAddress != null and houseOwnerNowAddress != ''">
+                AND HOUSE_OWNER_NOW_ADDRESS = #{houseOwnerNowAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerCompany != null and houseOwnerCompany != ''">
+                AND HOUSE_OWNER_COMPANY = #{houseOwnerCompany,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerPhone != null and houseOwnerPhone != ''">
+                AND HOUSE_OWNER_PHONE = #{houseOwnerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="houseCommonName != null and houseCommonName != ''">
+                AND HOUSE_COMMON_NAME = #{houseCommonName,jdbcType=VARCHAR}
+            </if>
+            <if test="commonOwnerRelation != null and commonOwnerRelation != ''">
+                AND COMMON_OWNER_RELATION = #{commonOwnerRelation,jdbcType=VARCHAR}
+            </if>
+            <if test="housePerson != null and housePerson != ''">
+                AND HOUSE_PERSON = #{housePerson,jdbcType=VARCHAR}
+            </if>
+            <if test="useName != null and useName != ''">
+                AND USE_NAME    LIKE CONCAT(CONCAT('%', #{useName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="useOwnerRelation != null and useOwnerRelation != ''">
+                AND USE_OWNER_RELATION = #{useOwnerRelation,jdbcType=VARCHAR}
+            </if>
+            <if test="useSex != null and useSex != ''">
+                AND USE_SEX = #{useSex,jdbcType=VARCHAR}
+            </if>
+            <if test="legalPerson != null and legalPerson != ''">
+                AND LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR}
+            </if>
+            <if test="codeUseProperty != null and codeUseProperty != ''">
+                AND CODE_USE_PROPERTY = #{codeUseProperty,jdbcType=VARCHAR}
+            </if>
+            <if test="codeUseCard != null and codeUseCard != ''">
+                AND CODE_USE_CARD = #{codeUseCard,jdbcType=VARCHAR}
+            </if>
+            <if test="useCardNumber != null and useCardNumber != ''">
+                AND USE_CARD_NUMBER = #{useCardNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="usePhone != null and usePhone != ''">
+                AND USE_PHONE = #{usePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="useAddress != null and useAddress != ''">
+                AND USE_ADDRESS = #{useAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="useCurrentAddress != null and useCurrentAddress != ''">
+                AND USE_CURRENT_ADDRESS = #{useCurrentAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="isUserFlow != null and isUserFlow != ''">
+                AND IS_USER_FLOW = #{isUserFlow,jdbcType=VARCHAR}
+            </if>
+            <if test="useWork != null and useWork != ''">
+                AND USE_WORK = #{useWork,jdbcType=VARCHAR}
+            </if>
+            <if test="useLiveNumber != null and useLiveNumber != ''">
+                AND USE_LIVE_NUMBER = #{useLiveNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="useTogetherName != null and useTogetherName != ''">
+                AND USE_TOGETHER_NAME = #{useTogetherName,jdbcType=VARCHAR}
+            </if>
+            <if test="useTogetherRelation != null and useTogetherRelation != ''">
+                AND USE_TOGETHER_RELATION = #{useTogetherRelation,jdbcType=VARCHAR}
+            </if>
+            <if test="rentDate != null and rentDate != ''">
+                AND RENT_DATE = #{rentDate,jdbcType=VARCHAR}
+            </if>
+            <if test="rentTerm != null and rentTerm != ''">
+                AND RENT_TERM = #{rentTerm,jdbcType=VARCHAR}
+            </if>
+            <if test="isRentWhole != null and isRentWhole != ''">
+                AND IS_RENT_WHOLE = #{isRentWhole,jdbcType=VARCHAR}
+            </if>
+            <if test="rentFund != null and rentFund != ''">
+                AND RENT_FUND = #{rentFund,jdbcType=VARCHAR}
+            </if>
+            <if test="rentRoomCount != null and rentRoomCount != ''">
+                AND RENT_ROOM_COUNT = #{rentRoomCount,jdbcType=VARCHAR}
+            </if>
+            <if test="rentArea != null and rentArea != ''">
+                AND RENT_AREA = #{rentArea,jdbcType=VARCHAR}
+            </if>
+            <if test="haveRentContract != null and haveRentContract != ''">
+                AND HAVE_RENT_CONTRACT = #{haveRentContract,jdbcType=VARCHAR}
+            </if>
+            <if test="isRegistration != null and isRegistration != ''">
+                AND IS_REGISTRATION = #{isRegistration,jdbcType=VARCHAR}
+            </if>
+            <if test="expiryDate != null and expiryDate != ''">
+                AND EXPIRY_DATE = #{expiryDate,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseHousing != null and codeHouseHousing != ''">
+                AND CODE_HOUSE_HOUSING = #{codeHouseHousing,jdbcType=VARCHAR}
+            </if>
+            <if test="isSignBirth != null and isSignBirth != ''">
+                AND IS_SIGN_BIRTH = #{isSignBirth,jdbcType=VARCHAR}
+            </if>
+            <if test="isSignOrder != null and isSignOrder != ''">
+                AND IS_SIGN_ORDER = #{isSignOrder,jdbcType=VARCHAR}
+            </if>
+            <if test="dicValueMap != null and dicValueMap != ''">
+                AND DIC_VALUE_MAP = #{dicValueMap,jdbcType=VARCHAR}
+            </if>
+   </where>
+</select>
+    <select id="Charts" parameterType="BParts" resultMap="tempResult" >
+	<if test="gridCode.length() ==2 ">
+	SELECT COUNT(B_House.code) AS COUNTS , sys_seat_second.name AS NAME
+	,sys_seat_second.code
+	FROM B_House
+	LEFT JOIN b_unit ON b_unit.code=B_House.UNIT_CODE
+	LEFT JOIN B_BUILDING ON B_BUILDING.code=b_unit.BUILD_CODE
+	LEFT JOIN sys_seat_grid ON B_BUILDING.grid_code=sys_seat_grid.code
+	LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+	LEFT JOIN sys_seat_third ON
+	sys_seat_four.parent_code=sys_seat_third.code
+	LEFT JOIN sys_seat_second ON
+	sys_seat_third.parent_code=sys_seat_second.code
+	where 1=1
+	and sys_seat_second.code LIKE CONCAT(CONCAT('%',
+	#{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==5 ">
+	SELECT COUNT(B_House.code) AS COUNTS , sys_seat_third.name AS NAME
+	,sys_seat_third.code
+	FROM B_House
+	LEFT JOIN b_unit ON b_unit.code=B_House.UNIT_CODE
+	LEFT JOIN B_BUILDING ON B_BUILDING.code=b_unit.BUILD_CODE
+	LEFT JOIN sys_seat_grid ON B_BUILDING.grid_code=sys_seat_grid.code
+	LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+	LEFT JOIN sys_seat_third ON
+	sys_seat_four.parent_code=sys_seat_third.code
+	where 1=1
+	and sys_seat_third.code LIKE CONCAT(CONCAT('%',
+	#{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() ==8 ">
+	SELECT COUNT(B_House.code) AS COUNTS , sys_seat_four.name AS NAME
+	,sys_seat_four.code
+	FROM B_House
+	LEFT JOIN b_unit ON b_unit.code=B_House.UNIT_CODE
+	LEFT JOIN B_BUILDING ON B_BUILDING.code=b_unit.BUILD_CODE
+	LEFT JOIN sys_seat_grid ON B_BUILDING.grid_code=sys_seat_grid.code
+	LEFT JOIN sys_seat_four ON sys_seat_grid.parent_code=sys_seat_four.code
+	where 1=1
+	and sys_seat_four.code LIKE CONCAT(CONCAT('%',
+	#{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+	<if test="gridCode.length() >8 ">
+	SELECT COUNT(B_House.code) AS COUNTS , sys_seat_grid.name AS NAME
+	,sys_seat_grid.code
+	FROM B_House
+	LEFT JOIN b_unit ON b_unit.code=B_House.UNIT_CODE
+	LEFT JOIN B_BUILDING ON B_BUILDING.code=b_unit.BUILD_CODE
+	LEFT JOIN sys_seat_grid ON B_BUILDING.grid_code=sys_seat_grid.code
+	where 1=1
+	and sys_seat_grid.code LIKE CONCAT(CONCAT('%',
+	#{gridCode,jdbcType=VARCHAR}),'%')
+	</if>
+
+            <if test="unitCode != null and unitCode != ''">
+		        AND unit_CODE  LIKE CONCAT(CONCAT('%', #{unitCode,jdbcType=VARCHAR}),'%')
+		    </if>
+            <if test="buildCode != null and buildCode != ''">
+                AND B_BUILDING.CODE  = #{buildCode,jdbcType=VARCHAR}
+            </if>
+            <if test="buildName != null and buildName != ''">
+                AND BUILD_NAME = #{buildName,jdbcType=VARCHAR}
+            </if>
+            <if test="unitName != null and unitName != ''">
+                AND UNIT_NAME = #{unitName,jdbcType=VARCHAR}
+            </if>
+            <if test="houseNum != null and houseNum != ''">
+                AND HOUSE_NUM  LIKE CONCAT(CONCAT('%', #{houseNum,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="houseArea != null and houseArea != ''">
+                AND HOUSE_AREA = #{houseArea,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseLayout != null and codeHouseLayout != ''">
+                AND CODE_HOUSE_LAYOUT = #{codeHouseLayout,jdbcType=VARCHAR}
+            </if>
+            <if test="buildYear != null and buildYear != ''">
+                AND BUILD_YEAR = #{buildYear,jdbcType=VARCHAR}
+            </if>
+            <if test="housePropertyNum != null and housePropertyNum != ''">
+                AND HOUSE_PROPERTY_NUM  LIKE CONCAT(CONCAT('%', #{housePropertyNum,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="housePropertyDate != null and housePropertyDate != ''">
+                AND HOUSE_PROPERTY_DATE = #{housePropertyDate,jdbcType=VARCHAR}
+            </if>
+            <if test="houseLandDate != null and houseLandDate != ''">
+                AND HOUSE_LAND_DATE = #{houseLandDate,jdbcType=VARCHAR}
+            </if>
+            <if test="houseLandNum != null and houseLandNum != ''">
+                AND HOUSE_LAND_NUM   LIKE CONCAT(CONCAT('%', #{houseLandNum,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="codeHouseSource != null and codeHouseSource != ''">
+                AND CODE_HOUSE_SOURCE = #{codeHouseSource,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseNature != null and codeHouseNature != ''">
+                AND CODE_HOUSE_NATURE = #{codeHouseNature,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseUse != null and codeHouseUse != ''">
+                AND CODE_HOUSE_USE = #{codeHouseUse,jdbcType=VARCHAR}
+            </if>
+            <if test="houseUseString != null and houseUseString != ''">
+                AND HOUSE_USE_STRING = #{houseUseString,jdbcType=VARCHAR}
+            </if>
+            <if test="currentLayer != null and currentLayer != ''">
+                AND CURRENT_LAYER = #{currentLayer,jdbcType=VARCHAR}
+            </if>
+            <if test="ubietyLayer != null and ubietyLayer != ''">
+                AND UBIETY_LAYER = #{ubietyLayer,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerName != null and houseOwnerName != ''">
+                AND HOUSE_OWNER_NAME   LIKE CONCAT(CONCAT('%', #{houseOwnerName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="sex != null and sex != ''">
+                AND SEX = #{sex,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseOwnerCard != null and codeHouseOwnerCard != ''">
+                AND CODE_HOUSE_OWNER_CARD = #{codeHouseOwnerCard,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerCardNum != null and houseOwnerCardNum != ''">
+                AND HOUSE_OWNER_CARD_NUM = #{houseOwnerCardNum,jdbcType=VARCHAR}
+            </if>
+            <if test="isHousehold != null and isHousehold != ''">
+                AND IS_HOUSEHOLD = #{isHousehold,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerAddress != null and houseOwnerAddress != ''">
+                AND HOUSE_OWNER_ADDRESS = #{houseOwnerAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerNowAddress != null and houseOwnerNowAddress != ''">
+                AND HOUSE_OWNER_NOW_ADDRESS = #{houseOwnerNowAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerCompany != null and houseOwnerCompany != ''">
+                AND HOUSE_OWNER_COMPANY = #{houseOwnerCompany,jdbcType=VARCHAR}
+            </if>
+            <if test="houseOwnerPhone != null and houseOwnerPhone != ''">
+                AND HOUSE_OWNER_PHONE = #{houseOwnerPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="houseCommonName != null and houseCommonName != ''">
+                AND HOUSE_COMMON_NAME = #{houseCommonName,jdbcType=VARCHAR}
+            </if>
+            <if test="commonOwnerRelation != null and commonOwnerRelation != ''">
+                AND COMMON_OWNER_RELATION = #{commonOwnerRelation,jdbcType=VARCHAR}
+            </if>
+            <if test="housePerson != null and housePerson != ''">
+                AND HOUSE_PERSON = #{housePerson,jdbcType=VARCHAR}
+            </if>
+            <if test="useName != null and useName != ''">
+                AND USE_NAME    LIKE CONCAT(CONCAT('%', #{useName,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="useOwnerRelation != null and useOwnerRelation != ''">
+                AND USE_OWNER_RELATION = #{useOwnerRelation,jdbcType=VARCHAR}
+            </if>
+            <if test="useSex != null and useSex != ''">
+                AND USE_SEX = #{useSex,jdbcType=VARCHAR}
+            </if>
+            <if test="legalPerson != null and legalPerson != ''">
+                AND LEGAL_PERSON = #{legalPerson,jdbcType=VARCHAR}
+            </if>
+            <if test="codeUseProperty != null and codeUseProperty != ''">
+                AND CODE_USE_PROPERTY = #{codeUseProperty,jdbcType=VARCHAR}
+            </if>
+            <if test="codeUseCard != null and codeUseCard != ''">
+                AND CODE_USE_CARD = #{codeUseCard,jdbcType=VARCHAR}
+            </if>
+            <if test="useCardNumber != null and useCardNumber != ''">
+                AND USE_CARD_NUMBER = #{useCardNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="usePhone != null and usePhone != ''">
+                AND USE_PHONE = #{usePhone,jdbcType=VARCHAR}
+            </if>
+            <if test="useAddress != null and useAddress != ''">
+                AND USE_ADDRESS = #{useAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="useCurrentAddress != null and useCurrentAddress != ''">
+                AND USE_CURRENT_ADDRESS = #{useCurrentAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="isUserFlow != null and isUserFlow != ''">
+                AND IS_USER_FLOW = #{isUserFlow,jdbcType=VARCHAR}
+            </if>
+            <if test="useWork != null and useWork != ''">
+                AND USE_WORK = #{useWork,jdbcType=VARCHAR}
+            </if>
+            <if test="useLiveNumber != null and useLiveNumber != ''">
+                AND USE_LIVE_NUMBER = #{useLiveNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="useTogetherName != null and useTogetherName != ''">
+                AND USE_TOGETHER_NAME = #{useTogetherName,jdbcType=VARCHAR}
+            </if>
+            <if test="useTogetherRelation != null and useTogetherRelation != ''">
+                AND USE_TOGETHER_RELATION = #{useTogetherRelation,jdbcType=VARCHAR}
+            </if>
+            <if test="rentDate != null and rentDate != ''">
+                AND RENT_DATE = #{rentDate,jdbcType=VARCHAR}
+            </if>
+            <if test="rentTerm != null and rentTerm != ''">
+                AND RENT_TERM = #{rentTerm,jdbcType=VARCHAR}
+            </if>
+            <if test="isRentWhole != null and isRentWhole != ''">
+                AND IS_RENT_WHOLE = #{isRentWhole,jdbcType=VARCHAR}
+            </if>
+            <if test="rentFund != null and rentFund != ''">
+                AND RENT_FUND = #{rentFund,jdbcType=VARCHAR}
+            </if>
+            <if test="rentRoomCount != null and rentRoomCount != ''">
+                AND RENT_ROOM_COUNT = #{rentRoomCount,jdbcType=VARCHAR}
+            </if>
+            <if test="rentArea != null and rentArea != ''">
+                AND RENT_AREA = #{rentArea,jdbcType=VARCHAR}
+            </if>
+            <if test="haveRentContract != null and haveRentContract != ''">
+                AND HAVE_RENT_CONTRACT = #{haveRentContract,jdbcType=VARCHAR}
+            </if>
+            <if test="isRegistration != null and isRegistration != ''">
+                AND IS_REGISTRATION = #{isRegistration,jdbcType=VARCHAR}
+            </if>
+            <if test="expiryDate != null and expiryDate != ''">
+                AND EXPIRY_DATE = #{expiryDate,jdbcType=VARCHAR}
+            </if>
+            <if test="codeHouseHousing != null and codeHouseHousing != ''">
+                AND CODE_HOUSE_HOUSING = #{codeHouseHousing,jdbcType=VARCHAR}
+            </if>
+            <if test="isSignBirth != null and isSignBirth != ''">
+                AND IS_SIGN_BIRTH = #{isSignBirth,jdbcType=VARCHAR}
+            </if>
+            <if test="isSignOrder != null and isSignOrder != ''">
+                AND IS_SIGN_ORDER = #{isSignOrder,jdbcType=VARCHAR}
+            </if>
+            <if test="dicValueMap != null and dicValueMap != ''">
+                AND DIC_VALUE_MAP = #{dicValueMap,jdbcType=VARCHAR}
+            </if>
+
+
+ AND B_House.FLAG_DEL != 1
+	<if test="gridCode.length() ==2 ">
+	GROUP BY sys_seat_second.name ,sys_seat_second.code
+	</if>
+	<if test="gridCode.length() ==5 ">
+		GROUP BY sys_seat_third.name ,sys_seat_third.code
+	</if>
+	<if test="gridCode.length() ==8 ">
+		GROUP BY sys_seat_four.name ,sys_seat_four.code
+	</if>
+	<if test="gridCode.length() >8 ">
+		GROUP BY sys_seat_grid.name ,sys_seat_grid.code
+	</if>
+   </select>
+   
+<select id="queryZongHePage" parameterType="java.util.Map" resultMap="houseResult">
+SELECT B_HOUSE.*,u.name as unitName,b.build_name as buildName,g.grid_total_name as gridTotalName,b.POSITION
+from B_House B_House  join b_unit u on u.code=B_House.unit_code and u.flag_del=0
+         join b_building b on b.code=u.build_code and b.flag_del=0 
+         join sys_seat_grid g on g.code=b.grid_code and g.flag_del=0 
+         where 1=1  AND B_House.FLAG_DEL != 1
+         <if test="gridCode != null and gridCode != ''">
+	  and B_HOUSE.grid_code like #{gridCode,jdbcType=VARCHAR}||'%'
+	 </if> 
+	 <if test="buildCode != null and buildCode != ''">
+	  and b.build_name like '%'||#{buildCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="useName != null and useName != ''">
+	  and B_HOUSE.use_Name like '%'||#{useName,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="houseOwnerName != null and houseOwnerName != ''">
+	  and B_HOUSE.house_Owner_Name like '%'||#{houseOwnerName,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="unitCode != null and unitCode != ''">
+	  and u.name like '%'||#{unitCode,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="houseNum != null and houseNum != ''">
+	  and B_HOUSE.house_Num like '%'||#{houseNum,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="housePropertyNum != null and housePropertyNum != ''">
+	  and B_HOUSE.house_Property_Num like '%'||#{housePropertyNum,jdbcType=VARCHAR}||'%'
+	 </if>
+	 <if test="houseLandNum != null and houseLandNum != ''">
+	  and B_HOUSE.house_Land_Num like '%'||#{houseLandNum,jdbcType=VARCHAR}||'%'
+	 </if>
+	 
+</select>
+</mapper>

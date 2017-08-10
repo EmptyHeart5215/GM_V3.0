@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BJiGouServicePeopleMapper" >
+  <resultMap id="bJiGouServicePeople" type="BJiGouServicePeople" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="SERVICE_ID" property="serviceId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, NAME, SEX, PHONE, 
+    ADDRESS,SERVICE_ID
+  </sql>
+  <insert id="insert" parameterType="BJiGouServicePeople" >
+    insert into B_JI_GOU_SERVICE_PEOPLE (CODE, CREATE_DATE, CREATE_BY, 
+      FLAG_DEL, FLAG_DISPLAY, SORT, 
+      REMARK, NAME, SEX, PHONE, 
+      ADDRESS,SERVICE_ID)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{flagDel,jdbcType=CHAR}, #{flagDisplay,jdbcType=CHAR}, #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR},#{serviceId,jdbcType=VARCHAR})
+  </insert>
+ <insert id="insertBatch"  parameterType="java.util.Map">
+       <foreach collection="list" item="item" open="begin" close="end;" >
+	     insert into B_JI_GOU_SERVICE_PEOPLE (CODE, CREATE_DATE, CREATE_BY,
+	       NAME, SEX, PHONE, 
+	      ADDRESS,SERVICE_ID)
+	    values (#{item.code,jdbcType=VARCHAR}, #{item.createDate,jdbcType=VARCHAR}, #{item.createBy,jdbcType=VARCHAR}, 
+	       #{item.name,jdbcType=VARCHAR}, #{item.sex,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, 
+	      #{item.address,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR});
+       </foreach>
+    </insert>
+  <update id="update" parameterType="BJiGouServicePeople" >
+    update B_JI_GOU_SERVICE_PEOPLE
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CODE = #{code,jdbcType=VARCHAR}
+  </update>
+    <update id="deletePk" parameterType="String">
+        UPDATE B_JI_GOU_SERVICE_PEOPLE SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+    <delete id="deleteByServiceId" parameterType="String">
+    DELETE B_JI_GOU_SERVICE_PEOPLE WHERE service_id=#{serviceId}
+    </delete>
+   
+  <select id="queryParamPage" parameterType="BJiGouService" resultMap="bJiGouServicePeople" >
+  	select * from B_JI_GOU_SERVICE_PEOPLE where service_id=#{code} and flag_del=0
+  </select>
+  <select id="queryAllByServiceId" parameterType="String" resultMap="bJiGouServicePeople" >
+  
+  	select * from B_JI_GOU_SERVICE_PEOPLE where flag_del=0 
+  	<if test="_parameter!=null and _parameter!=''">
+  	 and service_id=#{code} 
+  	</if>
+  	order by create_date desc
+  </select>
+      <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE B_JI_GOU_SERVICE_PEOPLE SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+</mapper>

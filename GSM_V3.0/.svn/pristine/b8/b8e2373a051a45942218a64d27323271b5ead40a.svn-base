@@ -1,0 +1,285 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.emergencyscheduling.mapperinterf.EmergencySuppliesMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="EmergencySupplies" id="emergencySuppliesResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="SUPPLIES_STORE_ADDRESS" jdbcType="VARCHAR" property="suppliesStoreAddress" />
+        <result column="SUPPLIESPRINCIPAL" jdbcType="VARCHAR" property="suppliesprincipal" />
+        <result column="SUPPLIES_PHONE" jdbcType="VARCHAR" property="suppliesPhone" />
+        <result column="SUPPLIES_NUM" jdbcType="VARCHAR" property="suppliesNum" />
+        <result column="CODE_SUPPLIES_TYPE" jdbcType="VARCHAR" property="codeSuppliesType" />
+        <result column="CODE_SUPPLIES_STATE" jdbcType="VARCHAR" property="codeSuppliesState" />
+        <result property="gridTotalName" />
+        <result column="SUPPLIES_NAME" jdbcType="VARCHAR" property="suppliesName" />
+        <result column="POSITION" jdbcType="VARCHAR" property="position" />
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="EmergencySupplies">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO EMERGENCY_SUPPLIES
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,GRID_CODE,
+                    SUPPLIES_STORE_ADDRESS,SUPPLIESPRINCIPAL,SUPPLIES_PHONE,SUPPLIES_NUM,
+                    CODE_SUPPLIES_TYPE,CODE_SUPPLIES_STATE,SUPPLIES_NAME,POSITION)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},#{suppliesStoreAddress,jdbcType=VARCHAR},
+                     #{suppliesprincipal,jdbcType=VARCHAR},#{suppliesPhone,jdbcType=VARCHAR},#{suppliesNum,jdbcType=VARCHAR},
+                     #{codeSuppliesType,jdbcType=VARCHAR},#{codeSuppliesState,jdbcType=VARCHAR},#{suppliesName,jdbcType=VARCHAR},#{position,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="EmergencySupplies">
+        UPDATE EMERGENCY_SUPPLIES
+        <set>
+        	<if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="suppliesStoreAddress != null and suppliesStoreAddress != ''">
+                SUPPLIES_STORE_ADDRESS = #{suppliesStoreAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="suppliesprincipal != null and suppliesprincipal != ''">
+                SUPPLIESPRINCIPAL = #{suppliesprincipal,jdbcType=VARCHAR},
+            </if>
+            <if test="suppliesPhone != null and suppliesPhone != ''">
+                SUPPLIES_PHONE = #{suppliesPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="suppliesNum != null and suppliesNum != ''">
+                SUPPLIES_NUM = #{suppliesNum,jdbcType=VARCHAR},
+            </if>
+            <if test="codeSuppliesType != null and codeSuppliesType != ''">
+                CODE_SUPPLIES_TYPE = #{codeSuppliesType,jdbcType=VARCHAR},
+            </if>
+            <if test="codeSuppliesState != null and codeSuppliesState != ''">
+                CODE_SUPPLIES_STATE = #{codeSuppliesState,jdbcType=VARCHAR},
+            </if>
+            <if test="suppliesName != null and suppliesName != ''">
+                SUPPLIES_NAME = #{suppliesName,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE EMERGENCY_SUPPLIES SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE EMERGENCY_SUPPLIES SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="emergencySuppliesResult">
+        SELECT EMERGENCY_SUPPLIES.* ,grid.gridTotalName as gridTotalName FROM EMERGENCY_SUPPLIES
+        join
+        (select to_char(sss.code) as code,to_char(sss.grid_total_name) as gridTotalName from sys_seat_second sss where sss.flag_del!=1
+		union all 
+		select to_char(sst.code) as code,to_char(sst.grid_total_name) as gridTotalName from sys_seat_third sst where sst.flag_del!=1
+		union all 
+		select to_char(ssf.code) as code,to_char(ssf.grid_total_name) as gridTotalName from sys_seat_four ssf where ssf.flag_del!=1
+		union all 
+		select to_char(ssg.code) as code,to_char(ssg.grid_total_name) as gridTotalName from sys_seat_grid ssg where ssg.flag_del!=1
+		union all
+		select '01' as code,'唐山市' as gridTotalName from dual
+		) grid on grid.code=EMERGENCY_SUPPLIES.grid_code WHERE FLAG_DEL != 1 AND EMERGENCY_SUPPLIES.CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="emergencySuppliesResult">
+        SELECT * FROM EMERGENCY_SUPPLIES where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="EmergencySupplies" resultMap="emergencySuppliesResult">
+        SELECT * FROM EMERGENCY_SUPPLIES 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesStoreAddress != null and suppliesStoreAddress != ''">
+                AND SUPPLIES_STORE_ADDRESS = #{suppliesStoreAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesprincipal != null and suppliesprincipal != ''">
+                AND SUPPLIESPRINCIPAL = #{suppliesprincipal,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesPhone != null and suppliesPhone != ''">
+                AND SUPPLIES_PHONE = #{suppliesPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesNum != null and suppliesNum != ''">
+                AND SUPPLIES_NUM = #{suppliesNum,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSuppliesType != null and codeSuppliesType != ''">
+                AND CODE_SUPPLIES_TYPE = #{codeSuppliesType,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSuppliesState != null and codeSuppliesState != ''">
+                AND CODE_SUPPLIES_STATE = #{codeSuppliesState,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesName != null and suppliesName != ''">
+                AND SUPPLIES_NAME = #{suppliesName,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="EmergencySupplies" resultMap="emergencySuppliesResult">
+        SELECT EMERGENCY_SUPPLIES.* ,grid.gridTotalName as gridTotalName FROM EMERGENCY_SUPPLIES
+        join
+        (select to_char(sss.code) as code,to_char(sss.grid_total_name) as gridTotalName from sys_seat_second sss where sss.flag_del!=1
+		union all 
+		select to_char(sst.code) as code,to_char(sst.grid_total_name) as gridTotalName from sys_seat_third sst where sst.flag_del!=1
+		union all 
+		select to_char(ssf.code) as code,to_char(ssf.grid_total_name) as gridTotalName from sys_seat_four ssf where ssf.flag_del!=1
+		union all 
+		select to_char(ssg.code) as code,to_char(ssg.grid_total_name) as gridTotalName from sys_seat_grid ssg where ssg.flag_del!=1
+		union all
+		select '01' as code,'唐山市' as gridTotalName from dual
+		) grid on grid.code=EMERGENCY_SUPPLIES.grid_code
+        <where>
+            FLAG_DEL != 1
+            <if test="gridCode != null and gridCode != ''">
+                and GRID_CODE like #{gridCode,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="suppliesStoreAddress != null and suppliesStoreAddress != ''">
+                AND SUPPLIES_STORE_ADDRESS like '%'||#{suppliesStoreAddress,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="suppliesprincipal != null and suppliesprincipal != ''">
+                AND SUPPLIESPRINCIPAL like '%'||#{suppliesprincipal,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="suppliesPhone != null and suppliesPhone != ''">
+                AND SUPPLIES_PHONE like '%'||#{suppliesPhone,jdbcType=VARCHAR}||'%'
+            </if>
+            <if test="suppliesNum != null and suppliesNum != ''">
+                AND SUPPLIES_NUM = #{suppliesNum,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSuppliesType != null and codeSuppliesType.size()>0 ">
+				and (
+				<foreach collection="codeSuppliesType" item="s" index="index" separator=" or ">
+				   CODE_SUPPLIES_TYPE =#{s,jdbcType=VARCHAR}
+				</foreach>
+				)
+			</if>
+           <if test="codeSuppliesState != null and codeSuppliesState.size()>0 ">
+				and (
+				<foreach collection="codeSuppliesState" item="s" index="index" separator=" or ">
+				   CODE_SUPPLIES_STATE =#{s,jdbcType=VARCHAR}
+				</foreach>
+				)
+			</if>
+			<if test="suppliesName != null and suppliesName != ''">
+                AND SUPPLIES_NAME = #{suppliesName,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null and code != '' ">
+				and (
+				<foreach collection="code" item="kk" index="index" separator=" or ">
+				   EMERGENCY_SUPPLIES.CODE =#{kk}
+				</foreach>
+				)
+			</if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM EMERGENCY_SUPPLIES WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="EmergencySupplies" resultType="Integer">
+        SELECT COUNT(*) C FROM EMERGENCY_SUPPLIES 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesStoreAddress != null and suppliesStoreAddress != ''">
+                AND SUPPLIES_STORE_ADDRESS = #{suppliesStoreAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesprincipal != null and suppliesprincipal != ''">
+                AND SUPPLIESPRINCIPAL = #{suppliesprincipal,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesPhone != null and suppliesPhone != ''">
+                AND SUPPLIES_PHONE = #{suppliesPhone,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesNum != null and suppliesNum != ''">
+                AND SUPPLIES_NUM = #{suppliesNum,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSuppliesType != null and codeSuppliesType != ''">
+                AND CODE_SUPPLIES_TYPE = #{codeSuppliesType,jdbcType=VARCHAR}
+            </if>
+            <if test="codeSuppliesState != null and codeSuppliesState != ''">
+                AND CODE_SUPPLIES_STATE = #{codeSuppliesState,jdbcType=VARCHAR}
+            </if>
+            <if test="suppliesName != null and suppliesName != ''">
+                AND SUPPLIES_NAME = #{suppliesName,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+        </where>
+    </select>
+</mapper>

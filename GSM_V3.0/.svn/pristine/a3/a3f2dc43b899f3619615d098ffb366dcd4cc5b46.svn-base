@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysSeatSecondMapper" >
+ <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+  <resultMap id="sysSeatSecondResult" type="SysSeatSecond" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+	<result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+	<result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+	<result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+	<result column="SORT" jdbcType="DECIMAL" property="sort" />
+	<result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CITY_CODE" property="cityCode" jdbcType="VARCHAR" />
+    <result column="MANAGER_NAME" property="managerName" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="MANAGER_PHONE" property="managerPhone" jdbcType="VARCHAR" />
+    <result column="MANAGER_ADDRESS" property="managerAddress" jdbcType="VARCHAR" />
+    <result column="MANAGER_DUTY" property="managerDuty" jdbcType="VARCHAR" />
+    <result column="MANAGER_COMPANY" property="managerCompany" jdbcType="VARCHAR" />
+    <result column="MANAGER_PHOTO" property="managerPhoto" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="POSITION" property="position" jdbcType="VARCHAR" />
+    <result column="SEAT_PICTURE" property="seatPicture" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="FIRST_NAME" property="firstName" jdbcType="VARCHAR" />
+    <result column="FLAG_DEPARTMENT" property="flagDepartment" jdbcType="CHAR" />
+    <result column="GRID_TOTAL_NAME" property="gridTotalName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 保存实体对象 -->
+  <insert id="insert" parameterType="SysSeatSecond" >
+    declare SCODE varchar(3) :='';
+    begin
+    select replace(lpad(nvl(MAX(substr(code,3,3)+1),1),3),' ','0') into scode 
+    from sys_seat_second where sys_seat_second.parent_code=#{parentCode,jdbcType=VARCHAR};
+    INSERT INTO SYS_SEAT_SECOND 
+          (CODE, CREATE_DATE, CREATE_BY, SORT, REMARK,
+           NAME, CITY_CODE, MANAGER_NAME, 
+           ADDRESS, MANAGER_PHONE, MANAGER_ADDRESS, 
+           MANAGER_DUTY, MANAGER_COMPANY, MANAGER_PHOTO, 
+           DESCRIPTION, POSITION, SEAT_PICTURE, 
+      	   PARENT_CODE, FIRST_NAME,
+           GRID_TOTAL_NAME,FLAG_DEPARTMENT)
+    VALUES (#{parentCode,jdbcType=VARCHAR}||scode, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},  #{sort,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR},
+      #{managerName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{managerPhone,jdbcType=VARCHAR}, 
+      #{managerAddress,jdbcType=VARCHAR}, #{managerDuty,jdbcType=VARCHAR}, 
+      #{managerCompany,jdbcType=VARCHAR}, #{managerPhoto,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{seatPicture,jdbcType=VARCHAR}, 
+      #{parentCode,jdbcType=VARCHAR}, #{firstName,jdbcType=VARCHAR}, 
+      #{gridTotalName,jdbcType=VARCHAR},#{flagDepartment});
+       end ;
+  </insert>
+  
+   <!-- 更新实体对象   -->
+    <update id="update" parameterType="SysSeatSecond">
+        UPDATE SYS_SEAT_SECOND 
+         <set>
+	      <if test="createBy != null and createBy != ''" >
+	        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sort != null and sort != ''" >
+	        SORT = #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        REMARK = #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="name != null and name != ''" >
+	        NAME = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="cityCode != null and cityCode != ''" >
+	        CITY_CODE = #{cityCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerName != null and managerName != ''" >
+	        MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="address != null and address != ''" >
+	        ADDRESS = #{address,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerPhone != null and managerPhone != ''" >
+	        MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerAddress != null and managerAddress != ''" >
+	        MANAGER_ADDRESS = #{managerAddress,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerDuty != null and managerDuty != ''" >
+	        MANAGER_DUTY = #{managerDuty,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerCompany != null and managerCompany != ''" >
+	        MANAGER_COMPANY = #{managerCompany,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerPhoto != null and managerPhoto != ''" >
+	        MANAGER_PHOTO = #{managerPhoto,jdbcType=VARCHAR},
+	      </if>
+	      <if test="description != null and description != ''" >
+	        DESCRIPTION = #{description,jdbcType=VARCHAR},
+	      </if>
+	      <if test="position != null and position != ''" >
+	        POSITION = #{position,jdbcType=VARCHAR},
+	      </if>
+	      <if test="seatPicture != null and seatPicture != ''" >
+	        SEAT_PICTURE = #{seatPicture,jdbcType=VARCHAR},
+	      </if>
+	      <if test="parentCode != null and parentCode != ''" >
+	        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="firstName != null and firstName != ''" >
+	        FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="gridTotalName != null and gridTotalName != ''" >
+	        GRID_TOTAL_NAME = #{gridTotalName,jdbcType=VARCHAR},
+	      </if>
+        </set> 
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+    <!-- 更新实体对象 (参数)  -->
+    <update id="updateParam" parameterType="java.util.Map">
+        UPDATE SYS_SEAT_SECOND 
+         <set>
+	      <if test="createBy != null and createBy != ''" >
+	        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sort != null and sort != ''" >
+	        SORT = #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        REMARK = #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="name != null and name != ''" >
+	        NAME = #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="cityCode != null and cityCode != ''" >
+	        CITY_CODE = #{cityCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerName != null and managerName != ''" >
+	        MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="address != null and address != ''" >
+	        ADDRESS = #{address,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerPhone != null and managerPhone != ''" >
+	        MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerAddress != null and managerAddress != ''" >
+	        MANAGER_ADDRESS = #{managerAddress,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerDuty != null and managerDuty != ''" >
+	        MANAGER_DUTY = #{managerDuty,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerCompany != null and managerCompany != ''" >
+	        MANAGER_COMPANY = #{managerCompany,jdbcType=VARCHAR},
+	      </if>
+	      <if test="managerPhoto != null and managerPhoto != ''" >
+	        MANAGER_PHOTO = #{managerPhoto,jdbcType=VARCHAR},
+	      </if>
+	      <if test="description != null and description != ''" >
+	        DESCRIPTION = #{description,jdbcType=VARCHAR},
+	      </if>
+	      <if test="position != null and position != ''" >
+	        POSITION = #{position,jdbcType=VARCHAR},
+	      </if>
+	      <if test="seatPicture != null and seatPicture != ''" >
+	        SEAT_PICTURE = #{seatPicture,jdbcType=VARCHAR},
+	      </if>
+	      <if test="parentCode != null and parentCode != ''" >
+	        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="firstName != null and firstName != ''" >
+	        FIRST_NAME = #{firstName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="flagDepartment != null and flagDepartment != ''" >
+	        FLAG_DEPARTMENT = #{flagDepartment,jdbcType=CHAR},
+	      </if>
+	      <if test="gridTotalName != null and gridTotalName != ''" >
+	        GRID_TOTAL_NAME = #{gridTotalName,jdbcType=VARCHAR},
+	      </if>
+        </set> 
+        <where>
+           <if test="code != null and code != ''">
+              CODE = #{code,jdbcType=VARCHAR}
+           </if>
+        </where>
+    </update>
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+    <update id="deletePk" parameterType="String">
+       UPDATE SYS_SEAT_SECOND SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+       UPDATE SYS_SEAT_SECOND SET FLAG_DEL=1 WHERE CODE IN 
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <foreach collection="list" item="code" separator=",">
+	          #{code}
+          </foreach>
+       </trim>
+    </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="sysSeatSecondResult">
+        SELECT * FROM SYS_SEAT_SECOND WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+    
+     <!-- 查询所有实体对象集合  -->
+   <select id="queryList" resultMap="sysSeatSecondResult">
+   		SELECT * FROM SYS_SEAT_SECOND WHERE FLAG_DEL !=1 ORDER BY CREATE_DATE ASC 
+   </select>
+   <!-- 根据条件查询所有实体对象集合  -->
+   <select id="queryListParam" parameterType="SysSeatSecond" resultMap="sysSeatSecondResult">
+   		SELECT * FROM SYS_SEAT_SECOND 
+   		<where>
+   		  FLAG_DEL != 1
+		  <if test="createBy != null and createBy != ''" >
+	        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sort != null and sort != ''" >
+	        AND SORT = #{sort,jdbcType=DECIMAL}
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        AND REMARK = #{remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="name != null and name != ''" >
+	        AND NAME = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="cityCode != null and cityCode != ''" >
+	        AND CITY_CODE = #{cityCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerName != null and managerName != ''" >
+	        AND MANAGER_NAME = #{managerName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="address != null and address != ''" >
+	        AND ADDRESS = #{address,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerPhone != null and managerPhone != ''" >
+	        AND MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerAddress != null and managerAddress != ''" >
+	        AND MANAGER_ADDRESS = #{managerAddress,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerDuty != null and managerDuty != ''" >
+	        AND MANAGER_DUTY = #{managerDuty,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerCompany != null and managerCompany != ''" >
+	        AND MANAGER_COMPANY = #{managerCompany,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerPhoto != null and managerPhoto != ''" >
+	        AND MANAGER_PHOTO = #{managerPhoto,jdbcType=VARCHAR}
+	      </if>
+	      <if test="description != null and description != ''" >
+	        AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+	      </if>
+	      <if test="position != null and position != ''" >
+	        AND POSITION = #{position,jdbcType=VARCHAR}
+	      </if>
+	      <if test="seatPicture != null and seatPicture != ''" >
+	        AND SEAT_PICTURE = #{seatPicture,jdbcType=VARCHAR}
+	      </if>
+	      <if test="parentCode != null and parentCode != ''" >
+	        AND PARENT_CODE = #{parentCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="firstName != null and firstName != ''" >
+	        AND FIRST_NAME = #{firstName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="flagDepartment != null and flagDepartment != ''" >
+	        AND FLAG_DEPARTMENT = #{flagDepartment,jdbcType=CHAR}
+	      </if>
+	      <if test="gridTotalName != null and gridTotalName != ''" >
+	        AND GRID_TOTAL_NAME = #{gridTotalName,jdbcType=VARCHAR}
+	      </if>
+   		</where>
+   </select>
+   
+    <!-- 分页查询,所有实体对象集合  -->
+   <select id="queryParamPage" parameterType="SysSeatSecond" resultMap="sysSeatSecondResult">
+   		 SELECT * FROM SYS_SEAT_SECOND 
+   		<where>
+   		  FLAG_DEL != 1
+		  <if test="createBy != null and createBy != ''" >
+	        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sort != null and sort != ''" >
+	        AND SORT = #{sort,jdbcType=DECIMAL}
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        AND REMARK = #{remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="name != null and name != ''" >
+	        AND NAME = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="cityCode != null and cityCode != ''" >
+	        AND CITY_CODE = #{cityCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerName != null and managerName != ''" >
+	        AND MANAGER_NAME = #{managerName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="address != null and address != ''" >
+	        AND ADDRESS = #{address,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerPhone != null and managerPhone != ''" >
+	        AND MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerAddress != null and managerAddress != ''" >
+	        AND MANAGER_ADDRESS = #{managerAddress,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerDuty != null and managerDuty != ''" >
+	        AND MANAGER_DUTY = #{managerDuty,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerCompany != null and managerCompany != ''" >
+	        AND MANAGER_COMPANY = #{managerCompany,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerPhoto != null and managerPhoto != ''" >
+	        AND MANAGER_PHOTO = #{managerPhoto,jdbcType=VARCHAR}
+	      </if>
+	      <if test="description != null and description != ''" >
+	        AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+	      </if>
+	      <if test="position != null and position != ''" >
+	        AND POSITION = #{position,jdbcType=VARCHAR}
+	      </if>
+	      <if test="seatPicture != null and seatPicture != ''" >
+	        AND SEAT_PICTURE = #{seatPicture,jdbcType=VARCHAR}
+	      </if>
+	      <if test="parentCode != null and parentCode != ''" >
+	        AND PARENT_CODE = #{parentCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="firstName != null and firstName != ''" >
+	        AND FIRST_NAME = #{firstName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="flagDepartment != null and flagDepartment != ''" >
+	        AND FLAG_DEPARTMENT = #{flagDepartment,jdbcType=CHAR}
+	      </if>
+	      <if test="gridTotalName != null and gridTotalName != ''" >
+	        AND GRID_TOTAL_NAME = #{gridTotalName,jdbcType=VARCHAR}
+	      </if>
+   		</where>
+   </select>
+   <!--  查询总记录数据  -->
+   <select id="queryAllCount"  resultType="Integer">
+   		SELECT COUNT(*) C FROM SYS_SEAT_SECOND WHERE FLAG_DEL != 1
+   </select>
+   
+    <!--  查询总记录数据  -->
+   <select id="queryAllCountParam" parameterType="SysSeatSecond" resultType="Integer">
+   	  SELECT COUNT(*) C FROM SYS_SEAT_SECOND  
+   	  <where>
+   		  FLAG_DEL != 1
+		  <if test="createBy != null and createBy != ''" >
+	        AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sort != null and sort != ''" >
+	        AND SORT = #{sort,jdbcType=DECIMAL}
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	        AND REMARK = #{remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="name != null and name != ''" >
+	        AND NAME = #{name,jdbcType=VARCHAR}
+	      </if>
+	      <if test="cityCode != null and cityCode != ''" >
+	        AND CITY_CODE = #{cityCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerName != null and managerName != ''" >
+	        AND MANAGER_NAME = #{managerName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="address != null and address != ''" >
+	        AND ADDRESS = #{address,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerPhone != null and managerPhone != ''" >
+	        AND MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerAddress != null and managerAddress != ''" >
+	        AND MANAGER_ADDRESS = #{managerAddress,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerDuty != null and managerDuty != ''" >
+	        AND MANAGER_DUTY = #{managerDuty,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerCompany != null and managerCompany != ''" >
+	        AND MANAGER_COMPANY = #{managerCompany,jdbcType=VARCHAR}
+	      </if>
+	      <if test="managerPhoto != null and managerPhoto != ''" >
+	        AND MANAGER_PHOTO = #{managerPhoto,jdbcType=VARCHAR}
+	      </if>
+	      <if test="description != null and description != ''" >
+	        AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+	      </if>
+	      <if test="position != null and position != ''" >
+	        AND POSITION = #{position,jdbcType=VARCHAR}
+	      </if>
+	      <if test="seatPicture != null and seatPicture != ''" >
+	        AND SEAT_PICTURE = #{seatPicture,jdbcType=VARCHAR}
+	      </if>
+	      <if test="parentCode != null and parentCode != ''" >
+	        AND PARENT_CODE = #{parentCode,jdbcType=VARCHAR}
+	      </if>
+	      <if test="firstName != null and firstName != ''" >
+	        AND FIRST_NAME = #{firstName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="flagDepartment != null and flagDepartment != ''" >
+	        AND FLAG_DEPARTMENT = #{flagDepartment,jdbcType=CHAR}
+	      </if>
+	      <if test="gridTotalName != null and gridTotalName != ''" >
+	        AND GRID_TOTAL_NAME = #{gridTotalName,jdbcType=VARCHAR}
+	      </if>
+   	  </where>
+   </select>
+</mapper>

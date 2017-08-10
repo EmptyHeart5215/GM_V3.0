@@ -1,0 +1,18 @@
+@charset "utf-8";
+/*通用样式表*/
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, address { margin: 0; padding: 0; }
+body { color: #666666; font-family: Microsoft YaHei, Segoe UI, Tahoma, Arial, Verdana, sans-serif; font-size: 12px; line-height:24px; }
+ul,li{margin: 0px;padding: 0px;list-style: none outside none;display: block;}
+img{ border:none; display:block;}
+.left{ float:left}
+.right{float:right}
+/*边距样式*/
+.top_15{ margin-top:16px;}
+/*连接样式*/
+a:link, a:visited {text-decoration: underline; color: #77a8e5;}
+a:hover, a:active {text-decoration: underline; color: #FC0;}
+a.navsun_a:link, a.navsun_a:visited {text-decoration: none; color: #666; display:block;}
+a.navsun_a:hover, a.navsun_a:active {text-decoration: none; color: #FFF; background-color:#f90;}
+a.navsub_s:link, a.navsub_s:visited { background-image: url(../images/index/subnav_sanjiap_hui.png); background-repeat: no-repeat; background-position: 240px center; }
+a.navsub_s:hover, a.navsub_s:active { background-image: url(../images/index/subnav_sanjiap_bai.png); background-repeat: no-repeat; background-position: 240px center; }
+a.index_subnav_Hover{background-image: url(../images/index/subnav_sanjiap_bai.png) !important;color: #FFF  !important; background-color:#f90  !important;}

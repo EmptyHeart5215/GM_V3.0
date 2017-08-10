@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/cache   
+    http://www.springframework.org/schema/cache/spring-cache.xsd
+    http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+  "> 
+  <bean id="userMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysUserMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>  
+  <bean class="com.dykj.GSM.mapper.sys.impl.SysEvaSetMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+   <bean class="com.dykj.GSM.mapper.sys.impl.SysEvaSetDepartmentMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+  <bean class="com.dykj.GSM.mapper.eva.impl.AppraiseGridMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <bean class="com.dykj.GSM.mapper.eva.impl.AppraiseCommunityMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <bean class="com.dykj.GSM.mapper.eva.impl.AppraiseDepartmentMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <bean class="com.dykj.GSM.mapper.eva.impl.AppraiseStreetMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 日历管理 -->
+  <bean id="legalDateMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysLegalDateMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+  <!-- 城市部件管理 -->
+  <bean id="bPartsMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPartsMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+<!-- 系统管理-权限管理-角色管理  -->
+   <bean id="roleMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysRoleMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 系统管理-权限管理-角色权限对应  -->
+   <bean id="sysRoleMenuServiceImpl" class="com.dykj.GSM.mapper.sys.impl.SysRoleMenuMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 楼栋 -->
+  <bean id="bBuildingMapperImpl" class="com.dykj.GSM.mapper.base.impl.BBuildingMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+   <!-- 单元 -->
+  <bean id="bUnitMapperImpl" class="com.dykj.GSM.mapper.base.impl.BUnitMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+   <!-- 菜单管理 -->
+  <bean id="menuMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysMenuMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+   <!-- 上传管理 -->
+  <bean id="sysUploadMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysUploadMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+  <!-- 设备管理 -->
+  <bean id="gpsdrviceMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysGpsDeviceMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 设备管理 -->
+  <bean id="sysGpsPositionMapperImpl" class="com.dykj.GSM.mapper.emergencyscheduling.impl.SysGpsPositionMapperImpl">  
+     <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 字典表管理 -->
+  <bean id="SysDicMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysDicMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <!-- 字典表维护 -->
+ <bean id="SysDicValueMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysDicValueMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <!-- 系统管理-权限管理-辖区维护-二级坐落- -->  
+  <bean id="sysSeatSecondMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysSeatSecondMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>  
+   <bean id="sysRegionMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysRegionMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 系统管理-权限管理-辖区维护-三级坐落- -->  
+  <bean id="sysSeatThirdMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysSeatThirdMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>  
+  <!-- 系统管理-权限管理-辖区维护-四级坐落- -->  
+  <bean id="sysSeatFourMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysSeatFourMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>  
+  <!-- 系统管理-权限管理-辖区维护-辖区网格- -->  
+  <bean id="sysSeatGridMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysSeatGridMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>  
+   <!-- 房屋 -->
+  <bean id="houseMapperImpl" class="com.dykj.GSM.mapper.base.impl.BHouseMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+  <!-- 基础信息-事件管理-矛盾纠纷- --> 
+    <bean id="eventContradictMapperImpl" class="com.dykj.GSM.mapper.eventfile.impl.EventContradictMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>  
+  <!-- 基础信息-事件管理-大型事件- --> 
+    <bean id="eventActivitiesMapperImpl" class="com.dykj.GSM.mapper.eventfile.impl.EventActivitiesMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  
+   <!-- 基础信息-事件档案-上访事件- -->  
+  <bean id="eventSignificantVisitsMapperImpl" class="com.dykj.GSM.mapper.eventfile.impl.EventSignificantVisitsMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+  <!-- 基础信息-事件档案-案发信息- -->
+  <bean id="eventInformationMapperImpl" class="com.dykj.GSM.mapper.eventfile.impl.EventInformationMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+   <!-- 基础信息-事件档案-公共安全隐患及事件- -->
+  <bean id="eventHarmSafeMapperImpl" class="com.dykj.GSM.mapper.eventfile.impl.EventHarmSafeMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>  
+  <!-- 基础信息-事件档案-治安重点地区- -->
+  <bean id="EventKeyPlaceMapperImpl" class="com.dykj.GSM.mapper.eventfile.impl.EventKeyPlaceMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+      </bean>
+     <!-- 民情日志-日志管理 -->
+  <bean id="thingLogMapperImpl" class="com.dykj.GSM.mapper.thinglog.impl.ThingLogMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+<!--   综治治安-两新组织-非公有经济组织 -->
+  <bean id="bFeiGongJingJiMapperImpl" class="com.dykj.GSM.mapper.base.impl.BFeiGongJingJiMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>  
+<!--   综治治安-两新组织-社会组织 -->
+  <bean id="bCommunityMapperImpl" class="com.dykj.GSM.mapper.base.impl.BCommunityMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+<!--   文件查询-文件管理 -->
+  <bean id="documentQueryMapperImpl" class="com.dykj.GSM.mapper.documentquery.impl.DocumentQueryMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 基础信息-机构队伍管理-机构队伍管理- -->
+  <bean id="BJiGouMapperImpl" class="com.dykj.GSM.mapper.base.impl.BJiGouMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 基础信息-机构队伍管理-机构队伍服务管理- -->
+  <bean id="BJiGouServiceMapperImpl" class="com.dykj.GSM.mapper.base.impl.BJiGouServiceMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 基础信息-机构队伍管理-机构队伍服务管理-被服务的人-->
+  <bean id="BJiGouServiceMapperPeopleImpl" class="com.dykj.GSM.mapper.base.impl.BJiGouServicePeopleMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 人口 -->
+  <bean id="personMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPersonMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean> 
+   <!-- 境外人口 -->
+  <bean id="bPerJingWaiMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerJingWaiMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 户籍人口 -->
+  <bean id="bPerHuJiMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerHuJiMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 流动人口 -->
+  <bean id="bPerLiuDongMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerLiuDongMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 留守人口 -->
+  <bean id="bPerLiuShouMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerLiuShouMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 重点青少年 -->
+  <bean id="bPerQingShaoNianMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerQingShaoNianMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 刑满释放人员 -->
+  <bean id="bPerTSXingShiMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerTSXingShiMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 社区矫正人员 -->
+  <bean id="bPerTSJiaoZhengMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerTSJiaoZhengMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 精神病 -->
+  <bean id="bPerTSJingShenMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerTSJingShenMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <!-- 吸毒人员 -->
+  <bean id="bPerTSXiDuMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerTSXiDuMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+     <!--邪教人员 -->
+  <bean id="bPerTSXieJiaoMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerTSXieJiaoMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 艾滋病人员 -->
+  <bean id="bPerTSAiZiMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerTSAiZiMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 残疾人 -->
+  <bean id="bPerBfCanJiMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerBfCanJiMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 低保户-->
+  <bean id="bPerBfDiBaoMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerBfDiBaoMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 五保户 -->
+  <bean id="bPerBfWuBaoMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerBfWuBaoMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 特困生 -->
+  <bean id="bPerBfTeKunShengMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerBfTeKunShengMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 困难职工 -->
+  <bean id="bPerBfKunNanZhiGongMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerBfKunNanZhiGongMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 社区救助 -->
+  <bean id="bPerBfJiuZhuMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerBfJiuZhuMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 空巢老人 -->
+  <bean id="bPerBfKongChaoMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerBfKongChaoMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <!-- 拥军 -->
+  <bean id="bPerYongJunMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerYongJunMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <!-- 资源人群 -->
+  <bean id="bPerZiYuanMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerZiYuanMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <!-- 志愿者 -->
+  <bean id="bPerZhiYuanMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerZhiYuanMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <!-- 劳动保障-->
+  <bean id="bPerLaoDongMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerLaoDongMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!--  基础党建-党员管理-所有党员 -->
+  <bean id="partyAllMapperImpl" class="com.dykj.GSM.mapper.partybuilding.impl.PartyMemberManagerMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 基础党建-组织管理-党组织管理 -->
+  <bean id="partyOrganizationManagerMapperImpl" class="com.dykj.GSM.mapper.partybuilding.impl.PartyOrganizationManagerMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 基础党建-组织生活 -->
+  <bean id="partyOrganizationalifeMapperImpl" class="com.dykj.GSM.mapper.partybuilding.impl.PartyOrganizationalifeMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 综治培训-材料管理 -->
+  <bean id="zongzhiMaterialMapperImpl" class="com.dykj.GSM.mapper.zongzhitraining.impl.ZongzhiMaterialMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!-- 综治培训-效果管理 -->
+  <bean id="effectManagementMapperImpl" class="com.dykj.GSM.mapper.zongzhitraining.impl.EffectManagementMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!--  综治培训-考核管理-->
+  <bean id="AppraisalManagementMapperImpl" class="com.dykj.GSM.mapper.zongzhitraining.impl.AppraisalManagementMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <!-- 人附属表 -->
+  <bean id="bPerFuShuMapperImpl" class="com.dykj.GSM.mapper.base.impl.BPerFuShuMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!--  基础信息-地管理-->
+  <bean id="BFieldsMapperImpl" class="com.dykj.GSM.mapper.base.impl.BFieldsMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!--  基础信息-单位门店管理-->
+  <bean id="BEnterpriseStoresMapperImpl" class="com.dykj.GSM.mapper.base.impl.BEnterpriseStoresMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  
+  <bean id="eContradict" class="com.dykj.GSM.mapper.event.impl.EContradictMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <bean id="eEvent" class="com.dykj.GSM.mapper.event.impl.EEventMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <bean id="eOpinion" class="com.dykj.GSM.mapper.event.impl.EOpinionMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <bean id="eDelay" class="com.dykj.GSM.mapper.event.impl.EDelayMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <bean id="eDuration" class="com.dykj.GSM.mapper.event.impl.EDurationMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!--  预警管理-预警设置-->
+  <bean id="warningset" class="com.dykj.GSM.mapper.warningset.impl.WarningSetMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!--  公告管理-->
+  <bean id="sysRnoticeMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysRnoticeMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!--  消息-->
+  <bean id="iMessageMapperImpl" class="com.dykj.GSM.mapper.imessage.impl.IMessageMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!-- 即时通讯-消息提示-->
+  <bean id="messageStackMapperImpl" class="com.dykj.GSM.mapper.imessage.impl.MessageStackMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!--  护路护线-->
+  <bean id="bRoadConvenientMapperImpl" class="com.dykj.GSM.mapper.base.impl.BRoadConvenientMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!--  应急管理-应急预案-->
+  <bean id="emergencyPlanMapperImpl" class="com.dykj.GSM.mapper.emergencyscheduling.impl.EmergencyPlanMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!--  应急管理-应急队伍-->
+  <bean id="emergencyTeamMapperImpl" class="com.dykj.GSM.mapper.emergencyscheduling.impl.EmergencyTeamMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!--  应急管理-应急场所-->
+  <bean id="emergencyPlaceMapperImpl" class="com.dykj.GSM.mapper.emergencyscheduling.impl.EmergencyPlaceMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <!--  应急管理-应急物资-->
+  <bean id="emergencySuppliesMapperImpl" class="com.dykj.GSM.mapper.emergencyscheduling.impl.EmergencySuppliesMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+   <!--  护路护线-事件-->
+  <bean id="bRouteEventsMapperImpl" class="com.dykj.GSM.mapper.base.impl.BRouteEventsMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+    <bean id="bJiGouPeopleMapperImpl" class="com.dykj.GSM.mapper.base.impl.BJiGouPeopleMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+  <bean id="syslogMapperImpl" class="com.dykj.GSM.mapper.sys.impl.SysLogMapperImpl">  
+      <property name="sqlSession" ref="sqlSession"></property>  
+  </bean>
+</beans>

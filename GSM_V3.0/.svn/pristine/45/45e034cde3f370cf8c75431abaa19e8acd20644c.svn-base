@@ -1,0 +1,186 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.sys.mapperinterf.SysRnoticeMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="SysRnotice" id="sysRnoticeResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="TITLE" jdbcType="VARCHAR" property="title" />
+        <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+        <association property="sysUser" column="CREATE_BY" javaType="SysUser" resultMap="userResult"></association>
+    </resultMap>
+    <resultMap id="userResult" type="SysUser" >
+    	<id column="CODE" property="code"/>
+	    <result column="REAL_NAME" jdbcType="VARCHAR" property="realName" />
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="SysRnotice">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO SYS_RNOTICE
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    TITLE,CONTENT)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},
+                     #{content,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="SysRnotice">
+        UPDATE SYS_RNOTICE
+        <set>
+            <if test="title != null and title != ''">
+                TITLE = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null and content != ''">
+                CONTENT = #{content,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE SYS_RNOTICE SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE SYS_RNOTICE SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="sysRnoticeResult">
+        SELECT R.*,U.REAL_NAME 
+		FROM SYS_RNOTICE R LEFT JOIN SYS_USER U ON U.CODE=R.CREATE_BY
+		WHERE R.FLAG_DEL != 1 AND U.FLAG_DEL != 1 AND R.CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="sysRnoticeResult">
+        SELECT * FROM SYS_RNOTICE where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="SysRnotice" resultMap="sysRnoticeResult">
+        SELECT * FROM SYS_RNOTICE 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="title != null and title != ''">
+                AND TITLE = #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="content != null and content != ''">
+                AND CONTENT = #{content,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="SysRnotice" resultMap="sysRnoticeResult">
+        SELECT SYS_RNOTICE.*,U.REAL_NAME 
+        FROM SYS_RNOTICE  JOIN SYS_USER U ON U.CODE=SYS_RNOTICE.CREATE_BY
+        <where>
+            SYS_RNOTICE.FLAG_DEL != 1 AND U.FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+            	AND SYS_RNOTICE.CREATE_DATE LIKE CONCAT(CONCAT('%', #{createDate,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND SYS_RNOTICE.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND SYS_RNOTICE.FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND SYS_RNOTICE.FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SYS_RNOTICE.SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND SYS_RNOTICE.REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="title != null and title != ''">
+                AND SYS_RNOTICE.TITLE LIKE CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="content != null and content != ''">
+                AND SYS_RNOTICE.CONTENT = #{content,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM SYS_RNOTICE WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="SysRnotice" resultType="Integer">
+        SELECT COUNT(*) C FROM SYS_RNOTICE 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                AND CREATE_DATE LIKE CONCAT(CONCAT('%', #{createDate,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="title != null and title != ''">
+                AND TITLE LIKE CONCAT(CONCAT('%', #{title,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="content != null and content != ''">
+                AND CONTENT = #{content,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

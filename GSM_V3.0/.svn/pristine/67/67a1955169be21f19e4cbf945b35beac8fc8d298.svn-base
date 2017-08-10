@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BPerFuShuMapper" >
+  <resultMap id="perFuShuResult" type="BPerFuShu" >
+    <id column="CODE" property="code" jdbcType="VARCHAR" />
+   <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="FLAG_DEL" property="flagDel" jdbcType="CHAR" />
+    <result column="FLAG_DISPLAY" property="flagDisplay" jdbcType="CHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="PERSON_CODE" property="personCode" jdbcType="VARCHAR" />
+    <result column="TS_XING_SHI" property="tsXingShi" jdbcType="CHAR" />
+    <result column="TS_JIAO_ZHENG" property="tsJiaoZheng" jdbcType="CHAR" />
+    <result column="TS_XI_DU" property="tsXiDu" jdbcType="CHAR" />
+    <result column="TS_AI_ZI" property="tsAiZi" jdbcType="CHAR" />
+    <result column="TS_JING_SHEN" property="tsJingShen" jdbcType="CHAR" />
+    <result column="TS_XIE_JIAO" property="tsXieJiao" jdbcType="CHAR" />
+    <result column="BF_CAN_JI" property="bfCanJi" jdbcType="CHAR" />
+    <result column="BF_DI_BAO" property="bfDiBao" jdbcType="CHAR" />
+    <result column="BF_JIU_ZHU" property="bfJiuZhu" jdbcType="CHAR" />
+    <result column="BF_KONG_CHAO" property="bfKongChao" jdbcType="CHAR" />
+    <result column="BF_KUN_NAN_ZHI_GONG" property="bfKunNanZhiGong" jdbcType="CHAR" />
+    <result column="BF_LIU_SHOU" property="bfLiuShou" jdbcType="CHAR" />
+    <result column="BF_TE_KUN_SHENG" property="bfTeKunSheng" jdbcType="CHAR" />
+    <result column="BF_WU_BAO" property="bfWuBao" jdbcType="CHAR" />
+     <result column="YONG_JUN" property="yongJun" jdbcType="CHAR" />
+    <result column="ZI_YUAN" property="ziYuan" jdbcType="CHAR" />
+    <result column="ZHI_YUAN" property="zhiYuan" jdbcType="CHAR" />
+    <result column="QING_SHAO_NIAN" property="qingShaoNian" jdbcType="CHAR" />
+    <result column="LIU_DONG" property="liuDong" jdbcType="CHAR" />
+    <result column="HU_JI" property="huJi" jdbcType="CHAR" />
+    <result column="LAO_DONG" property="laoDong" jdbcType="CHAR" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CODE, CREATE_DATE, CREATE_BY, FLAG_DEL, FLAG_DISPLAY, SORT, REMARK, PERSON_CODE, 
+    TS_XING_SHI, TS_JIAO_ZHENG, TS_XI_DU, TS_AI_ZI, TS_JING_SHEN, TS_XIE_JIAO, BF_CAN_JI, 
+    BF_DI_BAO, BF_JIU_ZHU, BF_KONG_CHAO, BF_KUN_NAN_ZHI_GONG, BF_LIU_SHOU, BF_TE_KUN_SHENG, 
+    BF_WU_BAO, YONG_JUN, ZI_YUAN, ZHI_YUAN, QING_SHAO_NIAN, LIU_DONG, HU_JI,LAO_DONG
+  </sql>
+ 
+  <insert id="insert" parameterType="BPerFuShu" >
+   <selectKey keyProperty="code" resultType="String" order="BEFORE">
+        SELECT SYS_GUID() FROM DUAL
+      </selectKey>
+  insert into B_PER_FU_SHU (CODE, CREATE_DATE, CREATE_BY, 
+       PERSON_CODE)
+    values (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+     #{personCode,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="BPerFuShu" >
+    update B_PER_FU_SHU
+    <set >
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="tsXingShi != null" >
+        TS_XING_SHI = #{tsXingShi,jdbcType=CHAR},
+      </if>
+      <if test="tsJiaoZheng != null" >
+        TS_JIAO_ZHENG = #{tsJiaoZheng,jdbcType=CHAR},
+      </if>
+      <if test="tsXiDu != null" >
+        TS_XI_DU = #{tsXiDu,jdbcType=CHAR},
+      </if>
+      <if test="tsAiZi != null" >
+        TS_AI_ZI = #{tsAiZi,jdbcType=CHAR},
+      </if>
+      <if test="tsJingShen != null" >
+        TS_JING_SHEN = #{tsJingShen,jdbcType=CHAR},
+      </if>
+      <if test="tsXieJiao != null" >
+        TS_XIE_JIAO = #{tsXieJiao,jdbcType=CHAR},
+      </if>
+      <if test="bfCanJi != null" >
+        BF_CAN_JI = #{bfCanJi,jdbcType=CHAR},
+      </if>
+      <if test="bfDiBao != null" >
+        BF_DI_BAO = #{bfDiBao,jdbcType=CHAR},
+      </if>
+      <if test="bfJiuZhu != null" >
+        BF_JIU_ZHU = #{bfJiuZhu,jdbcType=CHAR},
+      </if>
+      <if test="bfKongChao != null" >
+        BF_KONG_CHAO = #{bfKongChao,jdbcType=CHAR},
+      </if>
+      <if test="bfKunNanZhiGong != null" >
+        BF_KUN_NAN_ZHI_GONG = #{bfKunNanZhiGong,jdbcType=CHAR},
+      </if>
+      <if test="bfLiuShou != null" >
+        BF_LIU_SHOU = #{bfLiuShou,jdbcType=CHAR},
+      </if>
+      <if test="bfTeKunSheng != null" >
+        BF_TE_KUN_SHENG = #{bfTeKunSheng,jdbcType=CHAR},
+      </if>
+      <if test="bfWuBao != null" >
+        BF_WU_BAO = #{bfWuBao,jdbcType=CHAR},
+      </if>
+       <if test="yongJun != null" >
+        YONG_JUN = #{yongJun,jdbcType=CHAR},
+      </if>
+      <if test="ziYuan != null" >
+        ZI_YUAN = #{ziYuan,jdbcType=CHAR},
+      </if>
+      <if test="zhiYuan != null" >
+        ZHI_YUAN = #{zhiYuan,jdbcType=CHAR},
+      </if>
+      <if test="qingShaoNian != null" >
+        QING_SHAO_NIAN = #{qingShaoNian,jdbcType=CHAR},
+      </if>
+      <if test="liuDong != null" >
+        LIU_DONG = #{liuDong,jdbcType=CHAR},
+      </if>
+      <if test="huJi != null" >
+        HU_JI = #{huJi,jdbcType=CHAR},
+      </if>
+       <if test="laoDong != null" >
+        LAO_DONG = #{laoDong,jdbcType=CHAR},
+      </if>
+      
+    </set>
+    where person_code = #{personCode,jdbcType=VARCHAR}
+  </update>
+  <!-- 删除一条信息 -->
+   <update id="deletePk" parameterType="String">
+       UPDATE B_PER_FU_SHU SET FLAG_DEL=1 WHERE CODE=#{code}
+   </update>
+   <update id="deleteByPersonCode" parameterType="String">
+       UPDATE B_PER_FU_SHU SET FLAG_DEL=1 WHERE person_code=#{personCode}
+   </update>
+     <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="perFuShuResult">
+        SELECT h.* FROM B_PER_FU_SHU h
+                WHERE h.FLAG_DEL != 1 AND h.CODE=#{code}
+    </select>
+      <!-- 根据基本信息code查询流动人员的信息  -->
+    <select id="queryByPersonCode" parameterType="String" resultMap="perFuShuResult">
+        SELECT h.* FROM B_PER_FU_SHU h
+        WHERE h.FLAG_DEL != 1 AND h.person_code=#{personCode}
+    </select>
+    
+</mapper>

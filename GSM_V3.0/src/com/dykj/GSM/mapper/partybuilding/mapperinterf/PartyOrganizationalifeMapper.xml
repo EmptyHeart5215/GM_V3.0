@@ -1,0 +1,368 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.partybuilding.mapperinterf.PartyOrganizationalifeMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="PartyOrganizationalife" id="partyOrganizationalifeResult">
+        <id column="CODE" property="code"/>
+        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="VARCHAR" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="DEPARTMENT_CODE" jdbcType="VARCHAR" property="departmentCode" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="TITLE_NAME" jdbcType="VARCHAR" property="titleName" />
+        <result column="BEGIN_TIME" jdbcType="VARCHAR" property="beginTime" />
+        <result column="END_TIME" jdbcType="VARCHAR" property="endTime" />
+        <result column="CONTENTS" jdbcType="VARCHAR" property="contents" />
+        <result column="POSITION" jdbcType="VARCHAR" property="position" />
+        <result column="RESPONSIBLE_NAME" jdbcType="VARCHAR" property="responsibleName" />
+        <result column="RESPONSIBLE_RANGE" jdbcType="VARCHAR" property="responsibleRange" />
+        <result column="ORG_PERSONS" jdbcType="VARCHAR" property="orgPersons" />
+        <result column="MASSES_PERSONS" jdbcType="VARCHAR" property="massesPersons" />
+        <result column="ADD_FILE" jdbcType="VARCHAR" property="addFile" />
+        <result column="RESPONSIBLE_SITUATION" jdbcType="VARCHAR" property="responsibleSituation" />
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+        <result column="RESPONSIBLE_LOCATION" jdbcType="VARCHAR" property="responsibleLocation" />
+         <association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>
+    </resultMap>
+    
+     <!-- 关联表需要的列 -->
+    <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+    
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="PartyOrganizationalife">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO PARTY_ORGANIZATIONALIFE
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    DEPARTMENT_CODE,GRID_CODE,TITLE_NAME,BEGIN_TIME,
+                    END_TIME,CONTENTS,POSITION,RESPONSIBLE_NAME,
+                    RESPONSIBLE_RANGE,ORG_PERSONS,MASSES_PERSONS,ADD_FILE,
+                    RESPONSIBLE_SITUATION,DESCRIPTION,RESPONSIBLE_LOCATION)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{departmentCode,jdbcType=VARCHAR},
+                     #{gridCode,jdbcType=VARCHAR},#{titleName,jdbcType=VARCHAR},#{beginTime,jdbcType=VARCHAR},
+                     #{endTime,jdbcType=VARCHAR},#{contents,jdbcType=VARCHAR},#{position,jdbcType=VARCHAR},
+                     #{responsibleName,jdbcType=VARCHAR},#{responsibleRange,jdbcType=VARCHAR},#{orgPersons,jdbcType=VARCHAR},
+                     #{massesPersons,jdbcType=VARCHAR},#{addFile,jdbcType=VARCHAR},#{responsibleSituation,jdbcType=VARCHAR},
+                     #{description,jdbcType=VARCHAR},#{responsibleLocation,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="PartyOrganizationalife">
+        UPDATE PARTY_ORGANIZATIONALIFE
+        <set>
+           <if test="createDate != null and createDate != ''">
+		       CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+		    </if>
+		    <if test="createBy != null and createBy != ''">
+		       CREATE_BY = #{createBy,jdbcType=VARCHAR},
+		    </if>
+		    <if test="sort != null and sort != ''">
+		       SORT = #{sort,jdbcType=DECIMAL},
+		    </if>
+		    <if test="remark != null and remark != ''">
+		       REMARK = #{remark,jdbcType=VARCHAR},
+		    </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR},
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="titleName != null and titleName != ''">
+                TITLE_NAME = #{titleName,jdbcType=VARCHAR},
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                BEGIN_TIME = #{beginTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null and endTime != ''">
+                END_TIME = #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="contents != null and contents != ''">
+                CONTENTS = #{contents,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null and position != ''">
+                POSITION = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleName != null and responsibleName != ''">
+                RESPONSIBLE_NAME = #{responsibleName,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleRange != null and responsibleRange != ''">
+                RESPONSIBLE_RANGE = #{responsibleRange,jdbcType=VARCHAR},
+            </if>
+            <if test="orgPersons != null and orgPersons != ''">
+                ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR},
+            </if>
+            <if test="massesPersons != null and massesPersons != ''">
+                MASSES_PERSONS = #{massesPersons,jdbcType=VARCHAR},
+            </if>
+            <if test="addFile != null and addFile != ''">
+                ADD_FILE = #{addFile,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleSituation != null and responsibleSituation != ''">
+                RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleLocation != null and responsibleLocation != ''">
+                RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE PARTY_ORGANIZATIONALIFE SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE PARTY_ORGANIZATIONALIFE SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="partyOrganizationalifeResult">
+        SELECT * FROM PARTY_ORGANIZATIONALIFE WHERE FLAG_DEL != 1 AND CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="partyOrganizationalifeResult">
+        SELECT * FROM PARTY_ORGANIZATIONALIFE where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="PartyOrganizationalife" resultMap="partyOrganizationalifeResult">
+        SELECT * FROM PARTY_ORGANIZATIONALIFE 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                AND DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="titleName != null and titleName != ''">
+                AND TITLE_NAME = #{titleName,jdbcType=VARCHAR}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                AND BEGIN_TIME = #{beginTime,jdbcType=VARCHAR}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND END_TIME = #{endTime,jdbcType=VARCHAR}
+            </if>
+            <if test="contents != null and contents != ''">
+                AND CONTENTS = #{contents,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleName != null and responsibleName != ''">
+                AND RESPONSIBLE_NAME = #{responsibleName,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleRange != null and responsibleRange != ''">
+                AND RESPONSIBLE_RANGE = #{responsibleRange,jdbcType=VARCHAR}
+            </if>
+            <if test="orgPersons != null and orgPersons != ''">
+                AND ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR}
+            </if>
+            <if test="massesPersons != null and massesPersons != ''">
+                AND MASSES_PERSONS = #{massesPersons,jdbcType=VARCHAR}
+            </if>
+            <if test="addFile != null and addFile != ''">
+                AND ADD_FILE = #{addFile,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleSituation != null and responsibleSituation != ''">
+                AND RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleLocation != null and responsibleLocation != ''">
+                AND RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select id="queryParamPage" parameterType="PartyOrganizationalife" resultMap="partyOrganizationalifeResult">
+        SELECT PARTY_ORGANIZATIONALIFE.* ,SSG.GRID_TOTAL_NAME FROM PARTY_ORGANIZATIONALIFE LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = PARTY_ORGANIZATIONALIFE.GRID_CODE
+        <where>
+            PARTY_ORGANIZATIONALIFE.FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                PARTY_ORGANIZATIONALIFE.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND PARTY_ORGANIZATIONALIFE.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND PARTY_ORGANIZATIONALIFE.SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND PARTY_ORGANIZATIONALIFE.REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                AND PARTY_ORGANIZATIONALIFE.DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND PARTY_ORGANIZATIONALIFE.GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="titleName != null and titleName != ''">
+                AND PARTY_ORGANIZATIONALIFE.TITLE_NAME = #{titleName,jdbcType=VARCHAR}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                AND PARTY_ORGANIZATIONALIFE.BEGIN_TIME &gt; #{beginTime,jdbcType=VARCHAR}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND PARTY_ORGANIZATIONALIFE.END_TIME &lt; #{endTime,jdbcType=VARCHAR}
+            </if>
+            <if test="contents != null and contents != ''">
+                AND PARTY_ORGANIZATIONALIFE.CONTENTS = #{contents,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND PARTY_ORGANIZATIONALIFE.POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleName != null and responsibleName != ''">
+                AND PARTY_ORGANIZATIONALIFE.RESPONSIBLE_NAME = #{responsibleName,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleRange != null and responsibleRange != ''">
+                AND PARTY_ORGANIZATIONALIFE.RESPONSIBLE_RANGE = #{responsibleRange,jdbcType=VARCHAR}
+            </if>
+            <if test="orgPersons != null and orgPersons != ''">
+                AND PARTY_ORGANIZATIONALIFE.ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR}
+            </if>
+            <if test="massesPersons != null and massesPersons != ''">
+                AND PARTY_ORGANIZATIONALIFE.MASSES_PERSONS = #{massesPersons,jdbcType=VARCHAR}
+            </if>
+            <if test="addFile != null and addFile != ''">
+                AND PARTY_ORGANIZATIONALIFE.ADD_FILE = #{addFile,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleSituation != null and responsibleSituation != ''">
+                AND PARTY_ORGANIZATIONALIFE.RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                AND PARTY_ORGANIZATIONALIFE.DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleLocation != null and responsibleLocation != ''">
+                AND PARTY_ORGANIZATIONALIFE.RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM PARTY_ORGANIZATIONALIFE WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="PartyOrganizationalife" resultType="Integer">
+        SELECT COUNT(*) C FROM PARTY_ORGANIZATIONALIFE 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="departmentCode != null and departmentCode != ''">
+                AND DEPARTMENT_CODE = #{departmentCode,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="titleName != null and titleName != ''">
+                AND TITLE_NAME = #{titleName,jdbcType=VARCHAR}
+            </if>
+            <if test="beginTime != null and beginTime != ''">
+                AND BEGIN_TIME = #{beginTime,jdbcType=VARCHAR}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND END_TIME = #{endTime,jdbcType=VARCHAR}
+            </if>
+            <if test="contents != null and contents != ''">
+                AND CONTENTS = #{contents,jdbcType=VARCHAR}
+            </if>
+            <if test="position != null and position != ''">
+                AND POSITION = #{position,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleName != null and responsibleName != ''">
+                AND RESPONSIBLE_NAME = #{responsibleName,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleRange != null and responsibleRange != ''">
+                AND RESPONSIBLE_RANGE = #{responsibleRange,jdbcType=VARCHAR}
+            </if>
+            <if test="orgPersons != null and orgPersons != ''">
+                AND ORG_PERSONS = #{orgPersons,jdbcType=VARCHAR}
+            </if>
+            <if test="massesPersons != null and massesPersons != ''">
+                AND MASSES_PERSONS = #{massesPersons,jdbcType=VARCHAR}
+            </if>
+            <if test="addFile != null and addFile != ''">
+                AND ADD_FILE = #{addFile,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleSituation != null and responsibleSituation != ''">
+                AND RESPONSIBLE_SITUATION = #{responsibleSituation,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                AND DESCRIPTION = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="responsibleLocation != null and responsibleLocation != ''">
+                AND RESPONSIBLE_LOCATION = #{responsibleLocation,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

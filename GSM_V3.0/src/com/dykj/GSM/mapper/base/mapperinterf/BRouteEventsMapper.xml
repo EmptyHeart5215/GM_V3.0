@@ -1,0 +1,362 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dykj.GSM.mapper.base.mapperinterf.BRouteEventsMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    <resultMap type="BRouteEvents" id="bRouteEventsResult">
+        <id column="CODE" property="code"/>
+         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+        <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+        <result column="FLAG_DEL" jdbcType="CHAR" property="flagDel" />
+        <result column="FLAG_DISPLAY" jdbcType="CHAR" property="flagDisplay" />
+        <result column="SORT" jdbcType="DECIMAL" property="sort" />
+        <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+        <result column="GRID_CODE" jdbcType="VARCHAR" property="gridCode" />
+        <result column="EVENT_NUMBER" jdbcType="VARCHAR" property="eventNumber" />
+        <result column="EVENT_NAME" jdbcType="VARCHAR" property="eventName" />
+        <result column="HAPPEN_DATE" jdbcType="VARCHAR" property="happenDate" />
+        <result column="HAPPEN_ADDRESS" jdbcType="VARCHAR" property="happenAddress" />
+        <result column="CODE_EVENT_NATURE" jdbcType="VARCHAR" property="codeEventNature" />
+        <result column="EVENT_CONDITION" jdbcType="VARCHAR" property="eventCondition" />
+        <result column="PRINCIPAL_NUMBER" jdbcType="VARCHAR" property="principalNumber" />
+        <result column="PRINCIPAL_CID" jdbcType="VARCHAR" property="principalCid" />
+        <result column="PRINCIPAL_NAME" jdbcType="VARCHAR" property="principalName" />
+        <result column="IS_SOLVE_CRIMES" jdbcType="VARCHAR" property="isSolveCrimes" />
+        <result column="CRIME_NUMBER" jdbcType="VARCHAR" property="crimeNumber" />
+        <result column="RUN_NUMBER" jdbcType="VARCHAR" property="runNumber" />
+        <result column="CAPTURE_NUMBER" jdbcType="VARCHAR" property="captureNumber" />
+        <result column="EVENT_DETECT_CONDITION" jdbcType="VARCHAR" property="eventDetectCondition" />
+    	<association property="seatGrid" column="GRID_CODE" javaType="SysSeatGrid" resultMap="joinSysSeatGridResult"></association>	       
+   </resultMap>
+    <resultMap type="SysSeatGrid" id="joinSysSeatGridResult">
+        <id column="CODE" property="code"/>
+        <result column="GRID_TOTAL_NAME" jdbcType="VARCHAR" property="gridTotalName"/>
+    </resultMap>
+
+    <!-- 保存实体对象  -->
+    <!-- keyProperty	selectKey 语句结果应该被设置的目标属性。  -->
+    <!-- resultType	结果的类型。MyBatis 通常可以算出来,但是写上也没有问题。MyBatis 允许任何简单类型用作主键的类型,包括字符串。 -->
+    <!-- order	这可以被设置为 BEFORE 或 AFTER。如果设置为 BEFORE,那么它会首先选择主键,设置 keyProperty 然后执行插入语句。
+    如果设置为 AFTER,那么先执行插入语句,然后是 selectKey 元素-这和如 Oracle 数据库相似,可以在插入语句中嵌入序列调用。 -->
+    <!-- statementType	和前面的相 同,MyBatis 支持 STATEMENT ,PREPARED 和CALLABLE 语句的映射类型,分别代表 PreparedStatement和CallableStatement 类型。 -->
+    <insert id="insert" parameterType="BRouteEvents">
+        <selectKey keyProperty="code" resultType="String" order="BEFORE">
+            SELECT SYS_GUID() FROM DUAL
+        </selectKey>
+            INSERT INTO B_ROUTE_EVENTS
+                   (CODE,CREATE_DATE,CREATE_BY,SORT,REMARK,
+                    GRID_CODE,EVENT_NUMBER,EVENT_NAME,HAPPEN_DATE,
+                    HAPPEN_ADDRESS,CODE_EVENT_NATURE,EVENT_CONDITION,PRINCIPAL_NUMBER,
+                    PRINCIPAL_CID,PRINCIPAL_NAME,IS_SOLVE_CRIMES,CRIME_NUMBER,
+                    RUN_NUMBER,CAPTURE_NUMBER,EVENT_DETECT_CONDITION)
+            VALUES  (#{code,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
+                     #{sort,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{gridCode,jdbcType=VARCHAR},
+                     #{eventNumber,jdbcType=VARCHAR},#{eventName,jdbcType=VARCHAR},#{happenDate,jdbcType=VARCHAR},
+                     #{happenAddress,jdbcType=VARCHAR},#{codeEventNature,jdbcType=VARCHAR},#{eventCondition,jdbcType=VARCHAR},
+                     #{principalNumber,jdbcType=VARCHAR},#{principalCid,jdbcType=VARCHAR},#{principalName,jdbcType=VARCHAR},
+                     #{isSolveCrimes,jdbcType=VARCHAR},#{crimeNumber,jdbcType=VARCHAR},#{runNumber,jdbcType=VARCHAR},
+                     #{captureNumber,jdbcType=VARCHAR},#{eventDetectCondition,jdbcType=VARCHAR})
+    </insert>
+
+     <!-- 更新实体对象   -->
+    <update id="update" parameterType="BRouteEvents">
+        UPDATE B_ROUTE_EVENTS
+        <set>
+            <if test="gridCode != null and gridCode != ''">
+                GRID_CODE = #{gridCode,jdbcType=VARCHAR},
+            </if>
+            <if test="eventNumber != null and eventNumber != ''">
+                EVENT_NUMBER = #{eventNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="eventName != null and eventName != ''">
+                EVENT_NAME = #{eventName,jdbcType=VARCHAR},
+            </if>
+            <if test="happenDate != null and happenDate != ''">
+                HAPPEN_DATE = #{happenDate,jdbcType=VARCHAR},
+            </if>
+            <if test="happenAddress != null and happenAddress != ''">
+                HAPPEN_ADDRESS = #{happenAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="codeEventNature != null and codeEventNature != ''">
+                CODE_EVENT_NATURE = #{codeEventNature,jdbcType=VARCHAR},
+            </if>
+            <if test="eventCondition != null and eventCondition != ''">
+                EVENT_CONDITION = #{eventCondition,jdbcType=VARCHAR},
+            </if>
+            <if test="principalNumber != null and principalNumber != ''">
+                PRINCIPAL_NUMBER = #{principalNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="principalCid != null and principalCid != ''">
+                PRINCIPAL_CID = #{principalCid,jdbcType=VARCHAR},
+            </if>
+            <if test="principalName != null and principalName != ''">
+                PRINCIPAL_NAME = #{principalName,jdbcType=VARCHAR},
+            </if>
+            <if test="isSolveCrimes != null and isSolveCrimes != ''">
+                IS_SOLVE_CRIMES = #{isSolveCrimes,jdbcType=VARCHAR},
+            </if>
+            <if test="crimeNumber != null and crimeNumber != ''">
+                CRIME_NUMBER = #{crimeNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="runNumber != null and runNumber != ''">
+                RUN_NUMBER = #{runNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="captureNumber != null and captureNumber != ''">
+                CAPTURE_NUMBER = #{captureNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="eventDetectCondition != null and eventDetectCondition != ''">
+                EVENT_DETECT_CONDITION = #{eventDetectCondition,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </update>
+
+    <!-- 根据主键删除实体对象(为假删，规定：0为显示，1为删除) -->
+     <update id="deletePk" parameterType="String">
+        UPDATE B_ROUTE_EVENTS SET FLAG_DEL=1 WHERE CODE=#{code}
+    </update>
+
+    <!-- 批量删除(为假删，规定：0为显示，1为删除) ，预留接口，但不对其实现功能-->
+    <update id="deleteBatch">
+        UPDATE B_ROUTE_EVENTS SET FLAG_DEL=1 WHERE CODE IN 
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <foreach collection="list" item="code" separator=",">
+                #{code}
+            </foreach>
+        </trim>
+    </update>
+
+    <!-- 根据主键查询实体对象  -->
+    <select id="queryByKey" parameterType="String" resultMap="bRouteEventsResult">
+        SELECT B_ROUTE_EVENTS.*,SSG.GRID_TOTAL_NAME  
+		FROM B_ROUTE_EVENTS LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_ROUTE_EVENTS.GRID_CODE
+		WHERE B_ROUTE_EVENTS.FLAG_DEL != 1 AND B_ROUTE_EVENTS.CODE=#{code}
+    </select>
+
+    <!-- 查询所有实体对象集合  -->
+    <select id="queryList" resultMap="bRouteEventsResult">
+        SELECT * FROM B_ROUTE_EVENTS where FLAG_DEL !=1 ORDER BY CODE ASC 
+    </select>
+
+    <!-- 根据条件查询所有实体对象集合  -->
+    <select id="queryListParam" parameterType="BRouteEvents" resultMap="bRouteEventsResult">
+        SELECT * FROM B_ROUTE_EVENTS 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="eventNumber != null and eventNumber != ''">
+                AND EVENT_NUMBER = #{eventNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="eventName != null and eventName != ''">
+                AND EVENT_NAME = #{eventName,jdbcType=VARCHAR}
+            </if>
+            <if test="happenDate != null and happenDate != ''">
+                AND HAPPEN_DATE = #{happenDate,jdbcType=VARCHAR}
+            </if>
+            <if test="happenAddress != null and happenAddress != ''">
+                AND HAPPEN_ADDRESS = #{happenAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="codeEventNature != null and codeEventNature != ''">
+                AND CODE_EVENT_NATURE = #{codeEventNature,jdbcType=VARCHAR}
+            </if>
+            <if test="eventCondition != null and eventCondition != ''">
+                AND EVENT_CONDITION = #{eventCondition,jdbcType=VARCHAR}
+            </if>
+            <if test="principalNumber != null and principalNumber != ''">
+                AND PRINCIPAL_NUMBER = #{principalNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="principalCid != null and principalCid != ''">
+                AND PRINCIPAL_CID = #{principalCid,jdbcType=VARCHAR}
+            </if>
+            <if test="principalName != null and principalName != ''">
+                AND PRINCIPAL_NAME = #{principalName,jdbcType=VARCHAR}
+            </if>
+            <if test="isSolveCrimes != null and isSolveCrimes != ''">
+                AND IS_SOLVE_CRIMES = #{isSolveCrimes,jdbcType=VARCHAR}
+            </if>
+            <if test="crimeNumber != null and crimeNumber != ''">
+                AND CRIME_NUMBER = #{crimeNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="runNumber != null and runNumber != ''">
+                AND RUN_NUMBER = #{runNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="captureNumber != null and captureNumber != ''">
+                AND CAPTURE_NUMBER = #{captureNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="eventDetectCondition != null and eventDetectCondition != ''">
+                AND EVENT_DETECT_CONDITION = #{eventDetectCondition,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!-- 分页查询,所有实体对象集合  -->
+    <select useCache="true" id="queryParamPage" parameterType="BRouteEvents" resultMap="bRouteEventsResult">
+        SELECT B_ROUTE_EVENTS.*,SSG.GRID_TOTAL_NAME  
+		FROM B_ROUTE_EVENTS LEFT JOIN SYS_SEAT_GRID SSG ON SSG.CODE = B_ROUTE_EVENTS.GRID_CODE
+        <where>
+            B_ROUTE_EVENTS.FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                B_ROUTE_EVENTS.CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND B_ROUTE_EVENTS.CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND B_ROUTE_EVENTS.FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND B_ROUTE_EVENTS.FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND B_ROUTE_EVENTS.SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND B_ROUTE_EVENTS.REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND B_ROUTE_EVENTS.GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="eventNumber != null and eventNumber != ''">
+                AND B_ROUTE_EVENTS.EVENT_NUMBER LIKE CONCAT(CONCAT('%', #{eventNumber,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="eventName != null and eventName != ''">
+                AND B_ROUTE_EVENTS.EVENT_NAME = #{eventName,jdbcType=VARCHAR}
+            </if>
+            <if test="happenDate != null and happenDate != ''">
+                AND B_ROUTE_EVENTS.HAPPEN_DATE LIKE CONCAT(CONCAT('%', #{happenDate,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="happenAddress != null and happenAddress != ''">
+                AND B_ROUTE_EVENTS.HAPPEN_ADDRESS = #{happenAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="codeEventNature != null and codeEventNature != ''">
+            	AND B_ROUTE_EVENTS.CODE_EVENT_NATURE LIKE CONCAT(CONCAT('%', #{codeEventNature,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="eventCondition != null and eventCondition != ''">
+                AND B_ROUTE_EVENTS.EVENT_CONDITION = #{eventCondition,jdbcType=VARCHAR}
+            </if>
+            <if test="principalNumber != null and principalNumber != ''">
+                AND B_ROUTE_EVENTS.PRINCIPAL_NUMBER = #{principalNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="principalCid != null and principalCid != ''">
+                AND B_ROUTE_EVENTS.PRINCIPAL_CID LIKE CONCAT(CONCAT('%', #{principalCid,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test="principalName != null and principalName != ''">
+                AND B_ROUTE_EVENTS.PRINCIPAL_NAME LIKE CONCAT(CONCAT('%', #{principalName,jdbcType=VARCHAR}),'%')           
+            </if>
+            <if test="isSolveCrimes != null and isSolveCrimes != ''">
+                AND B_ROUTE_EVENTS.IS_SOLVE_CRIMES = #{isSolveCrimes,jdbcType=VARCHAR}
+            </if>
+            <if test="crimeNumber != null and crimeNumber != ''">
+                AND B_ROUTE_EVENTS.CRIME_NUMBER = #{crimeNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="runNumber != null and runNumber != ''">
+                AND B_ROUTE_EVENTS.RUN_NUMBER = #{runNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="captureNumber != null and captureNumber != ''">
+                AND B_ROUTE_EVENTS.CAPTURE_NUMBER = #{captureNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="eventDetectCondition != null and eventDetectCondition != ''">
+                AND B_ROUTE_EVENTS.EVENT_DETECT_CONDITION = #{eventDetectCondition,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCount"  resultType="Integer">
+        SELECT COUNT(*) C FROM B_ROUTE_EVENTS WHERE FLAG_DEL != 1
+    </select>
+
+    <!--  查询总记录数据  -->
+    <select id="queryAllCountParam" parameterType="BRouteEvents" resultType="Integer">
+        SELECT COUNT(*) C FROM B_ROUTE_EVENTS 
+        <where>
+            FLAG_DEL != 1
+            <if test="createDate != null and createDate != ''">
+                CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND CREATE_BY = #{createBy,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDel != null and flagDel != ''">
+                AND FLAG_DEL = #{flagDel,jdbcType=VARCHAR}
+            </if>
+            <if test="flagDisplay != null and flagDisplay != ''">
+                AND FLAG_DISPLAY = #{flagDisplay,jdbcType=VARCHAR}
+            </if>
+            <if test="sort != null and sort != ''">
+                AND SORT = #{sort,jdbcType=VARCHAR}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND REMARK = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="gridCode != null and gridCode != ''">
+                AND GRID_CODE = #{gridCode,jdbcType=VARCHAR}
+            </if>
+            <if test="eventNumber != null and eventNumber != ''">
+                AND EVENT_NUMBER = #{eventNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="eventName != null and eventName != ''">
+                AND EVENT_NAME = #{eventName,jdbcType=VARCHAR}
+            </if>
+            <if test="happenDate != null and happenDate != ''">
+                AND HAPPEN_DATE = #{happenDate,jdbcType=VARCHAR}
+            </if>
+            <if test="happenAddress != null and happenAddress != ''">
+                AND HAPPEN_ADDRESS = #{happenAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="codeEventNature != null and codeEventNature != ''">
+                AND CODE_EVENT_NATURE = #{codeEventNature,jdbcType=VARCHAR}
+            </if>
+            <if test="eventCondition != null and eventCondition != ''">
+                AND EVENT_CONDITION = #{eventCondition,jdbcType=VARCHAR}
+            </if>
+            <if test="principalNumber != null and principalNumber != ''">
+                AND PRINCIPAL_NUMBER = #{principalNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="principalCid != null and principalCid != ''">
+                AND PRINCIPAL_CID = #{principalCid,jdbcType=VARCHAR}
+            </if>
+            <if test="principalName != null and principalName != ''">
+                AND PRINCIPAL_NAME = #{principalName,jdbcType=VARCHAR}
+            </if>
+            <if test="isSolveCrimes != null and isSolveCrimes != ''">
+                AND IS_SOLVE_CRIMES = #{isSolveCrimes,jdbcType=VARCHAR}
+            </if>
+            <if test="crimeNumber != null and crimeNumber != ''">
+                AND CRIME_NUMBER = #{crimeNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="runNumber != null and runNumber != ''">
+                AND RUN_NUMBER = #{runNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="captureNumber != null and captureNumber != ''">
+                AND CAPTURE_NUMBER = #{captureNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="eventDetectCondition != null and eventDetectCondition != ''">
+                AND EVENT_DETECT_CONDITION = #{eventDetectCondition,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

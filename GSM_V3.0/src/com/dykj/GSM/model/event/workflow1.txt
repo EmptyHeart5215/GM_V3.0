@@ -1,0 +1,286 @@
+<workflow>
+  <meta name="TABLENAME">E_EVENT</meta> 
+  <meta name="WORKEDURL"></meta> 
+  <meta name="PROCESSNAME">事件</meta> 
+  <meta name="wfName">EEvent</meta> 
+  <meta name="direction">1</meta> 
+  <initial-actions> 
+    <action id="100" name="受理"> 
+     <meta name="WORKINGURL">event/eevent/add</meta> 
+      <pre-functions /> 
+      <post-functions /> 
+      <results name="结果集"> 
+        <unconditional-result old-status="Finished" status="Underway" step="1" start-date="${startDate}" due-date="${dueDate}" owner="${owner}">   
+          <meta name="OWNERSTEP">1</meta>
+        </unconditional-result> 
+      </results> 
+    </action>    
+  </initial-actions>
+  <steps> 
+    <step id="1" name="办理"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta>
+      <actions>
+        <action id="110" name="上报指挥中心"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT">00000002#3</meta>
+          <pre-functions /> 
+          <post-functions>             
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="3" start-date="${startDate}" due-date="" owner="${owner}">
+            </unconditional-result> 
+          </results> 
+        </action>
+         <action id="120" name="自办自结"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta> 
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>             
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="4" start-date="${startDate}" due-date="${dueDate}" owner="${owner}">
+            </unconditional-result> 
+          </results> 
+        </action>
+      </actions> 
+    </step>    
+    <step id="3" name="中心派遣"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta>
+      <meta name="DEPART">1</meta>
+	  <meta name="DURATION">1</meta>
+      <actions> 
+        <action id="140" name="立案派遣"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT">#2</meta>
+          <pre-functions /> 
+          <post-functions>           
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="null" status="Underway" step="5" start-date="${startDate}" due-date="${dueDate}" owner="${owner}">
+            </unconditional-result> 
+          </results> 
+        </action>
+		 <action id="160" name="注销"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>           
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="null" status="Finished" step="4" start-date="${startDate}" due-date="${dueDate}" owner="${owner}">
+            </unconditional-result> 
+          </results> 
+        </action>
+		 <action id="170" name="中心办结"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT">#2</meta>
+          <pre-functions /> 
+          <post-functions>           
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="null" status="Finished" step="4" start-date="${startDate}" due-date="${dueDate}" owner="${owner}">
+            </unconditional-result> 
+          </results> 
+        </action>
+		<action id="180" name="上报市指挥中心"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT">00000001#3</meta>
+		  <meta name="ACTIONSHOWRIGHT">00000002#3</meta>
+          <pre-functions /> 
+          <post-functions>           
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="null" status="Finished" step="3" start-date="${startDate}" due-date="" owner="${owner}">
+            </unconditional-result> 
+          </results> 
+        </action>
+      </actions> 
+    </step>
+	 <step id="5" name="部门签收"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta>
+      <actions> 
+        <action id="150" name="签收"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>           
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="null" status="Underway" step="6" start-date="${startDate}" due-date="${dueDate}" owner="${owner}">
+            </unconditional-result> 
+          </results> 
+        </action>
+      </actions> 
+    </step>
+    <step id="6" name="部门办理"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta>
+	  <meta name="DELAY">1</meta>
+      <actions> 
+        <action id="190" name="申请结案"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>            
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="11" start-date="${startDate}" due-date="" owner="${owner}">
+              <meta name="OWNERSTEP">3</meta>
+            </unconditional-result> 
+          </results> 
+        </action> 
+        <action id="200" name="申请退办"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>            
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="8" start-date="${startDate}" due-date="" owner="${owner}"> 
+              <meta name="OWNERSTEP">3</meta> 
+            </unconditional-result> 
+          </results> 
+        </action>
+		<action id="210" name="申请延时"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>            
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="9" start-date="${startDate}" due-date="" owner="${owner}"> 
+              <meta name="OWNERSTEP">3</meta> 
+            </unconditional-result> 
+          </results> 
+        </action>        
+      </actions> 
+    </step> 
+	<step id="9" name="延时审批"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta>
+	  <meta name="DELAY_APPLY">1</meta>
+      <actions> 
+        <action id="220" name="同意延时"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="6" start-date="${startDate}" due-date="${dueDate}" owner="${owner}"> 
+              <meta name="OWNERSTEP">6</meta> 
+            </unconditional-result> 
+          </results> 
+        </action> 
+        <action id="230" name="按原时间办理"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="6" start-date="${startDate}" due-date="${dueDate}" owner="${owner}"> 
+              <meta name="OWNERSTEP">6</meta>
+            </unconditional-result> 
+          </results> 
+        </action> 
+      </actions> 
+    </step>
+    <step id="8" name="退办审批"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta>
+	  <meta name="DURATION">1</meta>
+      <actions> 
+        <action id="250" name="同意退办"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="3" start-date="${startDate}" due-date="" owner="${owner}"> 
+              <meta name="OWNERSTEP">3</meta> 
+            </unconditional-result> 
+          </results> 
+        </action> 
+        <action id="260" name="返回重新办理"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="6" start-date="${startDate}" due-date="${dueDate}" owner="${owner}"> 
+              <meta name="OWNERSTEP">6</meta>
+            </unconditional-result> 
+          </results> 
+        </action> 
+      </actions> 
+    </step>
+    <step id="11" name="中心审查"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta> 
+      <meta name="STEPRIGHT"></meta>      
+      <actions> 
+        <action id="370" name="发送到上报人"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta> 
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="12" start-date="${startDate}" due-date="${dueDate}" owner="${owner}"> 
+              <meta name="OWNERSTEP">1</meta> 
+            </unconditional-result> 
+          </results> 
+        </action>
+      </actions> 
+    </step>
+    <step id="12" name="上报人审查"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta>       
+      <meta name="APPRAISE">1</meta> 
+      <actions> 
+        <action id="380" name="验收"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta> 
+          <meta name="STEPRIGHT"></meta>          
+          <pre-functions /> 
+          <post-functions>
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="13" start-date="${startDate}" due-date="" owner="${owner}"> 
+              <meta name="OWNERSTEP">3</meta> 
+            </unconditional-result> 
+          </results> 
+        </action>        
+      </actions> 
+    </step>
+    <step id="13" name="批准结案"> 
+      <meta name="WORKINGURL">event/eevent/approval</meta>
+      <actions> 
+        <action id="360" name="督办"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta> 
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="6" start-date="${startDate}" due-date="${dueDate}" owner="${owner}"> 
+              <meta name="OWNERSTEP">6</meta> 
+            </unconditional-result> 
+          </results> 
+        </action> 
+        <action id="350" name="办理办结"> 
+          <meta name="WORKINGURL">event/eevent/approval</meta>
+          <meta name="STEPRIGHT"></meta>
+          <pre-functions /> 
+          <post-functions>            
+          </post-functions> 
+          <results name="结果集"> 
+            <unconditional-result old-status="Finished" status="Underway" step="4" start-date="${startDate}" due-date="${dueDate}" owner="${owner}">
+              <meta name="OWNERSTEP">1</meta>
+            </unconditional-result> 
+          </results> 
+        </action> 
+      </actions> 
+    </step>
+    <step id="4" name="办结">
+      <meta name="ISENDSTEP">1</meta>
+    </step>
+  </steps> 
+</workflow>

@@ -1,0 +1,24 @@
+关于配置文件的解释说明：
+ 
+  1、beans-security.xml文件
+          解释说明：该文件用于配置spring的安全访问，以及权限分配等资源；
+  2、beans.xml文件
+          解释说明：该文件用于整合spring以及mybatis相关数据库连接以及事务方面的配置；
+  3、mybatis.xml文件
+          解释说明：该文件用于配置mybatis下的Mapper接口的xml文件以及model实体引用(由于在beans.xml文件中做出了相关配置，所以
+          mybatis.xml文件里面可不用写相关操作配置，即：不需要引用该文件)
+  4、springMVC文件
+            解释说明：该文件用于配置springMVC相关配置操作，例如：视图解析，返回字符转换，扫描包等相关配置；
+  5、ehcache.xml文件
+            解释说明：该文件用于配置ehcache缓存等操作
+  6、jdbc.properties文件
+            解释说明：定义了数据库连接引用数据常量
+  7、log4j.propertis文件
+            解释说明：配置日志输出相关配置
+  .
+  .
+  .(后续引用再请相关人员填写，以方便程序开发及维护)
+  .
+  .
+  .
+  

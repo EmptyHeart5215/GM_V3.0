@@ -1,0 +1,8 @@
+support包：用于存放分页相关的支持工具代码
+
+  Page：该类封装了有关分页的基本字段，以及默认字段（相关默认字段配置可到Contant静态常量类去更改）
+    
+  PagingResult：该类封装了分页查询集合，以及boostrap相关属性字段，供boostrap分页插件使用
+              例如：records：总记录数
+                      total：总页数
+                       rows：查询实体集合

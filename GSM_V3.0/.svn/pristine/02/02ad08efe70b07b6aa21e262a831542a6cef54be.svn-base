@@ -1,0 +1,89 @@
+.popbg {
+    background: #96d9ff none repeat scroll 0 0;
+    border: 1px solid #81939e;
+    box-shadow: 0 10px 10px #929699;
+    padding: 5px 0px;
+}
+.top-popup-box {
+    display: block;
+    position: absolute;
+    right: 8px;
+    top: 70px;
+    width: 300px;
+}
+.top-classify li {
+    line-height: 22px;
+    text-align: center;
+}
+.top-popup-box i {
+    background: rgba(0, 0, 0, 0) url("images/popup-tira.png") no-repeat scroll 0 0;
+    display: block;
+    height: 9px;
+    position: absolute;
+    right: 20px;
+    top: -8px;
+    width: 15px;
+}
+.top-popup-box .top-classify {
+    height: auto;
+    width: auto;
+}
+.top-classify {
+    float: right;
+    position: relative;
+    z-index: 3;
+}
+
+.top-popup-box .top-classify li {
+    margin-bottom: 20px;
+}
+.top-classify li {
+    display: block;
+    float: left;
+    height: 60px;
+    line-height: 22px;
+    position: relative;
+    text-align: center;
+    width: 65px;
+}
+.top-popup-box .top-classify a {
+    color: #26282a;
+     text-decoration: none;
+}
+.top-classify li a img {
+    background: rgba(0, 0, 0, 0) url("../images/classify-iconbg.png") no-repeat scroll 0 0;
+    height: 36px;
+    margin: 0 auto;
+    display:block;
+}
+.rootMenuClass{
+margin-left:2px;
+margin-right:2px;
+
+}
+
+.print-table{
+	border-collapse:collapse;
+	border:none;
+	font-size:12px;
+	width:100%;
+	}
+.print-table td{
+	border: solid #000 1px;
+	color:000;
+	height: 30px;
+	font-weight: bold;
+	text-align:center;
+	}
+.print-table .print-img-td{
+height:280px;
+}
+.print-table .print-td-img{
+width:256px;
+height:256px;
+margin:5px;
+}
+.print-table .print-normal{
+	font-weight: normal;
+	text-align:left;
+}

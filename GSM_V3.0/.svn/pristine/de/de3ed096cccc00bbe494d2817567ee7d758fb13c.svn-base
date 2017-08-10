@@ -1,0 +1,4 @@
+应急预案
+文件预览功能要求：
+                服务器必须安装office；
+                必须将utils文件夹下jacob-1.18.rar里的jacob-1.18-x64.dll、jacob-1.18-x86.dll两个文件复制到服务器jre的bin文件夹下
